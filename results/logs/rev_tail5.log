@@ -1,0 +1,6 @@
+devices 486, window 1152 rounds; tail devices (max N >= 200 at T=1000): 19
+their availability 0.233-0.550 (median 0.351); population median 0.038, mean 0.078
+their availability rank: within the top 0.080 of devices
+inclusion given available: median 0.602 range 0.510-0.810; population 0.601
+max N of tail devices: [201, 207, 208, 210, 215, 216, 216, 218, 223, 225, 225, 243, 245, 260, 306, 322, 354, 354, 355]
+share of the window overlap at T=1000 stride 5: consecutive windows share 0.995; windows per device 31

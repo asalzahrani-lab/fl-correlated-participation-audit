@@ -1,0 +1,13 @@
+update norm median 0.481 -> C_clip=0.337
+iid 0.0: poisson=2.87 model1-true=2.87 [43s]
+  rep 0: acc=0.744 clip=0.26 absent_sd=1.99 present/pred=0.98 | gauss=1.29 countcond=1.53 path_v2=2.50 [63s]
+  rep 1: acc=0.730 clip=0.28 absent_sd=1.98 present/pred=1.03 | gauss=1.92 countcond=2.01 path_v2=2.63 [83s]
+  rep 2: acc=0.753 clip=0.25 absent_sd=2.04 present/pred=1.00 | gauss=1.45 countcond=1.58 path_v2=2.72 [102s]
+  rep 3: acc=0.750 clip=0.31 absent_sd=2.04 present/pred=0.98 | gauss=1.52 countcond=1.56 path_v2=2.67 [122s]
+  rep 4: acc=0.743 clip=0.33 absent_sd=1.98 present/pred=0.93 | gauss=1.66 countcond=1.79 path_v2=2.67 [142s]
+markov 0.9: poisson=2.87 model1-true=12.08 [184s]
+  rep 0: acc=0.744 clip=0.30 absent_sd=2.08 present/pred=0.98 | gauss=1.31 countcond=3.21 path_v2=10.41 [204s]
+  rep 1: acc=0.723 clip=0.33 absent_sd=2.05 present/pred=0.99 | gauss=1.18 countcond=3.03 path_v2=10.41 [223s]
+  rep 2: acc=0.752 clip=0.22 absent_sd=2.04 present/pred=1.08 | gauss=1.36 countcond=3.77 path_v2=10.14 [244s]
+  rep 3: acc=0.741 clip=0.28 absent_sd=2.04 present/pred=0.98 | gauss=1.58 countcond=4.09 path_v2=10.59 [265s]
+  rep 4: acc=0.734 clip=0.26 absent_sd=2.04 present/pred=0.89 | gauss=1.23 countcond=2.47 path_v2=10.29 [284s]

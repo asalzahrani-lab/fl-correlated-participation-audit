@@ -1,0 +1,5 @@
+law,reference_plain_eps_2M,reference_cert_eps_2M,poisson_eps_same_q,estimator,R,mean,sd,false_flag_rate_vs_ref,flag_poisson
+markov0.9,11.8174,10.7303,2.8662,certified,120,8.2192,0.1764,0.000,1.000
+markov0.9,11.8174,10.7303,2.8662,plain_interp,120,10.3640,0.4968,0.000,1.000
+trace_cohort0.6,10.3656,8.9485,1.2177,certified,120,5.6181,0.8351,0.000,1.000
+trace_cohort0.6,10.3656,8.9485,1.2177,plain_interp,120,7.9843,0.6959,0.000,1.000

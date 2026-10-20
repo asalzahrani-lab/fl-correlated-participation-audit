@@ -1,0 +1,2 @@
+T=200 minsep 9 tmix=inf var=0.0 dK=0.0e+00 delta=0.001: full=6.517 sum=2.053 poisson=2.303 schema(k=20)=8.787  [51s]
+T=200 minsep 9 tmix=inf var=0.0 dK=0.0e+00 delta=0.0001: full=8.023 sum=2.533 poisson=2.866 schema(k=20)=10.231  [51s]

@@ -1,0 +1,7 @@
+10-min/3-day window start 972: 572 devices [7s]
+10-min analysis window: start index 972, 572 devices [7s]
+round 5 min, T=400 (33.3 h), 571 devices, K=27: q=0.0472 D=43.29 final-model eps 14.779 vs Binomial 1.658 (ratio 8.91) at 1e-4, 20.185 vs 1.963 (10.28) at 1e-5 [8s]
+round 10 min, T=200 (33.3 h), 572 devices, K=27: q=0.0471 D=21.31 final-model eps 5.841 vs Binomial 1.133 (ratio 5.16) at 1e-4, 8.496 vs 1.359 (6.25) at 1e-5 [8s]
+round 30 min, T=67 (33.5 h), 573 devices, K=27: q=0.0471 D=7.59 final-model eps 1.571 vs Binomial 0.635 (ratio 2.47) at 1e-4, 2.337 vs 0.781 (2.99) at 1e-5 [8s]
+50% of devices (286), 20 subsets: final-model ratio median 5.41 [3.72, 7.29] at 1e-4, 6.55 [4.44, 8.47] at 1e-5 [11s]
+80% of devices (458), 20 subsets: final-model ratio median 5.70 [4.97, 7.20] at 1e-4, 6.83 [6.06, 8.68] at 1e-5 [16s]

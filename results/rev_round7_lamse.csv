@@ -1,0 +1,2 @@
+devices,T,replicates,lambda,mean_hat,sd_hat,q005,q995
+1000,200,200,0.9,0.89972,0.00215,0.89458,0.90480

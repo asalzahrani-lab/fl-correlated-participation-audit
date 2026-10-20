@@ -1,0 +1,13 @@
+(1) fixed-size cohort, two clients, K = 1, a = 0.5
+  delta=0.0001: transcript (cohort hidden) 1.498   scalar model 1.091   cohort known 1.600   -> 1.091 <= 1.498 <= 1.600: True
+  delta=1e-05: transcript (cohort hidden) 1.825   scalar model 1.354   cohort known 1.908   -> 1.354 <= 1.825 <= 1.908: True
+(2) worst window: rates (1, 0) against (0.51, 0.51), a = 0.5, observation model
+  delta=0.0001: (1,0) -> 1.698 (expected count 1.00)   (0.51,0.51) -> 1.524 (expected count 1.02)
+  delta=1e-05: (1,0) -> 1.993 (expected count 1.00)   (0.51,0.51) -> 1.861 (expected count 1.02)
+(3) example (1) with the other client's update orthogonal to u: two-coordinate transcript
+  other update norm 1C orthogonal to u: eps = 1.186 (1e-4), 1.476 (1e-5)   > scalar pair 1.091 / 1.354
+  other update norm 3C orthogonal to u: eps = 1.427 (1e-4), 1.740 (1e-5)   > scalar pair 1.091 / 1.354
+  other update norm 0C orthogonal to u: eps = 1.091 (1e-4), 1.354 (1e-5)   = scalar pair (attained)
+(4) adaptive selection from the released noise: B_2 = 1{Z_1 > 0}
+  delta=0.0001: adaptive transcript 1.600 (closed form (1/2) h(a): 1.600); exogenous hidden coin (scalar model) 1.091
+  delta=1e-05: adaptive transcript 1.908 (closed form (1/2) h(a): 1.908); exogenous hidden coin (scalar model) 1.354

@@ -1,0 +1,15 @@
+K=27; rounds where the whole pool is taken: 0.025 (11 of 432); pool range 18-78
+ever-available devices 402 (0.703); of them available in at least one take-all round: 0.336
+b_pr among ever-available: median 7.368 min 1.091; share > 1.219: 0.988
+b_pr among ever-available and never in a take-all round: n=267 median 5.956
+one unsubsampled round (mu=0.5): eps(1e-4) = 1.698, eps(1e-5) = 1.993
+Spearman(avail, b_pr) = 0.975; Spearman(avail, a_fm) = 0.984; Spearman(avail, emp_fm) = 0.978
+a_fm ever-available: median 1.789 p90 8.096 max 21.845
+emp_fm ever-available: median 1.238 p90 5.586 max 18.227
+b_fm ever-available: median 2.093 p90 7.530 max 23.927
+a_thm3 ever-available: median 11.978 p90 21.616 max 32.732
+b_pr ever-available: median 7.368 p90 14.708 max 27.329
+tail devices (N>=60): 19; availability 0.252-0.627; top share 0.082; inclusion | available median 0.596 range 0.490-0.756; population inclusion|available 0.594
+b_pr top5: [(335, 0.606, 27.33), (176, 0.512, 25.72), (240, 0.627, 22.33), (342, 0.312, 22.15), (223, 0.312, 21.08)]
+a_thm3 top5: [(36, 0.06, 32.73), (206, 0.146, 32.15), (335, 0.606, 31.3), (286, 0.477, 29.79), (176, 0.512, 29.74)]
+a_fm top5: [(36, 0.06, 21.85), (206, 0.146, 20.93), (335, 0.606, 19.48), (286, 0.477, 17.49), (176, 0.512, 17.39)]

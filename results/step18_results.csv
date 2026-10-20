@@ -1,0 +1,8 @@
+model,mean_availability,q,D,lambda_B_median,KS_count_law_vs_empirical,eps_sum_1e-4,eps_sum_1e-5,ratio_vs_poisson_1e-4,ratio_vs_poisson_1e-5,eps_1e-4_over_empirical,diurnal_pool_profile_corr
+empirical,0.0793,0.0471,21.31,0.476,0,5.841,8.496,5.16,6.25,1.000,1.000
+M1 markov-hetero,0.0785,0.0472,26.93,0.445,0.054,7.426,10.031,6.53,7.36,1.271,nan
+M2 renewal-pooled,0.0643,0.0470,25.29,0.589,0.050,8.180,11.888,7.24,8.77,1.400,nan
+M3 renewal-hetero,0.0802,0.0472,30.59,0.437,0.131,7.440,9.978,6.55,7.32,1.274,nan
+M4 diurnal-markov,0.0546,0.0438,16.43,0.698,0.033,3.372,4.833,3.23,3.85,0.577,0.414
+M5 diurnal-hetero,0.0694,0.0467,22.30,0.557,0.074,4.593,6.260,4.09,4.65,0.786,0.545
+M6 diurnal-calibrated,0.0779,0.0471,25.41,0.487,0.082,5.832,7.859,5.15,5.78,0.998,0.385

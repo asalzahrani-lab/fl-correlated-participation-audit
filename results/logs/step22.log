@@ -1,0 +1,9 @@
+devices in file: 1000
+devices with any trace 1000, span days median 5.0 IQR 3.0-6.0; >= 2 days: 897
+overall span 2020-01-23 06:22:44 to 2020-02-05 14:43:45 13.35 days
+population grid: 1923 rounds of 10 min; available fraction mean 0.0505 min 0.000 max 0.250; lag1 0.975
+diurnal available fraction by 3-h block: [0.061 0.071 0.055 0.042 0.039 0.046 0.045 0.046]
+3-day window start 2020-01-30 00:22:44 devices 572 mean availability 0.0793 E[pool] 45.3 pool min/max 18/78
+per-device availability in window: median 0.0370 IQR 0.0000-0.1181; share > 0.5: 0.0105; share 0: 0.2972
+lambda_A median in window 0.831
+window pool by 3-h block: [59.7, 66.4, 50.3, 34.2, 34.2, 38.7, 37.4, 41.8]

@@ -1,0 +1,28 @@
+T=200 iid 0.0: full=2.87 sum=2.69 poisson=2.87 | gauss_box    mean=1.63±0.27 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [109s]
+T=200 iid 0.0: full=2.87 sum=2.69 poisson=2.87 | gauss_point  mean=3.13±0.57 cov(full)=0.347 exceed(sum)=0.777 flag(poisson)=0.653 [109s]
+T=200 iid 0.0: full=2.87 sum=2.69 poisson=2.87 | countcond    mean=1.81±0.28 cov(full)=0.997 exceed(sum)=0.003 flag(poisson)=0.003 [109s]
+T=200 iid 0.0: full=2.87 sum=2.69 poisson=2.87 | steinke      mean=0.98±0.17 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [109s]
+T=200 markov 0.6: full=3.92 sum=3.25 poisson=2.87 | gauss_box    mean=1.60±0.24 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [269s]
+T=200 markov 0.6: full=3.92 sum=3.25 poisson=2.87 | gauss_point  mean=3.38±0.73 cov(full)=0.770 exceed(sum)=0.483 flag(poisson)=0.727 [269s]
+T=200 markov 0.6: full=3.92 sum=3.25 poisson=2.87 | countcond    mean=2.07±0.33 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.013 [269s]
+T=200 markov 0.6: full=3.92 sum=3.25 poisson=2.87 | steinke      mean=0.94±0.14 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [269s]
+T=200 markov 0.9: full=12.08 sum=8.30 poisson=2.87 | gauss_box    mean=1.83±0.53 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.047 [509s]
+T=200 markov 0.9: full=12.08 sum=8.30 poisson=2.87 | gauss_point  mean=5.52±1.14 cov(full)=1.000 exceed(sum)=0.017 flag(poisson)=1.000 [509s]
+T=200 markov 0.9: full=12.08 sum=8.30 poisson=2.87 | countcond    mean=4.06±1.09 cov(full)=1.000 exceed(sum)=0.003 flag(poisson)=0.883 [509s]
+T=200 markov 0.9: full=12.08 sum=8.30 poisson=2.87 | steinke      mean=0.90±0.16 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [509s]
+T=200 markov 0.97: full=28.23 sum=27.12 poisson=2.87 | gauss_box    mean=5.47±1.37 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.980 [831s]
+T=200 markov 0.97: full=28.23 sum=27.12 poisson=2.87 | gauss_point  mean=11.63±2.05 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=1.000 [831s]
+T=200 markov 0.97: full=28.23 sum=27.12 poisson=2.87 | countcond    mean=11.83±3.43 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=1.000 [831s]
+T=200 markov 0.97: full=28.23 sum=27.12 poisson=2.87 | steinke      mean=0.78±0.14 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [831s]
+T=200 minsep 5: full=2.79 sum=2.57 poisson=2.87 | gauss_box    mean=1.62±0.25 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [894s]
+T=200 minsep 5: full=2.79 sum=2.57 poisson=2.87 | gauss_point  mean=3.09±0.53 cov(full)=0.297 exceed(sum)=0.857 flag(poisson)=0.637 [894s]
+T=200 minsep 5: full=2.79 sum=2.57 poisson=2.87 | countcond    mean=1.75±0.24 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [894s]
+T=200 minsep 5: full=2.79 sum=2.57 poisson=2.87 | steinke      mean=0.98±0.15 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [894s]
+T=200 minsep 9: full=8.02 sum=2.53 poisson=2.87 | gauss_box    mean=1.63±0.26 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [943s]
+T=200 minsep 9: full=8.02 sum=2.53 poisson=2.87 | gauss_point  mean=3.12±0.57 cov(full)=1.000 exceed(sum)=0.863 flag(poisson)=0.650 [943s]
+T=200 minsep 9: full=8.02 sum=2.53 poisson=2.87 | countcond    mean=1.74±0.25 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [943s]
+T=200 minsep 9: full=8.02 sum=2.53 poisson=2.87 | steinke      mean=0.99±0.16 cov(full)=1.000 exceed(sum)=0.000 flag(poisson)=0.000 [943s]
+skip 1000 iid 0.0
+skip 1000 markov 0.9
+skip 1000 markov 0.99
+skip 1000 minsep 9

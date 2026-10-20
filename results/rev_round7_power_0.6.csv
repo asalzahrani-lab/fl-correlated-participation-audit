@@ -1,0 +1,2 @@
+mode,lambda_canaries,lambda_table,eps_true_table_law,ci99_lo,ci99_hi,eps_true_canary_law,poisson,ratio_true_over_poisson,R,mean_eps_hat,sd_eps_hat,recovery,above_true,flags,a_lo_mean
+power,0.6,0.6,3.9122,3.8213,4.0161,3.9122,2.8662,1.365,120,3.4485,0.1284,0.881,0,120,0.4783

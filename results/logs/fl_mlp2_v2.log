@@ -1,0 +1,23 @@
+C_clip=0.353
+iid 0.0: poisson=2.87 model1-true=2.87
+  rep 0: acc=0.748 erasure=0.97 a_lo=0.460 | gauss=1.54 v2=2.55 merged_cert=2.48 (true 2.87, Poisson 2.87) [25s]
+  rep 1: acc=0.757 erasure=1.02 a_lo=0.485 | gauss=1.92 v2=2.74 merged_cert=2.63 (true 2.87, Poisson 2.87) [49s]
+  rep 2: acc=0.750 erasure=0.96 a_lo=0.483 | gauss=1.65 v2=2.72 merged_cert=2.63 (true 2.87, Poisson 2.87) [73s]
+  rep 3: acc=0.742 erasure=1.01 a_lo=0.500 | gauss=1.66 v2=2.85 merged_cert=2.70 (true 2.87, Poisson 2.87) [97s]
+  rep 4: acc=0.738 erasure=1.07 a_lo=0.484 | gauss=1.60 v2=2.72 merged_cert=2.63 (true 2.87, Poisson 2.87) [123s]
+  rep 5: acc=0.746 erasure=1.07 a_lo=0.480 | gauss=2.08 v2=2.70 merged_cert=2.55 (true 2.87, Poisson 2.87) [149s]
+  rep 6: acc=0.744 erasure=1.01 a_lo=0.500 | gauss=1.71 v2=2.85 merged_cert=2.78 (true 2.87, Poisson 2.87) [172s]
+  rep 7: acc=0.746 erasure=0.92 a_lo=0.462 | gauss=1.04 v2=2.56 merged_cert=2.48 (true 2.87, Poisson 2.87) [197s]
+  rep 8: acc=0.754 erasure=1.01 a_lo=0.485 | gauss=1.82 v2=2.74 merged_cert=2.63 (true 2.87, Poisson 2.87) [220s]
+  rep 9: acc=0.744 erasure=0.98 a_lo=0.476 | gauss=1.81 v2=2.67 merged_cert=2.55 (true 2.87, Poisson 2.87) [244s]
+markov 0.9: poisson=2.87 model1-true=12.08
+  rep 0: acc=0.736 erasure=0.96 a_lo=0.465 | gauss=1.33 v2=10.12 merged_cert=9.58 (true 12.08, Poisson 2.87) [269s]
+  rep 1: acc=0.745 erasure=1.00 a_lo=0.461 | gauss=1.69 v2=9.93 merged_cert=9.58 (true 12.08, Poisson 2.87) [293s]
+  rep 2: acc=0.736 erasure=0.95 a_lo=0.477 | gauss=1.10 v2=10.73 merged_cert=10.04 (true 12.08, Poisson 2.87) [317s]
+  rep 3: acc=0.728 erasure=0.99 a_lo=0.477 | gauss=1.67 v2=10.72 merged_cert=10.04 (true 12.08, Poisson 2.87) [342s]
+  rep 4: acc=0.744 erasure=0.98 a_lo=0.465 | gauss=2.15 v2=10.12 merged_cert=9.58 (true 12.08, Poisson 2.87) [367s]
+  rep 5: acc=0.752 erasure=0.98 a_lo=0.452 | gauss=1.55 v2=9.51 merged_cert=9.12 (true 12.08, Poisson 2.87) [391s]
+  rep 6: acc=0.747 erasure=1.11 a_lo=0.502 | gauss=1.93 v2=11.96 merged_cert=11.52 (true 12.08, Poisson 2.87) [416s]
+  rep 7: acc=0.738 erasure=0.91 a_lo=0.460 | gauss=1.38 v2=9.89 merged_cert=9.58 (true 12.08, Poisson 2.87) [439s]
+  rep 8: acc=0.748 erasure=0.99 a_lo=0.481 | gauss=2.42 v2=10.88 merged_cert=10.53 (true 12.08, Poisson 2.87) [462s]
+  rep 9: acc=0.732 erasure=1.03 a_lo=0.484 | gauss=1.65 v2=11.04 merged_cert=10.53 (true 12.08, Poisson 2.87) [483s]

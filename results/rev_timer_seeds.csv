@@ -1,0 +1,5 @@
+policy,delta,poisson_claim,participating_devices,path_invariant_devices,seed0_median,seed0_max,worst_device,worst_min_over_seeds,worst_max_over_seeds,worst_distinct_paths,median_seed_min,median_seed_max,count_avg_median,count_avg_max,share_seed_min_above_claim
+"fixed cohort 0.6, timer 20",0.0001,0.162,402,344,3.21,6.62,176,6.62,6.62,3,3.21,3.21,3.21,6.62,1.000
+"fixed cohort 0.6, timer 20",1e-05,0.207,402,344,3.71,7.51,176,7.51,7.51,3,3.71,3.71,3.71,7.51,1.000
+"fixed cohort 0.6, timer 5",0.0001,0.390,402,334,4.85,14.45,176,14.17,14.45,6,4.85,4.85,4.85,14.44,1.000
+"fixed cohort 0.6, timer 5",1e-05,0.483,402,334,5.54,16.07,176,15.76,16.07,6,5.54,5.54,5.54,16.06,1.000

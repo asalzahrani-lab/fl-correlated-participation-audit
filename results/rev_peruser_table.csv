@@ -1,0 +1,11 @@
+law,delta,devices,median,p90,p99,max,poisson_or_binomial_ref,max_over_ref,share_above_ref,share_above_pooled,pooled
+"(a) model known, final model",0.0001,402,1.79,8.10,17.38,21.85,1.13,19.3,0.624,0.177,5.841
+"(a) model known, final model",1e-05,402,2.28,10.06,20.17,26.03,1.36,19.1,0.639,0.149,8.5
+"(a') own window law, final model",0.0001,402,1.24,5.59,12.28,18.23,1.13,16.1,0.525,0.082,5.841
+"(a') own window law, final model",1e-05,402,1.51,6.48,13.94,20.45,1.36,15.0,0.525,0.040,8.5
+"(b) availability known, final model",0.0001,402,2.09,7.53,14.82,23.93,1.13,21.1,0.674,0.159,5.841
+"(b) availability known, final model",1e-05,402,2.46,8.54,16.54,26.38,1.36,19.4,0.672,0.102,8.5
+"(a) Thm 3 / joint release, per round",0.0001,402,11.98,21.62,29.73,32.73,1.22,26.9,1.000,0.600,10.69
+"(a) Thm 3 / joint release, per round",1e-05,402,14.69,25.03,33.44,37.40,1.46,25.6,1.000,0.483,14.97
+"(b) availability known, per round",0.0001,402,7.37,14.71,21.07,27.33,1.22,22.4,0.988,0.241,10.69
+"(b) availability known, per round",1e-05,402,8.41,16.44,23.28,29.98,1.46,20.5,0.990,0.127,14.97

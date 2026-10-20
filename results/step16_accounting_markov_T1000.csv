@@ -1,0 +1,3 @@
+law,delta,poisson_perround_eps,final_model_exact_eps,final_model_poisson_count_eps,final_model_ratio,perround_reference_eps,perround_reference_se,perround_ratio,n_mc
+markov0.9,1e-05,8.2793,14.5614,7.7699,1.874,25.4941,0.3550,3.079,3000000
+markov0.9,0.0001,7.2753,11.7766,6.8197,1.727,21.0170,0.1123,2.889,3000000
