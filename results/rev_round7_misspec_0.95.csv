@@ -1,0 +1,2 @@
+mode,lambda_canaries,lambda_table,eps_true_table_law,ci99_lo,ci99_hi,eps_true_canary_law,poisson,ratio_true_over_poisson,R,mean_eps_hat,sd_eps_hat,recovery,above_true,flags,a_lo_mean
+misspec,0.9,0.95,20.5674,19.9685,21.2800,11.8690,2.8662,4.141,120,17.3644,0.9563,1.463,120,120,0.4771

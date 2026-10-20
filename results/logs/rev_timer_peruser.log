@@ -1,0 +1,6 @@
+fixed cohort 0.6, timer 5, delta 0.0001: binding rounds 2/432; q 0.0171; claim 0.390; participating devices 402; median max-count 6, max 34; eps median 4.85 max 14.45 (x12.4, x37.0); share above claim 1.000
+fixed cohort 0.6, timer 5, delta 1e-05: binding rounds 2/432; q 0.0171; claim 0.483; participating devices 402; median max-count 6, max 34; eps median 5.54 max 16.07 (x11.5, x33.2); share above claim 1.000
+fixed cohort 0.6, timer 20, delta 0.0001: binding rounds 2/432; q 0.0079; claim 0.162; participating devices 402; median max-count 3, max 10; eps median 3.21 max 6.62 (x19.8, x40.9); share above claim 1.000
+fixed cohort 0.6, timer 20, delta 1e-05: binding rounds 2/432; q 0.0079; claim 0.207; participating devices 402; median max-count 3, max 10; eps median 3.71 max 7.51 (x17.9, x36.3); share above claim 1.000
+fixed cohort 0.6, delta 0.0001: binding rounds 421/432; q 0.0471; claim 1.219; participating devices 394; median max-count 18, max 113; eps median 9.57 max 33.14 (x7.8, x27.2); share above claim 1.000
+fixed cohort 0.6, delta 1e-05: binding rounds 421/432; q 0.0471; claim 1.462; participating devices 394; median max-count 18, max 113; eps median 10.75 max 36.06 (x7.4, x24.7); share above claim 1.000

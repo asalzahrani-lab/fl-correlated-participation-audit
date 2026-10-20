@@ -1,0 +1,7 @@
+10-min/3-day window start 972: 572 devices [14s]
+markov sum: guess-counting eps 0.67 ± 0.13 (recovery 6%); above ref 0/120; flags 0/120
+markov path: guess-counting eps 2.52 ± 0.10 (recovery 21%); above ref 0/120; flags 0/120
+iid sum: guess-counting eps 0.75 ± 0.12 (recovery 26%); above ref 0/120; flags 0/120
+iid path: guess-counting eps 2.59 ± 0.10 (recovery 90%); above ref 1/120; flags 1/120
+trace sum: guess-counting eps 0.16 ± 0.10 (recovery 1%); above ref 0/120; flags 0/120
+trace path: guess-counting eps 1.82 ± 0.08 (recovery 17%); above ref 0/120; flags 120/120

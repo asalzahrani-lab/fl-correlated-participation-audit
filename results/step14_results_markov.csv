@@ -1,0 +1,5 @@
+law,reference_plain_eps_2M,poisson_eps_same_q,estimator,R,mean,sd,recovery,false_flag_rate_vs_ref,flag_poisson
+markov0.9,11.8174,2.8662,merged_bern_0.01grid,120,10.0716,0.5003,0.852,0.000,1.000
+markov0.9,11.8174,2.8662,step_0.01grid_a045,120,9.2834,0.4802,0.786,0.000,1.000
+markov0.9,11.8174,2.8662,old_certified,120,8.3764,0.1793,0.709,0.000,1.000
+markov0.9,11.8174,2.8662,plain_v2,120,10.6355,0.5184,0.900,0.000,1.000

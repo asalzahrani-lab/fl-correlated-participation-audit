@@ -1,0 +1,14 @@
+   rounds t>=2 at which some variable device's eligibility depends on its status: 30 (last 191); max over t>=2 of the exact pool maximum: 28 at t=21; rounds >= 2 that could bind: 1
+   per-device schema count: equals the seed-0 count for 383 of 402 participating devices; max excess 1; median N_sched 3, max 10
+fixed cohort 0.6, timer 20: K=27; round 0 binds True, round 1 can bind True; max_t>=2 UB_t = 28 at t=21 (<= K: False); devices with more than one allowed status 58; participating 402; structurally invariant 344; largest-window count can change for 3 (by at most 1); seed-0 path among the allowed paths for every device: True
+  delta 0.0001: per-device schema bound (certified, every draw): median 3.21, max 6.62 (x19.8, x40.9); seed-0 realised-path value: median 3.21
+  delta 0.0001: claim 0.162; certified upper value (max over allowed paths): median 3.21, max 6.62 (device 176; its smallest allowed value 6.62); invariant devices: median 3.21, max 6.20; ratios median 19.8, max 40.9
+  delta 1e-05: per-device schema bound (certified, every draw): median 3.71, max 7.51 (x17.9, x36.3); seed-0 realised-path value: median 3.71
+  delta 1e-05: claim 0.207; certified upper value (max over allowed paths): median 3.71, max 7.51 (device 176; its smallest allowed value 7.51); invariant devices: median 3.71, max 7.05; ratios median 17.9, max 36.3
+   rounds t>=2 at which some variable device's eligibility depends on its status: 108 (last 200); max over t>=2 of the exact pool maximum: 36 at t=30; rounds >= 2 that could bind: 10
+   per-device schema count: equals the seed-0 count for 386 of 402 participating devices; max excess 1; median N_sched 6, max 34
+fixed cohort 0.6, timer 5: K=27; round 0 binds True, round 1 can bind True; max_t>=2 UB_t = 36 at t=30 (<= K: False); devices with more than one allowed status 58; participating 402; structurally invariant 344; largest-window count can change for 9 (by at most 1); seed-0 path among the allowed paths for every device: True
+  delta 0.0001: per-device schema bound (certified, every draw): median 4.85, max 14.45 (x12.4, x37.0); seed-0 realised-path value: median 4.85
+  delta 0.0001: claim 0.390; certified upper value (max over allowed paths): median 4.85, max 14.45 (device 176; its smallest allowed value 14.17); invariant devices: median 4.85, max 13.60; ratios median 12.4, max 37.0
+  delta 1e-05: per-device schema bound (certified, every draw): median 5.54, max 16.07 (x11.5, x33.2); seed-0 realised-path value: median 5.54
+  delta 1e-05: claim 0.483; certified upper value (max over allowed paths): median 5.54, max 16.07 (device 176; its smallest allowed value 15.76); invariant devices: median 5.54, max 15.14; ratios median 11.5, max 33.2

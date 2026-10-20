@@ -1,0 +1,117 @@
+== 1. Pooled accounting on the trace (abstract, Sections I, VI-B)
+[PASS] final-model ratio, take-all policy, 1e-4: 9.44 (paper 9.4, tolerance 0.05) <- step21b_policies.csv ratio_1e-4
+[PASS] retained per-round reference, running example, 1e-4 (3M samples): 10.69 (paper 10.69, tolerance 0.005) <- step16_accounting_trace.csv
+[PASS] per-round ratio, estimate, 1e-4: 8.775 (paper 8.8, tolerance 0.05) <- step16_accounting_trace.csv
+[PASS] independent re-run uses 8M samples <- rev_refs_trace200.csv n_mc
+[PASS] lower 99% limit of the ratio, 1e-4: 8.353 (paper 8.35, tolerance 0.005) <- rev_refs_trace200.csv ci99_lo / eps_poisson
+[PASS] upper end (Theorem 2 on the count law) / Poisson, 1e-4: 16.37 (paper 16.4, tolerance 0.05) <- step21b_policies.csv thm3_bound_1e-4
+[PASS] upper end / Poisson, 1e-5: 16.67 (paper 16.7, tolerance 0.05) <- step21b_policies.csv thm3_bound_1e-5
+[PASS] T = 1,000 lower 99% limit of the ratio: 17.07 (paper 17.07, tolerance 0.005) <- rev_refs_stored.csv
+[PASS] T = 1,000 upper end / Poisson: 20.77 (paper 20.8, tolerance 0.05) <- rev_t1000_bracket.csv ratio_upper
+[PASS] T = 1,000 vs T = 200 point estimates, 1e-4 (extended VI-F): 1.977 (paper 1.98, tolerance 0.006) <- rev_t1000_bracket.csv / step16_accounting_trace.csv
+[PASS] T = 1,000 vs T = 200 point estimates, 1e-5: 1.652 (paper 1.65, tolerance 0.006) <- rev_t1000_bracket.csv / step16_accounting_trace.csv
+[PASS] T = 1,000 vs T = 200 upper ends, 1e-4: 1.269 (paper 1.27, tolerance 0.006) <- rev_t1000_bracket.csv / step21b_policies.csv
+[PASS] T = 1,000 vs T = 200 upper ends, 1e-5: 1.203 (paper 1.2, tolerance 0.006) <- rev_t1000_bracket.csv / step21b_policies.csv
+== 2. Per-device bracket (abstract, Sections I, VI-F, Table VI)
+[PASS] lower end, worst device (optimistic PLD, discretisation 1e-3): 26.99 (paper 26.99, tolerance 0.005) <- rev_peruser_exact2_summary.csv pr_lo max
+[PASS] lower end / claim, median device: 6.01 (paper 6, tolerance 0.05) <- rev_peruser_exact2_summary.csv
+[PASS] devices whose lower end exceeds the claim: 397 (paper 397, tolerance 0) <- rev_peruser_exact2_summary.csv
+[PASS] worst device recomputed at discretisation 1e-4 is logged <- logs/rev_peruser_exact2.log
+[PASS] worst device lower end at 1e-4 discretisation / claim: 22.2 (paper 22.2, tolerance 0.05) <- logs/rev_peruser_exact2.log
+[PASS] upper end, maximum over devices and windows: 34.53 (paper 34.53, tolerance 0.005) <- rev_peruser_exact2_summary.csv thm3 max
+[PASS] upper end / claim: 28.32 (paper 28.3, tolerance 0.05) <- rev_peruser_exact2_summary.csv
+[PASS] window-search certificate holds for every device <- rev_peruser_exact2_devices.csv certified
+[PASS] pessimistic minus optimistic PLD at most 0.10 on every device (max 0.1000; values stored to 4 decimals) <- rev_peruser_exact2_devices.csv pr_hi - pr_lo
+[PASS] all-window check of the 20 largest devices agrees with the certified search <- rev_peruser_exact2_top20.csv same
+[PASS] independent recomputation of the upper end agrees on all 402 devices to the 6 printed decimals (max printed difference 1.0e-06) <- rev_round5_upper_check.csv
+[PASS] unrounded maximum difference, 1e-4 (paper: 2.5e-7): 2.49e-07 (paper 2.5e-07, tolerance 5e-09) <- logs/rev_round5_upper_check.log
+== 3. Timers (Sections I, VI-F, VII; Sec. S-VI)
+[PASS] per-device schema bound, median (an upper bound): 3.21 (paper 3.21, tolerance 0.005) <- rev_timer_schema.csv
+[PASS] per-device schema bound, maximum: 6.62 (paper 6.62, tolerance 0.005) <- rev_timer_schema.csv
+[PASS] median / claim: 19.8 (paper 20, tolerance 0.5) <- rev_timer_schema.csv
+[PASS] maximum / claim: 40.9 (paper 41, tolerance 0.5) <- rev_timer_schema.csv
+[PASS] devices whose schema count equals the realised count: 383 (paper 383, tolerance 0) <- rev_timer_schema.csv
+[PASS] largest pool over draws at a later round (K = 27): 28 (paper 28, tolerance 0) <- rev_timer_schema.csv
+[PASS] pooled per-round ratio under the 20-round timer: 1.1 (paper 1.1, tolerance 0.005) <- rev_refs_timer20.csv
+[PASS] its lower 99% limit: 1.07 (paper 1.07, tolerance 0.005) <- rev_refs_timer20.csv
+[PASS] its upper 99% limit: 1.13 (paper 1.13, tolerance 0.005) <- rev_refs_timer20.csv
+== 4. Audits (abstract, Sections V-E, V-F)
+[PASS] lowest certified recovery: 0.7374 (paper 0.74, tolerance 0.005) <- step19_results.csv, step16_results_*_T1000.csv
+[PASS] highest certified recovery: 0.8978 (paper 0.9, tolerance 0.005) <- step19_results.csv, step16_results_*_T1000.csv
+[PASS] Gaussian fit, lowest recovery on correlated laws: 0.0331 (paper 0.03, tolerance 0.005) <- step19_results.csv gauss
+[PASS] Gaussian fit, highest recovery on correlated laws: 0.1504 (paper 0.15, tolerance 0.005) <- step19_results.csv gauss
+[PASS] training runs: 274 (paper 274, tolerance 0) <- fl_mlp*_results.csv, rev_train_*.csv
+[PASS] all certified audit evaluations: 1354 (paper 1354, tolerance 0) <- step19, step16 T=1000, training files
+[PASS] estimates above the reference: 0 (paper 0, tolerance 0) <- same files
+[PASS] violated claims flagged: 1176 (paper 1176, tolerance 0) <- same files (of 1177)
+[PASS] violated claims tested: 1177 (paper 1177, tolerance 0) <- same files
+[PASS] correct claims flagged: 0 (paper 0, tolerance 0) <- same files (of 177)
+[PASS] correct claims tested: 177 (paper 177, tolerance 0) <- same files
+[PASS] independent audit data sets (abstract, Sections I, V-E, VII): 874 (paper 874, tolerance 0) <- same files, delta = 1e-4 rows
+[PASS] violated claims flagged, independent data sets: 696 (paper 696, tolerance 0) <- same files (of 697)
+[PASS] violated claims tested, independent data sets: 697 (paper 697, tolerance 0) <- same files
+[PASS] training, lowest configuration-mean recovery (Section VII: 73 to 93%): 0.727 (paper 0.73, tolerance 0.005) <- rev_train_summary.csv
+[PASS] training, highest configuration-mean recovery (5,000 canaries, i.i.d.): 0.9253 (paper 0.93, tolerance 0.0051) <- fl_mlp_5k_results.csv
+== 5. Monte-Carlo provenance (Table II, Table S2)
+[PASS] retained Markov reference, 1e-4 (10M samples, step16_delta5.py): 11.87 (paper 11.87, tolerance 0.005) <- step16_accounting_markov.csv
+[PASS] independent re-run rev_refs_markov200.csv has 10,000,000 samples at both deltas <- rev_refs_markov200.csv
+[PASS] independent re-run rev_refs_trace200.csv has 8,000,000 samples at both deltas <- rev_refs_trace200.csv
+       certificate-table seeds (T=200): [2027, 2028, 2029, 3031, 3032]; audit-data seeds (T=200): [1919]; T=1,000 table seeds x1000+17T+part: [3031, 3032]; T=1,000 audit seeds: [4041, 4042]
+[PASS] audit data and certificate tables are drawn from disjoint seeds <- step14_merged.py, step16_delta5.py, step19_rerun_audits.py, step20b_parts.py
+== 6. Fifth-round checks
+[PASS] equal-dispersion count law, final-model eps at 1e-4: 23.01 (paper 23, tolerance 0.05) <- logs/rev_round5_checks.log
+[PASS] Binomial(200, 0.1), final-model eps at 1e-4: 2.689 (paper 2.69, tolerance 0.005) <- logs/rev_round5_checks.log
+[PASS] random allocation, total variation (T = 2): 0.144 (paper 0.144, tolerance 5e-05) <- logs/rev_round5_checks.log
+[PASS] independent participation, total variation (T = 2): 0.1398 (paper 0.1398, tolerance 5e-05) <- logs/rev_round5_checks.log
+== 7. Seventh-round checks (TIFS V-F, VI-G; extended V-F, VI-G)
+[PASS] power, lambda=0.8: true loss / Poisson claim (reference / 2.8662): 2.292 (paper 2.29, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.8: flags of 120: 120 (paper 120, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.8: recovery: 0.857 (paper 0.86, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.8: estimates above the reference's upper 99% limit: 0 (paper 0, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.6: true loss / Poisson claim (reference / 2.8662): 1.365 (paper 1.36, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.6: flags of 120: 120 (paper 120, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.6: recovery: 0.881 (paper 0.88, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.6: estimates above the reference's upper 99% limit: 0 (paper 0, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.3: true loss / Poisson claim (reference / 2.8662): 1.079 (paper 1.08, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.3: flags of 120: 11 (paper 11, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.3: recovery: 0.897 (paper 0.9, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] power, lambda=0.3: estimates above the reference's upper 99% limit: 0 (paper 0, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] misspecification, table lambda'=0.85: estimates above eps_true(0.9) = 11.869, of 120: 0 (paper 0, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] misspecification, table lambda'=0.85: mean estimate / 11.869: 0.592 (paper 0.592, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] misspecification, table lambda'=0.89: estimates above eps_true(0.9) = 11.869, of 120: 0 (paper 0, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] misspecification, table lambda'=0.89: mean estimate / 11.869: 0.775 (paper 0.775, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] misspecification, table lambda'=0.9: estimates above eps_true(0.9) = 11.869, of 120: 1 (paper 1, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] misspecification, table lambda'=0.9: mean estimate / 11.869: 0.845 (paper 0.845, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] misspecification, table lambda'=0.91: estimates above eps_true(0.9) = 11.869, of 120: 16 (paper 16, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] misspecification, table lambda'=0.91: mean estimate / 11.869: 0.923 (paper 0.923, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] misspecification, table lambda'=0.95: estimates above eps_true(0.9) = 11.869, of 120: 120 (paper 120, tolerance 0) <- rev_round7_audit_sens.csv
+[PASS] misspecification, table lambda'=0.95: mean estimate / 11.869: 1.463 (paper 1.463, tolerance 0.005) <- rev_round7_audit_sens.csv
+[PASS] misspecification control (table lambda' = 0.9): the one estimate above 11.869: 11.89 (paper 11.894, tolerance 0.0005) <- rev_round7_misspec_0.9_est.npy
+[PASS] ... it lies below the upper 99% limit 12.033 of the 10M re-run <- rev_round7_misspec_0.9_est.npy, rev_refs_markov200.csv
+[PASS] power, lambda=0.8: largest of 120 estimates: 6.086 (paper 6.086, tolerance 0.0005) <- rev_round7_power_0.8_est.npy
+[PASS] power, lambda=0.8: no estimate above the point reference <- rev_round7_power_0.8_est.npy
+[PASS] power, lambda=0.6: largest of 120 estimates: 3.672 (paper 3.672, tolerance 0.0005) <- rev_round7_power_0.6_est.npy
+[PASS] power, lambda=0.6: no estimate above the point reference <- rev_round7_power_0.6_est.npy
+[PASS] power, lambda=0.3: largest of 120 estimates: 2.914 (paper 2.914, tolerance 0.0005) <- rev_round7_power_0.3_est.npy
+[PASS] power, lambda=0.3: no estimate above the point reference <- rev_round7_power_0.3_est.npy
+[PASS] sd of the maximum-likelihood lambda (1,000 devices x 200 rounds): 0.00215 (paper 0.0021, tolerance 0.0001) <- rev_round7_lamse.csv
+[PASS] 99% range of the estimate, lower: 0.8946 (paper 0.895, tolerance 0.0005) <- rev_round7_lamse.csv
+[PASS] 99% range of the estimate, upper: 0.9048 (paper 0.905, tolerance 0.0005) <- rev_round7_lamse.csv
+[PASS] round length 5 min, final-model ratio 1e-4: 8.914 (paper 8.91, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] round length 5 min, final-model ratio 1e-5: 10.28 (paper 10.28, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] round length 10 min, final-model ratio 1e-4: 5.155 (paper 5.16, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] round length 10 min, final-model ratio 1e-5: 6.252 (paper 6.25, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] round length 30 min, final-model ratio 1e-4: 2.474 (paper 2.47, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] round length 30 min, final-model ratio 1e-5: 2.992 (paper 2.99, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] device subsample (286 of 572, 20 subsets): number of subsets: 20 (paper 20, tolerance 0) <- rev_round7_trace_sens.csv
+[PASS] device subsample (286 of 572): median ratio 1e-4: 5.407 (paper 5.41, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] device subsample (286 of 572): min ratio 1e-4: 3.719 (paper 3.72, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] device subsample (286 of 572): max ratio 1e-4: 7.29 (paper 7.29, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] device subsample (458 of 572, 20 subsets): number of subsets: 20 (paper 20, tolerance 0) <- rev_round7_trace_sens.csv
+[PASS] device subsample (458 of 572): median ratio 1e-4: 5.704 (paper 5.7, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] device subsample (458 of 572): min ratio 1e-4: 4.97 (paper 4.97, tolerance 0.005) <- rev_round7_trace_sens.csv
+[PASS] device subsample (458 of 572): max ratio 1e-4: 7.203 (paper 7.2, tolerance 0.005) <- rev_round7_trace_sens.csv
+       seventh-round table/reference seeds: [9101, 9102, 9103, 9104, 9105, 9106, 9107, 9108, 9201, 9202, 9203, 9204, 9205, 9206, 9207, 9208]; audit seeds: [9301, 9302, 9303, 9399]
+[PASS] seventh-round audit data and certificate tables are drawn from disjoint seeds <- rev_round7_audit_sens.py
+
+ALL CHECKS PASSED

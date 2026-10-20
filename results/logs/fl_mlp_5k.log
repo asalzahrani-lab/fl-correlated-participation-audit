@@ -1,0 +1,10 @@
+C_clip=0.309
+iid 0.0: poisson=2.87 model1-true=2.87
+  rep 0: acc=0.749 erasure=0.95 a_lo=0.486 | gauss=1.94 v2=2.74 merged_cert=2.63 (true 2.87, Poisson 2.87) [33s]
+  rep 1: acc=0.754 erasure=0.99 a_lo=0.490 | gauss=1.99 v2=2.77 merged_cert=2.63 (true 2.87, Poisson 2.87) [74s]
+  rep 2: acc=0.746 erasure=0.98 a_lo=0.491 | gauss=1.99 v2=2.78 merged_cert=2.70 (true 2.87, Poisson 2.87) [113s]
+markov 0.9: poisson=2.87 model1-true=12.08
+  rep 0: acc=0.753 erasure=0.97 a_lo=0.487 | gauss=3.50 v2=11.17 merged_cert=10.53 (true 12.08, Poisson 2.87) [640s]
+  rep 1: acc=0.761 erasure=0.97 a_lo=0.486 | gauss=3.67 v2=11.15 merged_cert=10.53 (true 12.08, Poisson 2.87) [1229s]
+  rep 2: acc=0.746 erasure=0.98 a_lo=0.486 | gauss=3.20 v2=11.14 merged_cert=10.53 (true 12.08, Poisson 2.87) [1785s]
+done

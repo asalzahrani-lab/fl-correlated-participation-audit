@@ -1,0 +1,14 @@
+window: 572 devices, 432 rounds, start hour 0, mean availability 0.0793, E[pool] 45.3, K 27 [8s]
+empirical: q=0.0471 D=21.31 lambda_B=0.476 eps_sum(1e-4)=5.841 (Poisson-count 1.133) eps_sum(1e-5)=8.496 [8s]
+hourly P(off->on): 0.007 0.005 0.004 0.003 0.005 0.009 0.008 0.007 0.007 0.007 0.008 0.010 0.011 0.011 0.011 0.013 0.015 0.018 0.015 0.012 0.012 0.011 0.009 0.006 [9s]
+hourly P(on->off): 0.037 0.034 0.021 0.018 0.045 0.079 0.100 0.087 0.110 0.124 0.156 0.141 0.179 0.167 0.168 0.190 0.196 0.192 0.226 0.190 0.194 0.144 0.086 0.074 [9s]
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_function_base_impl.py:3036: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_function_base_impl.py:3037: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+M1 markov-hetero  : avail 0.0785 q 0.0472 D 26.93 lamB 0.445 KS 0.054 eps(1e-4) 7.426 (1.27 of empirical) eps(1e-5) 10.031 ratio-vs-Poisson 6.53/7.36 diurnal-corr nan [12s]
+M2 renewal-pooled : avail 0.0643 q 0.0470 D 25.29 lamB 0.589 KS 0.050 eps(1e-4) 8.180 (1.40 of empirical) eps(1e-5) 11.888 ratio-vs-Poisson 7.24/8.77 diurnal-corr nan [15s]
+M3 renewal-hetero : avail 0.0802 q 0.0472 D 30.59 lamB 0.437 KS 0.131 eps(1e-4) 7.440 (1.27 of empirical) eps(1e-5) 9.978 ratio-vs-Poisson 6.55/7.32 diurnal-corr nan [18s]
+M4 diurnal-markov : avail 0.0546 q 0.0438 D 16.43 lamB 0.698 KS 0.033 eps(1e-4) 3.372 (0.58 of empirical) eps(1e-5) 4.833 ratio-vs-Poisson 3.23/3.85 diurnal-corr 0.41 [22s]
+M5 diurnal-hetero : avail 0.0694 q 0.0467 D 22.30 lamB 0.557 KS 0.074 eps(1e-4) 4.593 (0.79 of empirical) eps(1e-5) 6.260 ratio-vs-Poisson 4.09/4.65 diurnal-corr 0.54 [26s]
+done [26s]

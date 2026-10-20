@@ -1,0 +1,2 @@
+T=1000 delta=0.0001: q 0.0469; Poisson 2.954; reference 51.26 (17.35x); Theorem 3 61.34 (20.77x); max N 355, schema 78.57
+T=1000 delta=1e-05: q 0.0469; Poisson 3.439; reference 58.24 (16.94x); Theorem 3 68.94 (20.05x); max N 355, schema 83.73

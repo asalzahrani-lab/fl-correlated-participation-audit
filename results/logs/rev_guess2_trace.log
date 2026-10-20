@@ -1,0 +1,11 @@
+10-min/3-day window start 972: 572 devices [9s]
+joint-release targets: {'markov': 22.156736490464457, 'iid': 11.37947796503146, 'trace': 19.941668694869108}; cap with 1,000 correct guesses: 3.743 (Bonferroni over 8), 5.529 (single k)
+trace rep 0: sum 0.06 marginal 0.14 path 1.89
+trace rep 20: sum 0.12 marginal 0.12 path 1.86
+trace rep 40: sum 0.02 marginal 0.21 path 1.74
+trace rep 60: sum 0.10 marginal 0.19 path 1.86
+trace rep 80: sum 0.32 marginal 0.49 path 1.98
+trace rep 100: sum 0.14 marginal 0.21 path 1.82
+trace sum: 0.159 ± 0.100; target 10.69 (recovery 1%); above target 0/120; flags 0/120
+trace marginal: 0.227 ± 0.111; target 10.69 (recovery 2%); above target 0/120; flags 0/120
+trace path: 1.818 ± 0.080; target 19.94 (recovery 9%); above target 0/120; flags 120/120

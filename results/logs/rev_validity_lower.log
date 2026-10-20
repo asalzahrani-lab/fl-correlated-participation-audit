@@ -1,0 +1,10 @@
+markov 1e-4 cert: n=120 max 11.719 mean 10.346 | above ref 11.869: 0 | above lower limit 11.736: 0 | recovery vs ref 0.872, vs re-run point
+markov 1e-4 v2  : n=120 max 12.029 mean 10.752 | above ref 11.869: 3 | above lower limit 11.736: 4 | recovery vs ref 0.906, vs re-run point
+markov 1e-5 cert: n=120 max 14.629 mean 12.976 | above ref 15.053: 0 | above lower limit 14.762: 0 | recovery vs ref 0.862, vs re-run point
+markov 1e-5 v2  : n=120 max 15.247 mean 13.693 | above ref 15.053: 3 | above lower limit 14.762: 5 | recovery vs ref 0.910, vs re-run point
+trace  1e-4 cert: n=120 max 10.239 mean 7.879 | above ref 10.685: 0 | above lower limit 10.174: 1 | recovery vs ref 0.737, vs re-run point
+trace  1e-4 v2  : n=120 max 10.728 mean 8.643 | above ref 10.685: 2 | above lower limit 10.174: 6 | recovery vs ref 0.809, vs re-run point
+trace  1e-5 cert: n=120 max 14.197 mean 11.348 | above ref 14.97: 0 | above lower limit 14.213: 0 | recovery vs ref 0.758, vs re-run point
+trace  1e-5 v2  : n=120 max 14.975 mean 12.769 | above ref 14.97: 2 | above lower limit 14.213: 10 | recovery vs ref 0.853, vs re-run point
+iid    1e-4 cert: n=120 max 2.777 mean 2.573 | above ref 2.866: 0 | above lower limit 2.866: 0 | recovery vs ref 0.898, vs re-run point
+iid    1e-4 v2  : n=120 max 2.877 mean 2.680 | above ref 2.866: 1 | above lower limit 2.866: 1 | recovery vs ref 0.935, vs re-run point

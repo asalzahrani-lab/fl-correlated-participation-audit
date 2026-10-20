@@ -1,0 +1,6 @@
+delta=1e-05: Poisson per-round eps=8.279; final-model exact: law 14.561 vs Poisson-count 7.770 (ratio 1.87) [2s]
+delta=0.0001: Poisson per-round eps=7.275; final-model exact: law 11.777 vs Poisson-count 6.820 (ratio 1.73) [4s]
+== markov0.9: sampling 3000000 per grid point (4 points) [4s]
+  samples 625000/3000000 [694s]
+  samples 1250000/3000000 [1357s]
+  samples 1875000/3000000 [2042s]

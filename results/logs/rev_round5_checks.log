@@ -1,0 +1,8 @@
+(1) count law: sum 1.000000000000, mean 20.000000, variance 18.000000, D 0.900000; Binomial: mean 20.000000, variance 18.000000, D 0.900000
+    delta=0.0001: final-model eps, equal-dispersion law 23.0086; Binomial 2.6888; ratio 8.56
+    delta=1e-05: final-model eps, equal-dispersion law 31.4378; Binomial 3.1534; ratio 9.97
+(2) T = 2, q = 1/2, a = 0.5: hockey-stick divergences, random allocation vs independent participation
+    eps=0.0: allocation H(P||Q) 0.1440283  H(Q||P) 1.440e-01 | independent H(P||Q) 0.1397986  H(Q||P) 1.398e-01
+    eps=0.5: allocation H(P||Q) 0.0183266  H(Q||P) 1.740e-02 | independent H(P||Q) 0.0235572  H(Q||P) 7.854e-03
+    eps=1.0: allocation H(P||Q) 0.0006461  H(Q||P) 4.790e-04 | independent H(P||Q) 0.0020439  H(Q||P) 4.908e-07
+    eps=2.0: allocation H(P||Q) 0.0000000  H(Q||P) 1.943e-09 | independent H(P||Q) 0.0000029  H(Q||P) 0.000e+00

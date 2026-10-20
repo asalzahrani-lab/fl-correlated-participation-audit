@@ -1,0 +1,7 @@
+assumed_lambda,estimator,mean,sd,coverage_vs_true,flag_poisson
+0.8,path_aware,3.506,0.843,1.000,0.750
+0.8,count_cond,2.648,0.511,1.000,0.330
+0.9,path_aware,6.334,1.649,1.000,1.000
+0.9,count_cond,4.277,1.051,1.000,0.950
+0.95,path_aware,11.208,2.684,0.650,1.000
+0.95,count_cond,8.801,2.354,0.900,1.000

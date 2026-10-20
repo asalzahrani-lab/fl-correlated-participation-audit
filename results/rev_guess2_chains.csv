@@ -1,0 +1,9 @@
+law,score,audited_release,R,mean,sd,min,max,target,recovery,above_target,flags
+markov,sum,secret path X,120,0.673,0.128,0.356,1.047,11.869,0.057,0,0
+markov,marginal,secret path X,120,0.908,0.131,0.619,1.267,11.869,0.076,0,0
+markov,path,"joint (B,X)",120,2.515,0.095,2.231,2.707,22.157,0.114,0,0
+iid,sum,secret path X,120,0.754,0.123,0.435,0.995,2.869,0.263,0,0
+iid,marginal,secret path X,120,0.819,0.130,0.496,1.155,2.869,0.286,0,0
+iid,path,"joint (B,X)",120,2.591,0.105,2.287,2.872,11.379,0.228,0,1
+cap_1000_correct_bonferroni8,3.743
+cap_1000_correct_single_k,5.529

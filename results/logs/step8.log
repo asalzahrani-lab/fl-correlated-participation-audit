@@ -1,0 +1,9 @@
+table lambda=0.8: eps(0.5)=6.43 [79s]
+table lambda=0.9: eps(0.5)=11.97 [158s]
+table lambda=0.95: eps(0.5)=20.24 [235s]
+assumed lambda=0.8 path_aware : 3.51±0.84 coverage=1.000 flag=0.75
+assumed lambda=0.8 count_cond : 2.65±0.51 coverage=1.000 flag=0.33
+assumed lambda=0.9 path_aware : 6.33±1.65 coverage=1.000 flag=1.00
+assumed lambda=0.9 count_cond : 4.28±1.05 coverage=1.000 flag=0.95
+assumed lambda=0.95 path_aware : 11.21±2.68 coverage=0.650 flag=1.00
+assumed lambda=0.95 count_cond : 8.80±2.35 coverage=0.900 flag=1.00

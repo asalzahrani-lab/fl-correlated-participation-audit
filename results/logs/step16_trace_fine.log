@@ -1,0 +1,8 @@
+trace law: 13728 paths, q=0.0471, count mean 9.41 var 200.61 [8s]
+delta=1e-05: Poisson per-round eps=1.460; final-model exact: law 8.496 vs Poisson-count 1.359 (ratio 6.25) [9s]
+delta=0.0001: Poisson per-round eps=1.218; final-model exact: law 5.841 vs Poisson-count 1.133 (ratio 5.16) [9s]
+== trace_cohort0.6: sampling 3000000 per grid point (15 points) [9s]
+  samples 100000/3000000 [677s]
+  samples 200000/3000000 [1344s]
+  samples 300000/3000000 [2198s]
+  samples 400000/3000000 [2870s]

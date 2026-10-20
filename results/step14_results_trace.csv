@@ -1,0 +1,5 @@
+law,reference_plain_eps_2M,poisson_eps_same_q,estimator,R,mean,sd,recovery,false_flag_rate_vs_ref,flag_poisson
+trace_cohort0.6,10.3656,1.2177,merged_bern_0.01grid,120,7.2699,0.8101,0.701,0.000,1.000
+trace_cohort0.6,10.3656,1.2177,step_0.01grid_a045,120,6.3788,0.7826,0.615,0.000,1.000
+trace_cohort0.6,10.3656,1.2177,old_certified,120,5.3783,1.1692,0.519,0.000,1.000
+trace_cohort0.6,10.3656,1.2177,plain_v2,120,8.2070,0.8468,0.792,0.008,1.000

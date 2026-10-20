@@ -1,0 +1,10 @@
+round_min,T,windows,D,ratio_1e-4,ratio_1e-5,n_windows
+10,200,non-overlapping,21.83,6.105,7.417,1144
+10,200,stride 10,21.31,5.157,6.254,13728
+5,100,non-overlapping,21.66,9.878,12.288,5346
+5,200,non-overlapping,29.09,8.113,9.163,2430
+5,300,non-overlapping,32.93,9.370,11.268,1458
+5,400,non-overlapping,41.09,10.000,11.444,972
+5,500,non-overlapping,47.11,7.602,8.491,972
+5,576,non-overlapping,49.32,6.553,7.188,972
+5,1000,non-overlapping,76.50,7.546,7.857,486

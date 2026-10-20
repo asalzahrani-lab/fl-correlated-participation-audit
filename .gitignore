@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+trace/state_traces.json
+trace/_flash/
+data/fmnist/
+data/mnist/
+src/step20_parts/
+

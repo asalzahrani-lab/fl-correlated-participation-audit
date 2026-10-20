@@ -1,0 +1,22 @@
+T=200 iid 0.0 tmix=1 var=18.0 dK=4.1e-05 delta=0.001: full=2.317 sum=2.157 poisson=2.303 schema(k=34)=12.583  [31s]
+T=200 iid 0.0 tmix=1 var=18.0 dK=4.1e-05 delta=0.0001: full=2.869 sum=2.689 poisson=2.866 schema(k=34)=14.452  [32s]
+T=200 markov 0.3 tmix=2 var=33.3 dK=1.8e-04 delta=0.001: full=2.443 sum=2.253 poisson=2.303 schema(k=41)=14.323  [63s]
+T=200 markov 0.3 tmix=2 var=33.3 dK=1.8e-04 delta=0.0001: full=3.084 sum=2.836 poisson=2.866 schema(k=41)=16.372  [63s]
+T=200 markov 0.6 tmix=3 var=71.3 dK=8.6e-04 delta=0.001: full=3.007 sum=2.517 poisson=2.303 schema(k=52)=16.924  [96s]
+T=200 markov 0.6 tmix=3 var=71.3 dK=8.6e-04 delta=0.0001: full=3.920 sum=3.254 poisson=2.866 schema(k=52)=19.225  [97s]
+T=200 markov 0.9 tmix=13 var=325.8 dK=1.2e-02 delta=0.001: full=8.489 sum=5.453 poisson=2.303 schema(k=102)=27.595  [127s]
+T=200 markov 0.9 tmix=13 var=325.8 dK=1.2e-02 delta=0.0001: full=12.082 sum=8.304 poisson=2.866 schema(k=102)=31.530  [127s]
+T=200 markov 0.97 tmix=43 var=988.4 dK=5.9e-02 delta=0.001: full=21.044 sum=19.001 poisson=2.303 schema(k=186)=44.323  [158s]
+T=200 markov 0.97 tmix=43 var=988.4 dK=5.9e-02 delta=0.0001: full=28.233 sum=27.122 poisson=2.866 schema(k=186)=48.610  [158s]
+T=200 minsep 2 tmix=2 var=11.2 dK=6.0e-06 delta=0.001: full=2.273 sum=2.117 poisson=2.303 schema(k=30)=11.549  [192s]
+T=200 minsep 2 tmix=2 var=11.2 dK=6.0e-06 delta=0.0001: full=2.789 sum=2.628 poisson=2.866 schema(k=30)=13.307  [193s]
+T=200 minsep 5 tmix=8 var=4.1 dK=3.4e-06 delta=0.001: full=2.253 sum=2.076 poisson=2.303 schema(k=26)=10.479  [235s]
+T=200 minsep 5 tmix=8 var=4.1 dK=3.4e-06 delta=0.0001: full=2.787 sum=2.567 poisson=2.866 schema(k=26)=12.119  [236s]
+Traceback (most recent call last):
+  File "/home/claude/p3_pilot/pilot_a.py", line 30, in <module>
+    P, pi, emit = minsep_chain(q, int(par))
+                  ~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/claude/p3_pilot/corraudit.py", line 50, in minsep_chain
+    assert 0 < p <= 1, "q*b must be < 1 - q... choose smaller b or q"
+           ^^^^^^^^^^
+AssertionError: q*b must be < 1 - q... choose smaller b or q
