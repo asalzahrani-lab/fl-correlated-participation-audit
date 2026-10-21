@@ -1,0 +1,11 @@
+pr_lo_0.0001                 max |v9 - v8| 1.107e-08  mean -2.356e-10
+pr_lo_1e-05                  max |v9 - v8| 6.542e-09  mean -8.489e-10
+pr_hi_0.0001                 max |v9 - v8| 3.147e-09  mean -4.236e-10
+pr_hi_1e-05                  max |v9 - v8| 3.423e-09  mean -4.682e-10
+pr_expw_lo_0.0001            max |v9 - v8| 1.107e-08  mean -2.692e-10
+max_coarse_unrefined_0.0001  max |v9 - v8| 3.194e-09  mean -3.811e-10
+thm3_0.0001                  max |v9 - v8| 0.000e+00  mean +0.000e+00
+thm3_1e-05                   max |v9 - v8| 0.000e+00  mean +0.000e+00
+fm_0.0001                    max |v9 - v8| 0.000e+00  mean +0.000e+00
+fm_1e-05                     max |v9 - v8| 0.000e+00  mean +0.000e+00
+same worst window 572 of 572; same number of refined windows 572 of 572; all certificates hold: True
