@@ -1,0 +1,14 @@
+column,max_abs_change,mean_change
+pr_lo_0.0001,1.107e-08,-2.356e-10
+pr_lo_1e-05,6.542e-09,-8.489e-10
+pr_hi_0.0001,3.147e-09,-4.236e-10
+pr_hi_1e-05,3.423e-09,-4.682e-10
+pr_expw_lo_0.0001,1.107e-08,-2.692e-10
+max_coarse_unrefined_0.0001,3.194e-09,-3.811e-10
+thm3_0.0001,0.000e+00,+0.000e+00
+thm3_1e-05,0.000e+00,+0.000e+00
+fm_0.0001,0.000e+00,+0.000e+00
+fm_1e-05,0.000e+00,+0.000e+00
+same_worst_window,572,572
+same_n_refined,572,572
+all_certified,1,
