@@ -29,7 +29,7 @@ docstrings).
 
 ## 1. Version identity
 
-This is release **v8**. It matches **TIFS v8** (main text and Supplementary Material) and the **extended version v13**
+This is release **v9**. It matches **TIFS v9** (main text and Supplementary Material) and the **extended version v14**
 (`VERSION.md`).
 
 The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`).
@@ -69,9 +69,13 @@ last run with Python 3.13.16 and the same library versions.
 ## 3. PLD certification (per-device lower end)
 
 - **Script.** `rev_peruser_exact2.py`. The docstring states the construction.
-  - The optimistic estimate of `dp_accounting` (privacy buckets: rounding down, truncated mass dropped) is a lower
-    estimate of ε(δ). It is the published lower end, at discretisation 1e-3.
-  - The pessimistic estimate (connect-the-dots: rounding up, truncated mass added to δ) is an upper estimate.
+  - The optimistic estimate of `dp_accounting` (privacy buckets: rounding down), with every composition run with
+    `tail_mass_truncation=0` so that no mass is truncated or added to the infinity mass, is a lower estimate of ε(δ) for
+    the mechanism with the rates as computed (grouped exactly, no rounding). It is the published lower end, at
+    discretisation 1e-3. (Release v8 rounded the rates to 9 decimals and used the library default 1e-15, which
+    dp-accounting 0.6.0 adds to the infinity mass even in optimistic mode; the change is at most 1.1e-8, section 7.)
+  - The pessimistic estimate (connect-the-dots: rounding up, truncated tail mass added to the infinity mass) is an
+    upper estimate.
 - **Per-device values.** `results/rev_peruser_exact2_devices.csv`: columns `pr_lo_<δ>` (optimistic) and `pr_hi_<δ>`
   (pessimistic). The largest gap is 0.100 over the 402 devices.
 - **Worst device refined.** Device 335 recomputed at discretisation 1e-4 gives [27.067, 27.076] at δ = 1e-4
@@ -127,7 +131,7 @@ last run with Python 3.13.16 and the same library versions.
   - The validity argument of the certified audit needs this independence: the table is fixed before, and independently
     of, the audit data.
 
-## 7. Seventh-round computations
+## 7. Seventh- and ninth-round computations
 
 - **Power at small violations.** `python rev_round7_audit_sens.py power 0.3` (and 0.6, 0.8; about 7 minutes each on one
   core). Output `rev_round7_audit_sens.csv`, rows with `mode` = power; per-audit estimates in
@@ -142,3 +146,8 @@ last run with Python 3.13.16 and the same library versions.
 - After the parts are written, `python rev_round7_audit_sens.py combine` collects them into `rev_round7_audit_sens.csv`.
 - `verify_claims.py`, section 7, re-derives every number of these computations quoted in the manuscripts and checks that
   their table and reference seeds (9101–9108, 9201–9208) are disjoint from their audit seeds (9301–9303, 9399).
+- **Ninth round (certificate implementation).** `rev_peruser_exact2.py` now groups the inclusion rates exactly and
+  runs every composition of the optimistic PLD with `tail_mass_truncation=0` (dp-accounting 0.6.0 otherwise truncates
+  1e-15 and, in `self_compose`, adds it to the infinity mass even in optimistic mode). `python rev_round9_compare.py` compares the regenerated outputs with the
+  v8 outputs (read from the repository's tag v8): largest change 1.1e-8, same windows and certificates.
+  `verify_claims.py`, section 8, checks the source and the comparison.

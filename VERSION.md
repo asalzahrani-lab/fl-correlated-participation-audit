@@ -1,8 +1,15 @@
 # Version
 
-Release **v8** (2026-10-18; documentation and checks updated 2026-10-20), matching the journal submission **TIFS v8** (main text and Supplementary Material) and the
-**extended version v13**. Earlier releases: v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
+Release **v9** (2026-10-21), matching the journal submission **TIFS v9** (main text and Supplementary Material) and the
+**extended version v14**. Earlier releases: v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
 v2 (TIFS v2 / v7).
+
+What changed in v9 (ninth internal pre-submission review, a code inspection): `rev_peruser_exact2.py` groups the per-round
+inclusion rates exactly (v8 rounded them to 9 decimals first) and composes the optimistic PLD, within a rate and across rates, with
+`tail_mass_truncation=0` (dp-accounting 0.6.0 applies a default truncation of 1e-15 in both compositions and adds it to
+the infinity mass in `self_compose` even in the optimistic mode), so the lower end of the per-device bracket is a lower estimate of the mechanism with the rates as
+computed; all per-device outputs were regenerated (`rev_peruser_exact2_*.csv`, log). The largest change in any per-device value is 1.1e-8 (none at the printed precision; worst windows, refinement counts and certificates unchanged; rev_round9_compare.py). The guarantee to report
+is now quoted as 28.3× (upper end 34.53) instead of the rounded-down 28×. No other computation changed.
 
 Review history. Every "review round" or "revision round" named in this package (file names `rev_*`, script docstrings,
 this file, README.md, PROVENANCE.md, REVIEWER_CHECKS.md) refers to internal pre-submission reviews of the manuscript;

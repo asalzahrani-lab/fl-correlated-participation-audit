@@ -94,6 +94,7 @@ for l in 0.3 0.6 0.8; do python3 rev_round7_audit_sens.py power $l; done        
 for l in 0.85 0.89 0.9 0.91 0.95; do python3 rev_round7_audit_sens.py misspec $l; done   # seventh round: misspecified law
 python3 rev_round7_audit_sens.py lamse && python3 rev_round7_audit_sens.py combine          # log-estimated law; collect
 python3 rev_round7_trace_sens.py                # seventh round: round length at a fixed horizon, device subsampling
+python3 rev_peruser_exact2.py && python3 rev_round9_compare.py   # ninth round: certificate fix (exact grouping, optimistic PLD with no tail truncation) and comparison with v8
 
 # Figures
 cd ../paper && python3 make_figures.py
