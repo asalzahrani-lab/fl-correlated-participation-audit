@@ -113,5 +113,11 @@
 [PASS] device subsample (458 of 572): max ratio 1e-4: 7.203 (paper 7.2, tolerance 0.005) <- rev_round7_trace_sens.csv
        seventh-round table/reference seeds: [9101, 9102, 9103, 9104, 9105, 9106, 9107, 9108, 9201, 9202, 9203, 9204, 9205, 9206, 9207, 9208]; audit seeds: [9301, 9302, 9303, 9399]
 [PASS] seventh-round audit data and certificate tables are drawn from disjoint seeds <- rev_round7_audit_sens.py
+== 8. Ninth-round checks (certificate implementation, Section VI-E)
+[PASS] inclusion rates are grouped exactly (np.unique on the values, no np.round) <- rev_peruser_exact2.py
+[PASS] optimistic PLD is composed with tail_mass_truncation=0 within and across rates <- rev_peruser_exact2.py
+[PASS] largest change of any per-device value against release v8 (1e-4 and 1e-5, both ends): 1.107e-08 (paper 0, tolerance 1e-07) <- rev_round9_compare.csv
+[PASS] worst windows, refinement counts and certificates unchanged <- rev_round9_compare.csv
+[PASS] upper end quoted as 28.3x (34.527 / 1.2189, not rounded down): 28.3 (paper 28.3, tolerance 0.001) <- rev_peruser_exact2_summary.csv
 
 ALL CHECKS PASSED
