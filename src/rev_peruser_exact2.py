@@ -3,8 +3,13 @@ rev_peruser_exact.py, but with a CERTIFIED numerical bracket and a certified win
 
 The per-round value of the observation model is the eps(delta) of the composition over the window of the scalar pairs
 with the exact inclusion rates A_it * min(1, K/pool_t).  dp_accounting's PLD gives two estimates of that value:
-  pessimistic (connect-the-dots, rounding up, truncated mass added to delta)   -> an UPPER estimate of eps(delta);
-  optimistic  (privacy buckets, rounding down, truncated mass dropped)         -> a LOWER estimate.
+  pessimistic (connect-the-dots, rounding up, truncated tail mass added to the infinity mass)  -> an UPPER estimate;
+  optimistic  (privacy buckets, rounding down, every composition with tail_mass_truncation=0)  -> a LOWER estimate.
+The rates are grouped exactly (np.unique on the float values; 49 distinct values K/pool_t over the 432-round run), with
+no rounding.  Release v8 rounded the rates to 9 decimals before grouping and used dp_accounting's default
+tail_mass_truncation=1e-15 (added to the infinity mass by self_compose even for the optimistic estimate in dp-accounting
+0.6.0, and applied in the cross-rate compose); release v9 removes both for the optimistic estimate (ninth internal
+review), which changes the values by about 1e-8.
 The published lower end of Proposition 2's bracket is therefore the OPTIMISTIC estimate at discretisation 1e-3
 (pr_lo); the pessimistic estimate (pr_hi) bounds the same quantity from above, and the gap is the numerical error.
 
@@ -37,11 +42,14 @@ def pld_eps(rates, deltas, disc, pessimistic):
     r = np.asarray(rates, float); r = r[r > 0]
     if len(r) == 0: return [0.0 for _ in deltas]
     pld = None
-    for val, cnt in zip(*np.unique(np.round(r, 9), return_counts=True)):
+    for val, cnt in zip(*np.unique(r, return_counts=True)):
         p = PLD.from_gaussian_mechanism(standard_deviation=SIGMA / C, sensitivity=1.0, pessimistic_estimate=pessimistic,
                                         value_discretization_interval=disc, sampling_prob=float(min(val, 1.0)),
-                                        use_connect_dots=pessimistic).self_compose(int(cnt))
-        pld = p if pld is None else pld.compose(p)
+                                        use_connect_dots=pessimistic)
+        # optimistic: no tail truncation in any composition, so the PMF is a lower estimate without an added infinity
+        # mass; pessimistic: the library default (truncated tail mass added to the infinity mass) is conservative.
+        p = p.self_compose(int(cnt), tail_mass_truncation=0.0) if not pessimistic else p.self_compose(int(cnt))
+        pld = p if pld is None else (pld.compose(p, tail_mass_truncation=0.0) if not pessimistic else pld.compose(p))
     return [pld.get_epsilon_for_delta(d) for d in deltas]
 
 

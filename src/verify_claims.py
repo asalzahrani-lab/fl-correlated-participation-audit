@@ -1,6 +1,6 @@
 """Reviewer check: re-derive every headline number of the paper from the stored outputs in ../results/ and print
 PASS / FAIL for each.  No heavy computation is repeated (that is what the generating scripts are for); this script
-checks that the numbers in the manuscripts (TIFS v8 main + supplement, extended v13) follow from the files that the
+checks that the numbers in the manuscripts (TIFS v9 main + supplement, extended v14) follow from the files that the
 generating scripts wrote, and that the random streams that generate the certificate tables are disjoint from those
 that generate the audit data.  Runs in a few seconds:  cd src && python verify_claims.py
 Exit status 0 if every check passes."""
@@ -210,6 +210,16 @@ aud7 = {base(r"alo = audits\(lam, (\d{4}) \+ K") + K7[l] for l in (0.3, 0.6, 0.8
 print(f"       seventh-round table/reference seeds: {sorted(tab7)}; audit seeds: {sorted(aud7)}")
 check_true("seventh-round audit data and certificate tables are drawn from disjoint seeds", tab7.isdisjoint(aud7) and len(aud7) == 4 and len(tab7) == 16,
            "rev_round7_audit_sens.py")
+
+print("== 8. Ninth-round checks (certificate implementation, Section VI-E)")
+s9 = open(os.path.join(HERE, "rev_peruser_exact2.py")).read()
+check_true("inclusion rates are grouped exactly (np.unique on the values, no np.round)", "np.unique(r, return_counts=True)" in s9 and "np.round(r" not in s9, "rev_peruser_exact2.py")
+check_true("optimistic PLD is composed with tail_mass_truncation=0 within and across rates", "self_compose(int(cnt), tail_mass_truncation=0.0) if not pessimistic" in s9 and "pld.compose(p, tail_mass_truncation=0.0) if not pessimistic" in s9, "rev_peruser_exact2.py")
+cmp9 = {r[0]: r for r in csv.reader(open(os.path.join(RES, "rev_round9_compare.csv")))}
+check("largest change of any per-device value against release v8 (1e-4 and 1e-5, both ends)", max(float(cmp9[c][1]) for c in ("pr_lo_0.0001", "pr_lo_1e-05", "pr_hi_0.0001", "pr_hi_1e-05")), 0, 1e-7, "rev_round9_compare.csv")
+check_true("worst windows, refinement counts and certificates unchanged", cmp9["same_worst_window"][1] == cmp9["same_worst_window"][2] and cmp9["same_n_refined"][1] == cmp9["same_n_refined"][2] and cmp9["all_certified"][1] == "1", "rev_round9_compare.csv")
+hi9 = one("rev_peruser_exact2_summary.csv", quantity="thm3", delta="0.0001")
+check("upper end quoted as 28.3x (34.527 / 1.2189, not rounded down)", round(float(hi9["max"]) / float(hi9["reference"]), 1), 28.3, 0.001, "rev_peruser_exact2_summary.csv")
 
 print(f"\n{'ALL CHECKS PASSED' if fails == 0 else f'{fails} CHECK(S) FAILED'}")
 sys.exit(1 if fails else 0)
