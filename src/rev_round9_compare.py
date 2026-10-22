@@ -6,12 +6,17 @@ otherwise from the repository's tag v8 (git show v8:results/rev_peruser_exact2_d
 import csv, io, os, subprocess, numpy as np
 RES = os.environ.get("P3_RESULTS", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results"))
 RES = RES if os.path.isdir(RES) else "."
-p8 = os.path.join(RES, "rev_peruser_exact2_devices_v8.csv")
+p8 = os.path.normpath(os.path.join(RES, "rev_peruser_exact2_devices_v8.csv"))
 if os.path.exists(p8):
     old_f = open(p8)
 else:
-    old_f = io.StringIO(subprocess.run(["git", "show", "v8:results/rev_peruser_exact2_devices.csv"], capture_output=True, text=True, check=True,
-                                       cwd=os.path.dirname(os.path.abspath(__file__))).stdout)
+    r = subprocess.run(["git", "show", "v8:results/rev_peruser_exact2_devices.csv"], capture_output=True, text=True,
+                       cwd=os.path.dirname(os.path.abspath(__file__)))
+    if r.returncode != 0:
+        raise SystemExit("rev_round9_compare.py needs the release-v8 table: run it in a full clone with tag v8 (git fetch --tags; "
+                         "a shallow clone or a zip download has no tags), or save results/rev_peruser_exact2_devices.csv from "
+                         "release v8 as " + p8 + ".")
+    old_f = io.StringIO(r.stdout)
 old = {r["device"]: r for r in csv.DictReader(old_f)}
 new = {r["device"]: r for r in csv.DictReader(open(os.path.join(RES, "rev_peruser_exact2_devices.csv")))}
 rows = []
