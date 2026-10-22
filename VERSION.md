@@ -11,6 +11,8 @@ the infinity mass in `self_compose` even in the optimistic mode), so the lower e
 computed; all per-device outputs were regenerated (`rev_peruser_exact2_*.csv`, log). The largest change in any per-device value is 1.1e-8 (none at the printed precision; worst windows, refinement counts and certificates unchanged; rev_round9_compare.py). The guarantee to report
 is now quoted as 28.3× (upper end 34.53) instead of the rounded-down 28×. No other computation changed.
 
+Post-release documentation fixes on `main` (2026-10-22; no code path, result or number changed, tag v9 unchanged): `PROVENANCE.md` no longer names an internal runner script that is not in the release (`rev_run_train.sh` runs both training batches); `README.md` and `rev_round9_compare.py` state that the comparison with v8 needs tag v8 (a full clone) and stop with that message instead of a traceback.
+
 Review history. Every "review round" or "revision round" named in this package (file names `rev_*`, script docstrings,
 this file, README.md, PROVENANCE.md, REVIEWER_CHECKS.md) refers to internal pre-submission reviews of the manuscript;
 the manuscript has not been submitted to a journal before. "TIFS vN" and "extended vN" are internal draft labels.
