@@ -1,5 +1,5 @@
 """Round 3: regenerate the position-(b) rows of Tables XI / S5 / TIFS VI and the bracket column of Tables XII / S6 from
-rev_peruser_exact2_*.csv (lower end = optimistic PLD estimate), and patch the three .tex files in place.
+rev_peruser_exact2_*.csv (lower end = optimistic PLD estimate), and, with --patch FILE..., patch the given manuscript .tex files in place.
 Also fills the [[GAPMAX]] and [[NREF]] placeholders."""
 import csv, re, sys
 import numpy as np
@@ -34,7 +34,12 @@ if "--patch" in sys.argv:
            1e-5: ["(b) availability, FM & 2.46 & 8.54 & 26.38 & 19.4 & 67\\% & 10\\% \\\\",
                   "(b) availability, PR lower & 8.39 & 16.32 & 29.72 & 20.3 & 99\\% & 12\\% \\\\",
                   "(b) availability, PR upper & 10.93 & 20.90 & 37.67 & 25.8 & 100\\% & 28\\% \\\\"]}
-    for f in ["/home/claude/p3_paper/sec5_grounding.tex", "/home/claude/p3_paper_tifs/t6_grounding.tex", "/home/claude/p3_paper_tifs/supp_body.tex"]:
+    # the manuscript sources are not part of this release: pass them on the command line,
+    # e.g. python3 rev_peruser_rows.py --patch sec5_grounding.tex t6_grounding.tex supp_body.tex response_to_reviewers.tex
+    texfiles = sys.argv[sys.argv.index("--patch") + 1:]
+    if not texfiles:
+        raise SystemExit("--patch needs the .tex files to patch (the manuscript sources are not in this release)")
+    for f in texfiles:
         s = open(f).read()
         for d in (1e-4, 1e-5):
             for o, n in zip(old[d], rows[d]):
@@ -43,6 +48,4 @@ if "--patch" in sys.argv:
             s = re.sub(rf"(^{i} & [0-9.]+ & [0-9.]+ & [0-9.]+ \$\[[0-9.,]+\]\$ & [0-9.]+ & )\[[0-9., ]+\]", lambda m: m.group(1) + b, s, flags=re.M)
         s = s.replace("[[GAPMAX]]", f"{gapmax:.2f}").replace("[[NREF]]", f"{nref:.1f}")
         open(f, "w").write(s)
-    for f in ["/home/claude/p3_paper/response_to_reviewers.tex"]:
-        s = open(f).read().replace("[[GAPMAX]]", f"{gapmax:.2f}").replace("[[NREF]]", f"{nref:.1f}"); open(f, "w").write(s)
     print("patched")
