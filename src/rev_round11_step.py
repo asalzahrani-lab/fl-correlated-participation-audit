@@ -1,8 +1,9 @@
 """Revision round 11 (internal review of v10): the step-function column of Table III under the current protocol.
 
-Earlier releases took the step-function entries of Table III from older runs (step 14, confidence limits at level
-alpha_est/2, a 0.05 grid).  This script recomputes them with the protocol of every other column: the same 120 audit data
-sets per law (step19_rerun_audits.py, seed 1919; the cyclic law from rev_round10_cyclic.py), the same lower limit
+Earlier releases took the step-function entries of Table III from the old-protocol column of step 14 (its own 120
+audits per law, an alpha split of 0.025/0.025 instead of 0.045/0.005, and a 0.05 grid floor instead of 0.01).  This
+script recomputes them with the protocol of every other column: the same 120 audit data sets per law
+(step19_rerun_audits.py, seed 1919; the cyclic law from rev_round10_cyclic.py), the same lower limit
 a_lo (alpha_est = 0.045), the same grid and floor rule, and a step-function (Clopper-Pearson) certificate at
 alpha_mc = 0.005 computed from the same Monte-Carlo samples as the KL-certified entries.
 
@@ -14,10 +15,12 @@ Stage "table" (python rev_round11_step.py table markov|trace [grid indices, e.g.
   the grid points it is given, so the grid can be split over processes; the parts are concatenated into
   rev_round11_step_table_<law>.csv (stage "join").
 Stage "apply" (python rev_round11_step.py apply):
-  merges the step-function tables exactly as step19_rerun_audits.py merges the KL tables (step 14, 2M samples, below
-  the step-16 grid; step 16 on its grid), recovers each audit's grid point from its stored certified value (the
-  certified table is strictly increasing in a, so the value identifies the grid point read), reads the step-function
-  value at that grid point, and writes rev_round11_step_results.csv (one row per law at delta = 1e-4)."""
+  merges the step-function tables exactly as step19_rerun_audits.py merges the KL tables (step 14, 2M samples, on the
+  0.01 grid; step 16 overrides it on its own grid points), recovers each audit's grid point from its stored certified
+  value (the merged KL values are distinct, so the value identifies the grid point read; the merged trace table is not
+  monotone where the two tables meet at 0.50/0.51, 10.2394 against 10.2388, each entry being certified on its own),
+  reads the step-function value at that grid point, and writes rev_round11_step_results.csv (one row per law at
+  delta = 1e-4)."""
 import numpy as np, csv, time, sys, json, os
 sys.path.insert(0, os.environ.get("P3_TRACE", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "trace")))
 
@@ -156,7 +159,7 @@ elif stage == "apply":
             p_kl.append(([r["a"] for r in t16[w]], [r["eps_cert_1e-4"] for r in t16[w]]))
             p_st.append(([r["a"] for r in s16[w]], [r["eps_step_1e-4"] for r in s16[w]]))
         kl[w] = merged(p_kl); st[w] = merged(p_st)
-        assert np.array_equal(kl[w][0], st[w][0]) and np.all(np.diff(kl[w][1]) > 0)
+        assert np.array_equal(kl[w][0], st[w][0]) and len(set(np.round(kl[w][1], 4))) == len(kl[w][1])
     aud = np.load(os.path.join(RES, "step19_audits.npz"))
     refs = {"markov": 11.869, "iid": 2.8662, "trace": 10.685}
     claims = {"markov": 2.8662, "iid": 2.8662, "trace": 1.2177}
