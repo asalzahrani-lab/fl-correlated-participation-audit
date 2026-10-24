@@ -1,6 +1,6 @@
 """Reviewer check: re-derive every headline number of the paper from the stored outputs in ../results/ and print
 PASS / FAIL for each.  No heavy computation is repeated (that is what the generating scripts are for); this script
-checks that the numbers in the manuscripts (TIFS v9 main + supplement, extended v14) follow from the files that the
+checks that the numbers in the manuscripts (TIFS v10 main + supplement, extended v15) follow from the files that the
 generating scripts wrote, and that the random streams that generate the certificate tables are disjoint from those
 that generate the audit data.  Runs in a few seconds:  cd src && python verify_claims.py
 Exit status 0 if every check passes."""
@@ -98,7 +98,8 @@ check("its upper 99% limit", float(t20["ratio_hi"]), 1.13, 0.005, "rev_refs_time
 
 print("== 4. Audits (abstract, Sections V-E, V-F)")
 sim = rows("step19_results.csv")
-cert = [r for r in sim if r["estimator"].startswith("cert")]
+cyc = rows("rev_round10_cyclic_results.csv")          # tenth round: the certified audit on the cyclic law (Table III)
+cert = [r for r in sim if r["estimator"].startswith("cert")] + [dict(r, law="cyclic") for r in cyc if r["estimator"].startswith("cert")]
 t1k = [r for f in ("step16_results_markov_T1000.csv", "step16_results_trace_T1000.csv") for r in rows(f) if r["estimator"].startswith("cert")]
 recs = [float(r["recovery"]) for r in cert + t1k]
 check("lowest certified recovery", min(recs), 0.74, 0.005, "step19_results.csv, step16_results_*_T1000.csv")
@@ -122,19 +123,19 @@ rv_above = sum(int(r["above_ref"]) for r in rv)
 n_mk = sum(r["process"] == "markov" for r in tr) + sum(r["law"] == "markov" for r in rv)
 n_ii = sum(r["process"] == "iid" for r in tr) + sum(r["law"] == "iid" for r in rv)
 check("training runs", len(tr) + len(rv), 274, 0, "fl_mlp*_results.csv, rev_train_*.csv")
-check("all certified audit evaluations", n_corr + n_iid + len(tr) + len(rv), 1354, 0, "step19, step16 T=1000, training files")
+check("all certified audit evaluations", n_corr + n_iid + len(tr) + len(rv), 1594, 0, "step19, rev_round10_cyclic, step16 T=1000, training files")
 check("estimates above the reference", above + fl_above + rv_above, 0, 0, "same files")
-check("violated claims flagged", flags + fl_flags + rv_flags, 1176, 0, f"same files (of {n_corr + n_mk})")
-check("violated claims tested", n_corr + n_mk, 1177, 0, "same files")
+check("violated claims flagged", flags + fl_flags + rv_flags, 1416, 0, f"same files (of {n_corr + n_mk})")
+check("violated claims tested", n_corr + n_mk, 1417, 0, "same files")
 check("correct claims flagged", false + fl_false + rv_false, 0, 0, f"same files (of {n_iid + n_ii})")
 check("correct claims tested", n_iid + n_ii, 177, 0, "same files")
 # independent data sets: each simulated data set on a correlated law is certified at both delta (one audit stream per
 # law and horizon: step19_rerun_audits.py seed 1919, step20b_parts.py seeds 4041/4042), so count the delta = 1e-4 rows only
 s_corr = sum(int(r["R"]) for r in cert if float(r["delta"]) == 1e-4 and r["law"] != "iid") + sum(int(r["R"]) for r in t1k if float(r["delta"]) == 1e-4)
 s_flags = sum(int(r["n_above_poisson"]) for r in cert if float(r["delta"]) == 1e-4 and r["law"] != "iid") + sum(int(r["n_above_poisson"]) for r in t1k if float(r["delta"]) == 1e-4)
-check("independent audit data sets (abstract, Sections I, V-E, VII)", s_corr + n_iid + len(tr) + len(rv), 874, 0, "same files, delta = 1e-4 rows")
-check("violated claims flagged, independent data sets", s_flags + fl_flags + rv_flags, 696, 0, f"same files (of {s_corr + n_mk})")
-check("violated claims tested, independent data sets", s_corr + n_mk, 697, 0, "same files")
+check("independent audit data sets (abstract, Sections I, V-E, VII)", s_corr + n_iid + len(tr) + len(rv), 994, 0, "same files, delta = 1e-4 rows")
+check("violated claims flagged, independent data sets", s_flags + fl_flags + rv_flags, 816, 0, f"same files (of {s_corr + n_mk})")
+check("violated claims tested, independent data sets", s_corr + n_mk, 817, 0, "same files")
 ts_ = rows("rev_train_summary.csv")
 check("training, lowest configuration-mean recovery (Section VII: 73 to 93%)", min(float(r["recovery"]) for r in ts_), 0.73, 0.005, "rev_train_summary.csv")
 k5 = [float(r["merged_certified"]) / 2.866 for r in rows("fl_mlp_5k_results.csv") if r["process"] == "iid"]
@@ -220,6 +221,87 @@ check("largest change of any per-device value against release v8 (1e-4 and 1e-5,
 check_true("worst windows, refinement counts and certificates unchanged", cmp9["same_worst_window"][1] == cmp9["same_worst_window"][2] and cmp9["same_n_refined"][1] == cmp9["same_n_refined"][2] and cmp9["all_certified"][1] == "1", "rev_round9_compare.csv")
 hi9 = one("rev_peruser_exact2_summary.csv", quantity="thm3", delta="0.0001")
 check("upper end quoted as 28.3x (34.527 / 1.2189, not rounded down)", round(float(hi9["max"]) / float(hi9["reference"]), 1), 28.3, 0.001, "rev_peruser_exact2_summary.csv")
+
+print("== 10. Tenth-round checks (smaller delta, cyclic audit, erasure, canaries)")
+sd = {(r["law"], r["delta"]): r for r in rows("rev_round10_small_delta.csv")}
+for law, d, col, val, tol in (("chain0.9_T200", "0.0001", "sum_stat_ratio", 3.09, 0.005), ("trace_T200", "0.0001", "sum_stat_ratio", 5.16, 0.005),
+                              ("trace_T200", "0.0001", "thm2_over_poisson", 16.4, 0.05), ("chain0.9_T200", "1e-08", "sum_stat_ratio", 4.93, 0.005),
+                              ("trace_T200", "1e-08", "sum_stat_ratio", 7.91, 0.005), ("chain0.9_T200", "1e-10", "sum_stat_ratio", 5.58, 0.005),
+                              ("trace_T200", "1e-10", "sum_stat_ratio", 8.37, 0.005), ("trace_T1000", "0.0001", "thm2_over_poisson", 20.8, 0.05),
+                              ("trace_T1000", "1e-10", "thm2_over_poisson", 17.6, 0.05)):
+    check(f"{law} {col} at delta={d}", float(sd[(law, d)][col]), val, tol, "rev_round10_small_delta.csv")
+DS = ("0.0001", "1e-05", "1e-06", "1e-08", "1e-10")
+v = [float(sd[("chain0.9_T200", d)]["thm2_over_poisson"]) for d in DS]
+check_true("chain, T = 200: Theorem 2 / Poisson rises at every step from 1e-4 to 1e-10", all(v[k + 1] > v[k] for k in range(4)), "rev_round10_small_delta.csv")
+check("chain, T = 200: Theorem 2 / Poisson at 1e-4 (7.7; supplement 7.73)", v[0], 7.73, 0.005, "rev_round10_small_delta.csv")
+check("chain, T = 200: Theorem 2 / Poisson at 1e-10 (8.6; supplement 8.64)", v[-1], 8.64, 0.005, "rev_round10_small_delta.csv")
+v = [float(sd[("trace_T200", d)]["thm2_over_poisson"]) for d in DS]
+check("trace, T = 200: smallest Theorem 2 / Poisson over 1e-4..1e-10 (16.3; supplement 16.27)", min(v), 16.27, 0.005, "rev_round10_small_delta.csv")
+check("trace, T = 200: largest Theorem 2 / Poisson over 1e-4..1e-10 (16.7; supplement 16.74)", max(v), 16.74, 0.005, "rev_round10_small_delta.csv")
+v = [float(sd[("trace_T1000", d)]["sum_stat_ratio"]) for d in DS]
+check("trace, T = 1,000: final-model ratio at 1e-4", v[0], 7.31, 0.005, "rev_round10_small_delta.csv")
+check("trace, T = 1,000: final-model ratio at 1e-8 (levels off at 7.9)", v[3], 7.87, 0.005, "rev_round10_small_delta.csv")
+check("trace, T = 1,000: final-model ratio at 1e-10", v[4], 7.86, 0.005, "rev_round10_small_delta.csv")
+check_true("numerical checks of the small-delta file (finer PLD, finer grid) below 1e-4", all(float(r["check_pld_finer"]) < 1e-4 and float(r["check_grid_finer"]) < 1e-4 for r in sd.values()),
+           "rev_round10_small_delta.csv")
+pol = rows("rev_round10_small_delta_policies.csv"); ds = ["0.0001", "1e-05", "1e-06", "1e-08", "1e-10"]
+check_true("every policy's final-model ratio grows as delta falls from 1e-4 to 1e-10", all(all(float(r[f"sum_stat_ratio_{ds[k + 1]}"]) > float(r[f"sum_stat_ratio_{ds[k]}"]) for k in range(4)) for r in pol),
+           "rev_round10_small_delta_policies.csv")
+ta = [r for r in pol if r["policy"] == "take all available"][0]
+check("take-all final-model ratio at 1e-10", float(ta["sum_stat_ratio_1e-10"]), 12.4, 0.05, "rev_round10_small_delta_policies.csv")
+cr = {r["delta"]: r for r in rows("rev_round10_cyclic_reference.csv")}
+check("cyclic per-round reference at 1e-4 (20M samples)", float(cr["0.0001"]["eps"]), 7.94, 0.005, "rev_round10_cyclic_reference.csv")
+check("... lower 99% limit", float(cr["0.0001"]["lo99"]), 7.89, 0.005, "rev_round10_cyclic_reference.csv")
+check("... upper 99% limit", float(cr["0.0001"]["hi99"]), 7.98, 0.005, "rev_round10_cyclic_reference.csv")
+check("cyclic reference at 1e-5", float(cr["1e-05"]["eps"]), 9.19, 0.005, "rev_round10_cyclic_reference.csv")
+check("... lower 99% limit at 1e-5", float(cr["1e-05"]["lo99"]), 9.07, 0.005, "rev_round10_cyclic_reference.csv")
+check("... upper 99% limit at 1e-5", float(cr["1e-05"]["hi99"]), 9.33, 0.005, "rev_round10_cyclic_reference.csv")
+check("cyclic per-round ratio at 1e-4 (falls ...)", float(cr["0.0001"]["ratio"]), 2.77, 0.005, "rev_round10_cyclic_reference.csv")
+check("... to 1e-5", float(cr["1e-05"]["ratio"]), 2.74, 0.005, "rev_round10_cyclic_reference.csv")
+cy = {r["estimator"]: r for r in cyc}
+check("cyclic certified audit, mean at 1e-4", float(cy["cert_1e-4"]["mean"]), 7.16, 0.005, "rev_round10_cyclic_results.csv")
+check("cyclic certified audit, recovery at 1e-4", float(cy["cert_1e-4"]["recovery"]), 0.90, 0.005, "rev_round10_cyclic_results.csv")
+check("cyclic certified audit, flags of 120 at 1e-4 and 1e-5", int(cy["cert_1e-4"]["n_above_poisson"]) + int(cy["cert_1e-5"]["n_above_poisson"]), 240, 0, "rev_round10_cyclic_results.csv")
+check("cyclic certified audit, estimates above the reference", int(cy["cert_1e-4"]["n_above_reference"]) + int(cy["cert_1e-5"]["n_above_reference"]), 0, 0, "rev_round10_cyclic_results.csv")
+unc = sum(int(r["n_above_reference"]) for r in sim if r["estimator"] == "v2_1e-4") + int(cy["v2_1e-4"]["n_above_reference"])
+check("uncertified estimates above the reference at 1e-4, four laws (11 of 480)", unc, 11, 0, "step19_results.csv, rev_round10_cyclic_results.csv")
+c1k = {r["delta"]: r for r in rows("rev_round10_cyclic_T1000.csv")}
+check("cyclic per-round ratio at T = 1,000, 1e-4 (3.9 times)", float(c1k["0.0001"]["ratio"]), 3.9, 0.05, "rev_round10_cyclic_T1000.csv")
+check("cyclic Theorem 2 (= schema) over the reference at T = 1,000", float(c1k["0.0001"]["thm2_over_reference"]), 1.08, 0.005, "rev_round10_cyclic_T1000.csv")
+check("cyclic per-round ratio at T = 1,000, 1e-4 (falls ...)", float(c1k["0.0001"]["ratio"]), 3.85, 0.005, "rev_round10_cyclic_T1000.csv")
+check("... to 1e-5", float(c1k["1e-05"]["ratio"]), 3.72, 0.005, "rev_round10_cyclic_T1000.csv")
+pd = {(r["quantity"], r["delta"]): r for r in rows("rev_round10_peruser_summary.csv")}
+for q, d, val in (("pr_lo", "1e-06", 19.0), ("thm3", "1e-06", 24.1), ("pr_lo", "1e-08", 17.5), ("thm3", "1e-08", 22.0)):
+    check(f"per device, worst {q} / claim at {d}", float(pd[(q, d)]["max"]) / float(pd[(q, d)]["reference"]), val, 0.05, "rev_round10_peruser_summary.csv")
+check("per device, worst upper end at 1e-8 (value)", float(pd[("thm3", "1e-08")]["max"]), 45.51, 0.005, "rev_round10_peruser_summary.csv")
+check_true("largest lower end at 1e-6 and 1e-8 is device 335, largest upper end device 176 (two different devices)",
+           all(pd[("pr_lo", d)]["argmax_device"] == "335" and pd[("thm3", d)]["argmax_device"] == "176" for d in ("1e-06", "1e-08")), "rev_round10_peruser_summary.csv")
+check("per device, worst lower end at 1e-8 (value)", float(pd[("pr_lo", "1e-08")]["max"]), 36.18, 0.005, "rev_round10_peruser_summary.csv")
+for d, val in (("1e-06", 5.5), ("1e-08", 5.3)):
+    check(f"per device, median lower end / claim at {d}", float(pd[("pr_lo", d)]["median_over_reference"]), val, 0.05, "rev_round10_peruser_summary.csv")
+dv = rows("rev_round10_peruser_devices.csv")
+check_true("small-delta window-search certificate holds for every device", all(r["certified"] == "1" for r in dv), "rev_round10_peruser_devices.csv certified")
+t20 = rows("rev_round10_peruser_top20.csv")
+check_true("small-delta all-window check of the 20 largest devices agrees with the certified search", len(t20) == 20 and all(r["same"] == "1" for r in t20), "rev_round10_peruser_top20.csv")
+m10 = re.search(r"worst device 335 at discretisation 1e-4: \[([\d.]+), ([\d.]+)\] at 1e-6, \[([\d.]+), ([\d.]+)\] at 1e-8", open(os.path.join(LOGS, "rev_round10_peruser_delta.log")).read())
+check_true("worst device recomputed at discretisation 1e-4 (small delta) is logged", m10 is not None, "logs/rev_round10_peruser_delta.log")
+if m10:
+    check("worst device at 1e-4 discretisation, 1e-8, over the claim", float(m10.group(3)) / float(pd[("pr_lo", "1e-08")]["reference"]), 17.5, 0.05, "logs/rev_round10_peruser_delta.log")
+cn = {(r["law"], int(r["m"])): r for r in rows("rev_round10_canaries.csv")}
+for law, recs in (("markov", (0.68, 0.77, 0.83, 0.86, 0.90, 0.92)), ("trace", (0.44, 0.54, 0.66, 0.74, 0.77, 0.83))):
+    for m, val in zip((100, 200, 500, 1000, 2000, 5000), recs):
+        check(f"canary sweep, {law}, m={m}: certified recovery", float(cn[(law, m)]["recovery"]), val, 0.005, "rev_round10_canaries.csv")
+check("canary sweep: audits that do not flag the claim (of 1,440)", sum(120 - int(r["flags"]) for r in cn.values()), 1, 0, "rev_round10_canaries.csv")
+check("canary sweep: estimates above the reference (trace, m = 100)", int(cn[("trace", 100)]["above_reference"]), 2, 0, "rev_round10_canaries.csv")
+check("canary sweep: estimates above the reference elsewhere", sum(int(r["above_reference"]) for k, r in cn.items() if k != ("trace", 100)), 0, 0, "rev_round10_canaries.csv")
+gr = [float(r["alo_gap_rel"]) / float(r["rule_gap_rel"]) for r in cn.values()]
+check("canary sweep: smallest gap of a_lo over z/sqrt(n_obs)", min(gr), 1.0, 0.05, "rev_round10_canaries.csv")
+check("canary sweep: largest gap of a_lo over z/sqrt(n_obs)", max(gr), 1.3, 0.05, "rev_round10_canaries.csv")
+er = rows("rev_round10_erasure.csv")
+for cfg, val, n in (("pca50_random", 0.50, 10), ("raw_lowvar", 0.95, 4)):
+    v = [float(r["erasure_ratio"]) for r in er if r["config"] == cfg]
+    check(f"erasure ratio, {cfg}: runs", len(v), n, 0, "rev_round10_erasure.csv")
+    check(f"erasure ratio, {cfg}: mean", sum(v) / len(v), val, 0.005, "rev_round10_erasure.csv")
 
 print(f"\n{'ALL CHECKS PASSED' if fails == 0 else f'{fails} CHECK(S) FAILED'}")
 sys.exit(1 if fails else 0)

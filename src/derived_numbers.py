@@ -3,8 +3,8 @@
 Prints: the Gaussian-pair eps without subsampling (50.5); the thinning identity D_N = (1-s) + s D_{N^A} against the
 measured policy table; the OLS slope/intercept/R^2 of D against T for the two horizon runs and Var(p)/E(p) from the
 tail file; the far-tail thresholds eps_0 = log L_p(cT) of the threshold-criterion Proposition (full version: Proposition 4)
-for the Binomial law and the lambda = 0.9 chain; the aggregate audit counts of the revised version (1,080 simulated,
-274 training runs, 1,354 certifications on 874 independent audit data sets, violated claims flagged in 1,176 of 1,177 certifications (696 of 697 data sets), 0 of 177 correct claims flagged) from the
+for the Binomial law and the lambda = 0.9 chain; the aggregate audit counts of the revised version (1,320 simulated,
+274 training runs, 1,594 certifications on 994 independent audit data sets, violated claims flagged in 1,416 of 1,417 certifications (816 of 817 data sets), 0 of 177 correct claims flagged; the cyclic-law audits of rev_round10_cyclic_results.csv included) from the
 audit result files; and the i.i.d. Monte-Carlo checks.
 Run from src/ after the result CSVs are in place (they are copied in ../results/)."""
 import os, csv, sys
@@ -51,6 +51,7 @@ print(f"far-tail threshold eps_0: Binomial {eps0(pn_bin, T, a):.2f}, chain lambd
 # 5. aggregate audit counts
 sim = rows("step19_results.csv")
 cert = [r for r in sim if r["estimator"].startswith("cert")]
+cert += [dict(r, law="cyclic") for r in rows("rev_round10_cyclic_results.csv") if r["estimator"].startswith("cert")]   # tenth round
 n_corr = sum(int(r["R"]) for r in cert if r["law"] != "iid")
 n_iid = sum(int(r["R"]) for r in cert if r["law"] == "iid")
 above = sum(int(r["n_above_reference"]) for r in cert)
