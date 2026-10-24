@@ -10,7 +10,8 @@ New relative to fl_mlp2.py / fl_mlp3.py:
     and the mean residual of present canaries on participating vs non-participating rounds.
 Server update, clipping calibration, local SGD and the audits are those of fl_mlp2.py.
 
-usage: python rev_train.py CONFIG R      (CONFIG in base_orth, ratio_1to10, ratio_1to2, medium, medium_iid, base_rand)"""
+usage: python rev_train.py CONFIG R      (CONFIG in base_orth, ratio_1to10, ratio_1to2, medium, medium_iid, base_rand,
+                                          ctrl200_share01, ctrl200_share05)"""
 import sys, csv, time, os
 import numpy as np
 from scipy.stats import kstest, norm
@@ -28,6 +29,9 @@ CONFIGS = {
     "ratio_1to2":  ((64,),      1000,      1000,     "hadamard", "markov"),
     "medium":      ((256, 128), 500,       1000,     "hadamard", "markov"),
     "medium_iid":  ((256, 128), 500,       1000,     "hadamard", "iid"),
+    # round 11: accuracy controls at 200 real clients (canary share 0.1 and 0.5 instead of base_orth's 2.5)
+    "ctrl200_share01": ((64,),  200,       40,       "hadamard", "markov"),
+    "ctrl200_share05": ((64,),  200,       200,      "hadamard", "markov"),
 }
 
 
@@ -173,7 +177,7 @@ class CsvTable:
 
 if __name__ == "__main__":
     name, R = sys.argv[1], int(sys.argv[2]); cfg = CONFIGS[name]
-    rng = np.random.default_rng({"base_orth": 901, "base_rand": 902, "ratio_1to10": 903, "ratio_1to2": 904, "medium": 905, "medium_iid": 906}[name])
+    rng = np.random.default_rng({"base_orth": 901, "base_rand": 902, "ratio_1to10": 903, "ratio_1to2": 904, "medium": 905, "medium_iid": 906, "ctrl200_share01": 901, "ctrl200_share05": 901}[name])   # controls use base_orth's seed, hence its clipping norm
     Xtr = load_idx(f"{DATA}/train-images-idx3-ubyte.gz"); ytr = load_idx(f"{DATA}/train-labels-idx1-ubyte.gz")
     Xte = load_idx(f"{DATA}/t10k-images-idx3-ubyte.gz"); yte = load_idx(f"{DATA}/t10k-labels-idx1-ubyte.gz")
     mu = Xtr.mean(axis=0); data = (Xtr - mu, ytr, Xte - mu, yte)
