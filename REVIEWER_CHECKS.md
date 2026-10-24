@@ -16,11 +16,14 @@ PASS or FAIL against the value in the manuscripts. It covers:
 - the pooled ratios 9.4, 8.8, 8.35, 16.4, 16.7, 17.07 and 20.8;
 - the per-device 22.2× and 28.3×, the window-search certificate and the PLD gap;
 - the timer schema bound (3.21 / 6.62, 20× / 41×) and the 1.10 [1.07, 1.13] ratio;
-- the audit counts (874 independent data sets and 1,354 certifications; 696 of 697 and 1,176 of 1,177; 0 of 177; none above the reference) and recoveries (74–90 %, Gaussian fit 3–15 %);
+- the audit counts (994 independent data sets and 1,594 certifications; 816 of 817 and 1,416 of 1,417; 0 of 177; none above the reference) and recoveries (74–90 %, Gaussian fit 3–15 %);
 - the Monte-Carlo sample sizes, the disjointness of certificate and audit seeds, and the fifth-round counterexamples;
 - the seventh-round computations: audit power at small violations, audits with a table built for a misspecified law,
   the sampling error of the law estimated from logs, round length at a fixed horizon and device subsampling, and the
-  disjointness of their table and audit seeds.
+  disjointness of their table and audit seeds;
+- the tenth-round computations: ratios at smaller δ (to 1e-10), the per-device bracket at 1e-6 and 1e-8, the certified
+  audit on the cyclic law and its 20M-sample references, the audit power against the number of canaries, and the
+  failure of the observation model in a 510-parameter model.
 
 The output of the last run is in `results/logs/verify_claims.log`.
 
@@ -29,7 +32,7 @@ docstrings).
 
 ## 1. Version identity
 
-This is release **v9**. It matches **TIFS v9** (main text and Supplementary Material) and the **extended version v14**
+This is release **v10**. It matches **TIFS v10** (main text and Supplementary Material) and the **extended version v15**
 (`VERSION.md`).
 
 The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`).
@@ -57,6 +60,10 @@ last run with Python 3.13.16 and the same library versions.
 | Certificate tables, T = 1,000 (one process per part) | `step20b_parts.py` | (3031 or 3032) × 1000 + 17T + part |
 | Simulated audit data, T = 1,000 | `step20b_parts.py` (audit stage) | 4041 (Markov), 4042 (trace) |
 | Independent reference re-runs with 99 % intervals | `rev_refs.py` | 7101–7105 × 1000 + part |
+| Cyclic law (tenth round): reference (20M), then the certified table (10M per grid point), then the 120 audit data sets, drawn in that order from one stream | `rev_round10_cyclic.py` | 1010 |
+| Cyclic law, T = 1,000 reference | `rev_round10_cyclic_T1000.py` | 1012 |
+| Canary sweep (tenth round): table extensions, then the audit data, in that order from one stream | `rev_round10_canaries.py` | 1011 |
+| Erasure runs (tenth round) | `rev_round10_erasure.py` | 1013 |
 | Guess-counting audits | `rev_guess2.py` | 8101–8103 |
 | Training runs | `fl_mlp2.py`, `fl_mlp3.py`, `fl_mlp_5k.py`, `rev_train.py` | 777; 1717; 7777; 901–906 |
 | Timer-cost training | `rev_timer_utility.py` | 5000 + s, 6000 + s (s = 0–4) |

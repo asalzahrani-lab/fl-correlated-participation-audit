@@ -1,8 +1,20 @@
 # Version
 
-Release **v9** (2026-10-21), matching the journal submission **TIFS v9** (main text and Supplementary Material) and the
-**extended version v14**. Earlier releases: v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
+Release **v10** (2026-10-24), matching the journal submission **TIFS v10** (main text and Supplementary Material) and the
+**extended version v15**. Earlier releases: v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
 v2 (TIFS v2 / v7).
+
+What changed in v10 (tenth internal pre-submission review): six scripts, all additions; no earlier output changed except
+that the cyclic law's per-round references were recomputed from 20M samples (7.94 [7.89, 7.98] at T = 200 and 28.04 at
+T = 1,000, against 8.02 and 27.79 from the 300k-sample pilots; the derived ratios become 2.8x and 3.9x, and the Theorem 2
+looseness 1.29 and 1.08). `rev_round10_small_delta.py`: the pooled ratios at delta down to 1e-10 (exact or closed form);
+`rev_round10_peruser_delta.py`: the per-device bracket at 1e-6 and 1e-8 (the losses grow, the claim grows faster: the
+largest lower and upper ends over devices, devices 335 and 176, are 17.5x and 22.0x the claim at 1e-8); `rev_round10_cyclic.py` and `rev_round10_cyclic_T1000.py`:
+the certified audit on the cyclic law (previously not run), which enters the main evaluation (now 994 independent data
+sets, 1,594 certifications, 816 of 817 violated claims flagged); `rev_round10_canaries.py`: audit power against the number
+of canaries; `rev_round10_erasure.py`: the configuration in which the observation model fails, re-run and logged.
+`verify_claims.py` gains a tenth-round section and counts the cyclic audits; `derived_numbers.py` counts them too. The
+extended version now uses the journal numbering of the theorems (see Numbering below).
 
 What changed in v9 (ninth internal pre-submission review, a code inspection): `rev_peruser_exact2.py` groups the per-round
 inclusion rates exactly (v8 rounded them to 9 decimals first) and composes the optimistic PLD, within a rate and across rates, with
@@ -40,8 +52,10 @@ and checks that certificate and audit seeds are disjoint; output `results/logs/v
 seeds). No published number changed.
 
 Numbering. Propositions are numbered alike in both versions (1 transcript reduction, 2 fixed-size cohorts, 3 path
-released, 4 pooled laws, 5 far tail, 6 certified map; 7 no-union only in the extended version). Theorems: extended 1, 3, 4
-= journal 1, 2, 3; extended Theorem 2 (Gaussian fit) = journal Supplementary Theorem S1. Tables: see PROVENANCE.md.
+released, 4 pooled laws, 5 far tail, 6 certified map; 7 no-union only in the extended version). Theorems (since extended
+v15): 1 final-model accountant, 2 count-averaged bound, 3 validity of the audit, S1 Gaussian fit, in both versions; in
+extended v14 and earlier these were Theorems 1, 3, 4 and 2. File and column names keep the earlier labels (`thm3` =
+count-averaged bound). Tables: see PROVENANCE.md.
 
 What changed in v6 (fifth internal pre-submission review): `rev_round5_checks.py` (the two counterexamples of the fifth-round review:
 an equal-dispersion count law with final-model eps 23.0 against 2.69, and random allocation against independent
