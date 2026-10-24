@@ -1,0 +1,3 @@
+law,delta,samples,eps,lo99,hi99,poisson,ratio,ratio_lo99,sum_statistic_exact
+cyclic_b9,0.0001,20000000,7.9371,7.8928,7.9833,2.8662,2.769,2.754,2.5325
+cyclic_b9,1e-05,20000000,9.1910,9.0746,9.3286,3.3597,2.736,2.701,2.9432
