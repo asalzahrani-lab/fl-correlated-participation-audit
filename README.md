@@ -2,7 +2,7 @@
 
 Code, certified tables and trace pipeline for the paper
 
-> A. S. Alzahrani, "When Clients Come Back: Privacy Accounting and Auditing of Federated Learning under Temporally Correlated Participation," 2026. arXiv: *(to be inserted)*.
+> A. S. Alzahrani, "When Clients Come Back: Privacy Accounting and Auditing of Federated Learning under Temporally Correlated Participation," manuscript, 2026.
 
 Every number in the paper is traced to a script and an output file in [`PROVENANCE.md`](PROVENANCE.md); the headline numbers of the abstract are mapped one by one in [`CLAIMS.md`](CLAIMS.md), and [`VERSION.md`](VERSION.md) states which manuscript version this release matches. Reviewers: [`REVIEWER_CHECKS.md`](REVIEWER_CHECKS.md) maps each artifact check to files and commands, and `cd src && python verify_claims.py` re-derives every headline number from the stored outputs in a few seconds.
 
@@ -10,7 +10,7 @@ Every number in the paper is traced to a script and an output file in [`PROVENAN
 
 | Directory | Contents |
 |---|---|
-| `src/` | All analysis code (pure NumPy/SciPy; `dp_accounting` for the Poisson values). Library modules: `corraudit.py` (participation laws, exact count laws, HMM likelihood ratios, Theorem 1 final-model accountant, Poisson PLD accountant), `theory.py` (dispersion law, Theorem 3 count-averaged bound, Gaussian-fit crossover), `certified.py` / `certified2.py` (certified Monte-Carlo tables; default certificate = Chernoff–Hoeffding bound in KL form), `auditors2.py` (Gaussian-fit, count-conditioned and path-aware auditors), `vecgauss.py`. Experiment scripts `step*.py`, `pilot_*.py`, `regime_map.py`, `fl_*.py` (real DP-FedAvg training with canary clients). |
+| `src/` | All analysis code (pure NumPy/SciPy; `dp_accounting` for the Poisson values). Library modules: `corraudit.py` (participation laws, exact count laws, HMM likelihood ratios, Theorem 1 final-model accountant, Poisson PLD accountant), `theory.py` (dispersion law, Theorem 2 count-averaged bound, Gaussian-fit crossover), `certified.py` / `certified2.py` (certified Monte-Carlo tables; default certificate = Chernoff–Hoeffding bound in KL form), `auditors2.py` (Gaussian-fit, count-conditioned and path-aware auditors), `vecgauss.py`. Experiment scripts `step*.py`, `pilot_*.py`, `regime_map.py`, `fl_*.py` (real DP-FedAvg training with canary clients). |
 | `trace/` | `trace_analysis.py`: eligibility mapping of the FLASH device trace (locked ∧ Wi-Fi ∧ charging), availability processes, selection policies and count laws. `pn_*.npy`: the ten count laws of Table VIII (full version). The trace itself is **not** redistributed here; see `trace/README.md`. |
 | `results/` | Every CSV the paper's tables and figures are built from, the run logs (`results/logs/`), `step19_audits.npz` (per-audit values of the consolidated audit tables), `step18_pn_*.npy` (count laws of the six availability models) and `theory_notes.md` (working notes with the proofs as first written). |
 | `paper/` | `make_figures.py` and the three figures. |
@@ -33,7 +33,7 @@ Times are for one CPU core. Outputs land in `src/` with the same names as the co
 
 ```bash
 cd src
-# Section IV: exact accountant, dispersion law, Theorem 3 looseness, Gaussian-fit crossover
+# Section IV: exact accountant, dispersion law, Theorem 2 looseness, Gaussian-fit crossover
 python3 theory.py                               # theory_dispersion.csv, theory_perround_bound.csv, theory_crossover.csv (minutes)
 python3 regime_map.py                           # regime_map.csv: Fig. 1 (hours; 300k samples per point)
 python3 step15_convex_order.py                  # step15_*.csv: 900 random spreads, 12 standard laws, designed pairs (hours)
@@ -69,12 +69,12 @@ python3 rev_refs.py stored                      # intervals on the stored T = 1,
 python3 rev_peruser.py && python3 rev_peruser_notes.py && python3 rev_peruser_table.py   # per-device privacy, positions (a), (a') (Section VI-E)
 # Second revision round
 python3 rev_cohort_example.py                   # fixed-cohort two-client example and the worst-window example (Sections III-C, VI-E; seconds)
-python3 rev_peruser_exact.py                    # position (b) with exact inclusion rates, maximum over 24 windows, PLD lower end and Theorem-3 upper end (Tables XI-XII; ~45 min)
+python3 rev_peruser_exact.py                    # position (b) with exact inclusion rates, maximum over 24 windows, PLD lower end and Theorem-2 upper end (Tables XI-XII; ~45 min)
 python3 rev_guess2.py                           # guess-counting with three scores against matched targets (Table IV)
 # Third revision round
 python3 rev_peruser_exact2.py                   # certified per-device bracket: optimistic/pessimistic PLD, certified window search, top-20 full check (Tables XI-XII; ~1.5 h on two cores)
 python3 rev_timer_seeds.py                      # timer policies under 100 seeds: path invariance given availability (Section VI-E)
-python3 rev_t1000_bracket.py                    # Theorem-3 upper end at T = 1,000 for the running example (Section VI-F)
+python3 rev_t1000_bracket.py                    # Theorem-2 upper end at T = 1,000 for the running example (Section VI-F)
 # Fourth revision round
 python3 rev_timer_structural.py                 # exact search over all draws of the binding rounds + per-device schema bound (Section VI-E; minutes)
 python3 rev_cohort_example.py                   # now also example (4): why participation must be exogenous to the noise
@@ -85,7 +85,7 @@ python3 rev_train_summary.py && python3 rev_train_table.py
 python3 rev_timer_utility.py 5                  # utility under the timers (5 seeds)
 python3 rev_timer_peruser.py                    # per-device loss under the timers with availability known
 python3 rev_validity_lower.py                   # audits against the lower 99% limits of the references
-python3 derived_numbers.py                      # aggregate counts: 874 independent audit data sets (1,354 certifications), 696 of 697 / 0 of 177
+python3 derived_numbers.py                      # aggregate counts: 994 independent audit data sets (1,594 certifications), 816 of 817 / 0 of 177
 
 # Fifth to seventh revision rounds
 python3 rev_round5_checks.py && python3 rev_round5_upper_check.py   # fifth round: counterexamples; independent upper-end check
@@ -96,6 +96,13 @@ python3 rev_round7_audit_sens.py lamse && python3 rev_round7_audit_sens.py combi
 python3 rev_round7_trace_sens.py                # seventh round: round length at a fixed horizon, device subsampling
 python3 rev_peruser_exact2.py && python3 rev_round9_compare.py   # ninth round: certificate fix (exact grouping, optimistic PLD with no tail truncation) and comparison with v8
                                                 # (the comparison reads the v8 table from tag v8: use a full clone, not a zip or --depth 1)
+# Tenth revision round (theorems now numbered as in the journal version: Theorem 2 = count-averaged bound)
+python3 rev_round10_small_delta.py              # ratios at delta down to 1e-10: chain, trace, all ten policies (minutes)
+python3 rev_round10_peruser_delta.py            # per-device bracket at 1e-6 and 1e-8 (~1.5 h on two cores)
+python3 rev_round10_cyclic.py                   # certified table, 20M-sample reference and 120 audits on the cyclic law (~30 min)
+python3 rev_round10_cyclic_T1000.py             # cyclic reference at T = 1,000 (20M samples, ~25 min)
+python3 rev_round10_canaries.py                 # audit power against the number of canaries, 100 to 5,000 (~1.5 h)
+python3 rev_round10_erasure.py                  # where Model 1 fails: 510-parameter softmax regression vs low-variance directions (needs data/)
 
 # Figures
 cd ../paper && python3 make_figures.py
@@ -103,7 +110,7 @@ cd ../paper && python3 make_figures.py
 
 `results/theory_notes.md` records the derivations and the review corrections in the order they were made.
 
-`src/derived_numbers.py` recomputes from the result files the numbers that are derived in the text rather than read from a table (the no-subsampling ε of 50.5, the thinning identity, the OLS slopes of D on T, the far-tail thresholds of the threshold-criterion proposition, the aggregate audit counts (874 independent data sets, 1,354 certifications; 696 of 697 and 0 of 177), and the i.i.d. Monte-Carlo checks).
+`src/derived_numbers.py` recomputes from the result files the numbers that are derived in the text rather than read from a table (the no-subsampling ε of 50.5, the thinning identity, the OLS slopes of D on T, the far-tail thresholds of the threshold-criterion proposition, the aggregate audit counts (994 independent data sets, 1,594 certifications; 816 of 817 and 0 of 177), and the i.i.d. Monte-Carlo checks).
 
 ## Naming notes
 * `eps_cert_bern*` columns and `merged_bern_*` estimator names are historical: since step 14 the certificate is the Chernoff–Hoeffding (KL-form) lower confidence bound (`certified2.kl_lo`, the default of `eps_cert_bern`); the empirical-Bernstein variant is kept as `bernstein_lo` but was not used for any reported number.
