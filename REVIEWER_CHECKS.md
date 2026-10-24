@@ -23,7 +23,9 @@ PASS or FAIL against the value in the manuscripts. It covers:
   disjointness of their table and audit seeds;
 - the tenth-round computations: ratios at smaller δ (to 1e-10), the per-device bracket at 1e-6 and 1e-8, the certified
   audit on the cyclic law and its 20M-sample references, the audit power against the number of canaries, and the
-  failure of the observation model in a 510-parameter model.
+  failure of the observation model in a 510-parameter model;
+- the eleventh-round computations: the step-function column of Table III recomputed with the current protocol (with a
+  check that the replay reproduces every published KL-certified table entry), and the accuracy controls at 200 real clients.
 
 The output of the last run is in `results/logs/verify_claims.log`.
 
@@ -32,7 +34,7 @@ docstrings).
 
 ## 1. Version identity
 
-This is release **v10**. It matches **TIFS v10** (main text and Supplementary Material) and the **extended version v15**
+This is release **v11**. It matches **TIFS v11** (main text and Supplementary Material) and the **extended version v16**
 (`VERSION.md`).
 
 The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`).

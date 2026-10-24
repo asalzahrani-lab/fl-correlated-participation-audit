@@ -1,8 +1,32 @@
 # Version
 
-Release **v10** (2026-10-24), matching the journal submission **TIFS v10** (main text and Supplementary Material) and the
-**extended version v15**. Earlier releases: v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
+Release **v11** (2026-10-24), matching the journal submission **TIFS v11** (main text and Supplementary Material) and the
+**extended version v16**. Earlier releases: v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
 v2 (TIFS v2 / v7).
+
+What changed in v11 (eleventh internal pre-submission review): one script added, two configurations added, two
+summary scripts extended; no earlier output changed except the step-function column of Table III, which now uses the
+protocol of every other column, and the stored precision of one column of `rev_train_summary.csv` (see the table below). `rev_round11_step.py` replays the certified tables of `step16_delta5.py` from their seeds
+(3031 Markov, 10M samples; 3032 trace, 3M), checks that every published KL-certified entry is reproduced (all 9 + 5 grid
+points at 1e-4 and 1e-5, to the printed four decimals), computes the step-function (Clopper-Pearson) certificate on the
+same samples, and certifies the same 120 audits per law as the other columns (`step19_audits.npz`; the cyclic law's
+step-function entry is that of `rev_round10_cyclic.py`). `rev_train.py` gains `ctrl200_share05` and `ctrl200_share01`,
+accuracy controls at the 200 real clients of `base_orth` (seed 901, hence the same clipping norm); `rev_train_summary.py`
+writes their summary to a separate file, `rev_train_controls_summary.csv`, so `rev_train_summary.csv` keeps the 200 runs of
+the table's text, and now stores `a_hat` with five decimals so that the three-decimal table entries are rounded once
+(no printed value changes); `rev_train_table.py` prints the two control rows. `verify_claims.py` gains an eleventh-round
+section (32 checks; 214 in all, all passing). The first attempt at trace grid points 3-4 was stopped by the environment at 2.8M of 3M samples and
+was rerun from the start (its log is kept as `rev_round11_step_trace_34_first_attempt_stopped.log`).
+
+Values that differ between release v10 and release v11, with the reason (no v10 value was reported in a submission):
+
+| Quantity | v10 | v11 | Reason |
+|---|---|---|---|
+| Table III, step-function column, Markov / i.i.d. / trace | 8.38 ± 0.18 (71 %) / 2.25 ± 0.05 (78 %) / 5.38 ± 1.17 (50 %) | 9.54 ± 0.51 (80 %) / 2.41 ± 0.07 (84 %) / 6.91 ± 0.79 (65 %) | recomputed with the current protocol: the same 120 audits per law as the other columns (v10: step 14's own audits), the 0.045/0.005 α split (v10: 0.025/0.025) and the 0.01 grid floor (v10: 0.05), on the same Monte-Carlo samples as the KL column |
+| Table III, step-function column, cyclic | — | 6.74 ± 0.26 (85 %) | the tenth-round cyclic run already computed it with the current protocol; shown now that the column is uniform |
+| Cost of the step-function certificate (extended V-F) | 16–31 points below the uncertified estimate | 8–16 points (5–9 below the KL certificate) | follows from the new column |
+| KL-certificate cost quoted in extended V-F | 4–7 points | 3–7 points | the cyclic law (2.7 points) was not yet in that sentence; the journal text already said 3 to 7 |
+| `rev_train_summary.csv`, column `a_hat` | four decimals | five decimals | single rounding of the table entries; no printed value changes |
 
 What changed in v10 (tenth internal pre-submission review): six scripts, all additions; no earlier output changed except
 that the cyclic law's per-round references were recomputed from 20M samples (7.94 [7.89, 7.98] at T = 200 and 28.04 at

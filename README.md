@@ -103,6 +103,12 @@ python3 rev_round10_cyclic.py                   # certified table, 20M-sample re
 python3 rev_round10_cyclic_T1000.py             # cyclic reference at T = 1,000 (20M samples, ~25 min)
 python3 rev_round10_canaries.py                 # audit power against the number of canaries, 100 to 5,000 (~1.5 h)
 python3 rev_round10_erasure.py                  # where Model 1 fails: 510-parameter softmax regression vs low-variance directions (needs data/)
+# Eleventh revision round
+(cd ../results && for g in 0,1,2 3,4; do python3 ../src/rev_round11_step.py table trace $g; done)   # step-function column: replay of the step-16 trace table (~1.5 h per part on one core; needs trace/)
+(cd ../results && for g in 0,1,2 3,4,5 6,7,8; do python3 ../src/rev_round11_step.py table markov $g; done)   # ... and of the Markov table (~1 h per part; the parts can run in parallel)
+(cd ../results && python3 ../src/rev_round11_step.py join trace && python3 ../src/rev_round11_step.py join markov && python3 ../src/rev_round11_step.py apply)
+                                                # run from results/: table and join write to the working directory, apply reads results/
+python3 rev_train.py ctrl200_share01 50 && python3 rev_train.py ctrl200_share05 50   # accuracy controls at 200 real clients (needs data/)
 
 # Figures
 cd ../paper && python3 make_figures.py
