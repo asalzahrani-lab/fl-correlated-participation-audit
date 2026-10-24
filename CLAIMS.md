@@ -1,6 +1,6 @@
 # Headline claims → computation
 
-Each row is a number in the abstract or the conclusions of the journal version (TIFS v10), the script that produces it, the
+Each row is a number in the abstract or the conclusions of the journal version (TIFS v11), the script that produces it, the
 output file, and the value it contains. "Certified" = a deterministic bound or a bound holding with stated confidence;
 "estimate" = a Monte-Carlo point estimate.
 
