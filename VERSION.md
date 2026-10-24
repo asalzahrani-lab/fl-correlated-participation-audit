@@ -16,6 +16,19 @@ of canaries; `rev_round10_erasure.py`: the configuration in which the observatio
 `verify_claims.py` gains a tenth-round section and counts the cyclic audits; `derived_numbers.py` counts them too. The
 extended version now uses the journal numbering of the theorems (see Numbering below).
 
+Values that differ between release v9 and release v10, with the reason (no v9 value was reported in a submission):
+
+| Quantity | v9 | v10 | Reason |
+|---|---|---|---|
+| Cyclic law, per-round reference, T = 200, delta = 1e-4 | 8.02 (300k samples) | 7.94 [7.89, 7.98] (20M) | recomputed with a 99 % interval; 8.02 lies outside it |
+| Cyclic law, per-round ratio, T = 200 / T = 1,000 | 2.8 / 3.8 | 2.8 / 3.9 | T = 1,000 reference recomputed from 20M samples: 27.79 → 28.04 |
+| Theorem 2 over the reference, cyclic law, T = 200 / T = 1,000 | 1.28 / 1.09 | 1.29 / 1.08 | follows from the two new references |
+| Independent audit data sets / certifications | 874 / 1,354 | 994 / 1,594 | the 120 cyclic-law audits added, each certified at both delta |
+| Violated claims flagged | 696 of 697 | 816 of 817 | same |
+| Range of violations in the main evaluation | 2.9- to 17-fold | 2.7- to 17-fold | the cyclic law's violation is 2.77-fold |
+| Uncertified estimates above the reference | 6 of 360 | 11 of 480 | the cyclic law adds 5 of 120 |
+| Table build time quoted in the text | 32 min to 2.6 h | 15 min to 2.6 h | the range now starts at the i.i.d. table (15 min in Table S1 of both versions); no time was re-measured |
+
 What changed in v9 (ninth internal pre-submission review, a code inspection): `rev_peruser_exact2.py` groups the per-round
 inclusion rates exactly (v8 rounded them to 9 decimals first) and composes the optimistic PLD, within a rate and across rates, with
 `tail_mass_truncation=0` (dp-accounting 0.6.0 applies a default truncation of 1e-15 in both compositions and adds it to
