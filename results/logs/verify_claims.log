@@ -191,5 +191,38 @@
 [PASS] erasure ratio, pca50_random: mean: 0.4975 (paper 0.5, tolerance 0.005) <- rev_round10_erasure.csv
 [PASS] erasure ratio, raw_lowvar: runs: 4 (paper 4, tolerance 0) <- rev_round10_erasure.csv
 [PASS] erasure ratio, raw_lowvar: mean: 0.9523 (paper 0.95, tolerance 0.005) <- rev_round10_erasure.csv
+== 11. Eleventh-round checks (step-function column of Table III, accuracy controls)
+[PASS] step-16 replay, markov: 9 grid points, every published KL-certified entry reproduced at 1e-4 and 1e-5 <- rev_round11_step_table_markov.csv reproduced
+[PASS] step-16 replay, markov: step-function value below the KL value at every grid point (1e-4) <- rev_round11_step_table_markov.csv
+[PASS] step-16 replay, trace: 5 grid points, every published KL-certified entry reproduced at 1e-4 and 1e-5 <- rev_round11_step_table_trace.csv reproduced
+[PASS] step-16 replay, trace: step-function value below the KL value at every grid point (1e-4) <- rev_round11_step_table_trace.csv
+[PASS] step-function certified, markov: mean at 1e-4: 9.54 (paper 9.54, tolerance 0.005) <- rev_round11_step_results.csv
+[PASS] step-function certified, markov: recovery: 0.8038 (paper 0.8, tolerance 0.005) <- rev_round11_step_results.csv
+[PASS] step-function certified, markov: flags of 120: 120 (paper 120, tolerance 0) <- rev_round11_step_results.csv
+[PASS] step-function certified, iid: mean at 1e-4: 2.413 (paper 2.41, tolerance 0.005) <- rev_round11_step_results.csv
+[PASS] step-function certified, iid: recovery: 0.8418 (paper 0.84, tolerance 0.005) <- rev_round11_step_results.csv
+[PASS] step-function certified, iid: flags of 120: 0 (paper 0, tolerance 0) <- rev_round11_step_results.csv
+[PASS] step-function certified, trace: mean at 1e-4: 6.908 (paper 6.91, tolerance 0.005) <- rev_round11_step_results.csv
+[PASS] step-function certified, trace: recovery: 0.6465 (paper 0.65, tolerance 0.005) <- rev_round11_step_results.csv
+[PASS] step-function certified, trace: flags of 120: 120 (paper 120, tolerance 0) <- rev_round11_step_results.csv
+[PASS] step-function certified, cyclic: mean at 1e-4: 6.742 (paper 6.74, tolerance 0.005) <- rev_round11_step_results.csv
+[PASS] step-function certified, cyclic: recovery: 0.8494 (paper 0.85, tolerance 0.005) <- rev_round11_step_results.csv
+[PASS] step-function certified, cyclic: flags of 120: 120 (paper 120, tolerance 0) <- rev_round11_step_results.csv
+[PASS] step-function below KL certification, fewest points (extended V-F: 5 to 9): 5.32 (paper 5, tolerance 0.5) <- rev_round11_step_results.csv, step19_results.csv
+[PASS] step-function below KL certification, most points: 9.09 (paper 9, tolerance 0.5) <- same files
+[PASS] step-function below the uncertified estimate, fewest points (8 to 16): 7.98 (paper 8, tolerance 0.5) <- same files
+[PASS] step-function below the uncertified estimate, most points: 16.24 (paper 16, tolerance 0.5) <- same files
+[PASS] step-function certified: estimates above the reference, four laws: 0 (paper 0, tolerance 0) <- rev_round11_step_results.csv
+[PASS] accuracy at 200 clients, rev_train_base_orth.csv: runs: 50 (paper 50, tolerance 0) <- rev_train_base_orth.csv
+[PASS] accuracy at 200 clients, rev_train_ctrl200_share05.csv: runs: 50 (paper 50, tolerance 0) <- rev_train_ctrl200_share05.csv
+[PASS] accuracy at 200 clients, rev_train_ctrl200_share01.csv: runs: 50 (paper 50, tolerance 0) <- rev_train_ctrl200_share01.csv
+[PASS] mean accuracy, 2.5 present canaries per real client (1,000 canaries): 0.7303 (paper 0.73, tolerance 0.0005) <- rev_train_base_orth.csv
+[PASS] mean accuracy, 0.5 (200 canaries, control): 0.7293 (paper 0.729, tolerance 0.0005) <- rev_train_ctrl200_share05.csv
+[PASS] mean accuracy, 0.1 (40 canaries, control): 0.7306 (paper 0.731, tolerance 0.0005) <- rev_train_ctrl200_share01.csv
+[PASS] controls use base_orth's clipping norm <- rev_train_ctrl200_*.csv C_clip
+[PASS] control audits above the reference (of 100): 0 (paper 0, tolerance 0) <- rev_train_ctrl200_*.csv
+[PASS] control flags, 200 canaries (of 50): 49 (paper 49, tolerance 0) <- rev_train_ctrl200_share05.csv
+[PASS] control flags, 40 canaries (of 50): 19 (paper 19, tolerance 0) <- rev_train_ctrl200_share01.csv
+[PASS] control, 40 canaries: runs below the table's grid (report 0): 31 (paper 31, tolerance 0) <- rev_train_ctrl200_share01.csv
 
 ALL CHECKS PASSED

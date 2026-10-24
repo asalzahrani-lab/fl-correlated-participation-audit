@@ -1,0 +1,4 @@
+markov: step-function certified 9.540 +- 0.506 recovery 0.804 above ref 0/120 flags 120/120 [0s]
+iid: step-function certified 2.413 +- 0.073 recovery 0.842 above ref 0/120 flags 0/120 [0s]
+trace: step-function certified 6.908 +- 0.791 recovery 0.647 above ref 0/120 flags 120/120 [0s]
+cyclic (rev_round10_cyclic.py, same protocol): 6.742 +- 0.257 recovery 0.849 [0s]
