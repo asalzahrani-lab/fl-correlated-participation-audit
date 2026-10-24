@@ -1,0 +1,11 @@
+policy,q,sum_stat_ratio_0.0001,sum_stat_ratio_1e-05,sum_stat_ratio_1e-06,sum_stat_ratio_1e-08,sum_stat_ratio_1e-10
+thinning 0.05,0.0040,1.104,1.134,1.163,1.217,1.269
+thinning 0.20,0.0157,1.651,1.861,2.071,2.479,2.854
+thinning 0.50,0.0396,4.046,4.867,5.522,6.423,6.970
+take all available,0.0797,9.439,10.878,11.638,12.240,12.386
+fixed cohort 0.1 x pool,0.0087,1.258,1.334,1.408,1.554,1.699
+fixed cohort 0.3 x pool,0.0245,2.597,3.379,4.180,5.520,6.449
+fixed cohort 0.6 x pool,0.0471,5.157,6.254,7.016,7.907,8.368
+fixed cohort 1.0 x pool,0.0695,8.378,9.612,10.258,10.815,11.002
+"fixed cohort 0.6, timer 5 rounds",0.0171,1.413,1.527,1.638,1.854,2.060
+"fixed cohort 0.6, timer 20 rounds",0.0078,1.061,1.075,1.087,1.109,1.128
