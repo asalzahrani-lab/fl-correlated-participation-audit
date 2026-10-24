@@ -64,6 +64,8 @@ last run with Python 3.13.16 and the same library versions.
 | Cyclic law, T = 1,000 reference | `rev_round10_cyclic_T1000.py` | 1012 |
 | Canary sweep (tenth round): table extensions, then the audit data, in that order from one stream | `rev_round10_canaries.py` | 1011 |
 | Erasure runs (tenth round) | `rev_round10_erasure.py` | 1013 |
+| Step-function column of Table III (eleventh round): replay of the step-16 tables | `rev_round11_step.py` | 3031 (Markov), 3032 (trace), the seeds of `step16_delta5.py`, so the samples are identical |
+| Accuracy controls at 200 real clients (eleventh round) | `rev_train.py ctrl200_share01`, `ctrl200_share05` | 901 (the seed of `base_orth`, hence the same clipping norm) |
 | Guess-counting audits | `rev_guess2.py` | 8101–8103 |
 | Training runs | `fl_mlp2.py`, `fl_mlp3.py`, `fl_mlp_5k.py`, `rev_train.py` | 777; 1717; 7777; 901–906 |
 | Timer-cost training | `rev_timer_utility.py` | 5000 + s, 6000 + s (s = 0–4) |
