@@ -1,6 +1,6 @@
 """Reviewer check: re-derive every headline number of the paper from the stored outputs in ../results/ and print
 PASS / FAIL for each.  No heavy computation is repeated (that is what the generating scripts are for); this script
-checks that the numbers in the manuscripts (TIFS v10 main + supplement, extended v15) follow from the files that the
+checks that the numbers in the manuscripts (TIFS v11 main + supplement, extended v16) follow from the files that the
 generating scripts wrote, and that the random streams that generate the certificate tables are disjoint from those
 that generate the audit data.  Runs in a few seconds:  cd src && python verify_claims.py
 Exit status 0 if every check passes."""
@@ -302,6 +302,40 @@ for cfg, val, n in (("pca50_random", 0.50, 10), ("raw_lowvar", 0.95, 4)):
     v = [float(r["erasure_ratio"]) for r in er if r["config"] == cfg]
     check(f"erasure ratio, {cfg}: runs", len(v), n, 0, "rev_round10_erasure.csv")
     check(f"erasure ratio, {cfg}: mean", sum(v) / len(v), val, 0.005, "rev_round10_erasure.csv")
+
+print("== 11. Eleventh-round checks (step-function column of Table III, accuracy controls)")
+for law, n in (("markov", 9), ("trace", 5)):
+    t = rows(f"rev_round11_step_table_{law}.csv")
+    check_true(f"step-16 replay, {law}: {len(t)} grid points, every published KL-certified entry reproduced at 1e-4 and 1e-5",
+               len(t) == n and all(r["reproduced"] == "1" for r in t), f"rev_round11_step_table_{law}.csv reproduced")
+    check_true(f"step-16 replay, {law}: step-function value below the KL value at every grid point (1e-4)",
+               all(float(r["eps_step_1e-4"]) < float(r["eps_cert_1e-4_published"]) for r in t), f"rev_round11_step_table_{law}.csv")
+st = {r["law"]: r for r in rows("rev_round11_step_results.csv")}
+for law, mean, rec, flags in (("markov", 9.54, 0.80, 120), ("iid", 2.41, 0.84, 0), ("trace", 6.91, 0.65, 120), ("cyclic", 6.74, 0.85, 120)):
+    check(f"step-function certified, {law}: mean at 1e-4", float(st[law]["mean"]), mean, 0.005, "rev_round11_step_results.csv")
+    check(f"step-function certified, {law}: recovery", float(st[law]["recovery"]), rec, 0.005, "rev_round11_step_results.csv")
+    check(f"step-function certified, {law}: flags of 120", int(st[law]["n_above_poisson"]), flags, 0, "rev_round11_step_results.csv")
+kl_rec = {r["law"]: float(r["recovery"]) for r in sim if r["estimator"] == "cert_1e-4"}; kl_rec["cyclic"] = float(cy["cert_1e-4"]["recovery"])
+un_rec = {r["law"]: float(r["recovery"]) for r in sim if r["estimator"] == "v2_1e-4"}; un_rec["cyclic"] = float(cy["v2_1e-4"]["recovery"])
+gap_kl = [100 * (kl_rec[l] - float(st[l]["recovery"])) for l in st]; gap_un = [100 * (un_rec[l] - float(st[l]["recovery"])) for l in st]
+check("step-function below KL certification, fewest points (extended V-F: 5 to 9)", min(gap_kl), 5, 0.5, "rev_round11_step_results.csv, step19_results.csv")
+check("step-function below KL certification, most points", max(gap_kl), 9, 0.5, "same files")
+check("step-function below the uncertified estimate, fewest points (8 to 16)", min(gap_un), 8, 0.5, "same files")
+check("step-function below the uncertified estimate, most points", max(gap_un), 16, 0.5, "same files")
+check("step-function certified: estimates above the reference, four laws", sum(int(r["n_above_reference"]) for r in st.values()), 0, 0, "rev_round11_step_results.csv")
+acc = {}
+for f in ("rev_train_base_orth.csv", "rev_train_ctrl200_share05.csv", "rev_train_ctrl200_share01.csv"):
+    a = [float(r["acc"]) for r in rows(f)]; acc[f] = sum(a) / len(a)
+    check(f"accuracy at 200 clients, {f}: runs", len(a), 50, 0, f)
+check("mean accuracy, 2.5 present canaries per real client (1,000 canaries)", acc["rev_train_base_orth.csv"], 0.730, 0.0005, "rev_train_base_orth.csv")
+check("mean accuracy, 0.5 (200 canaries, control)", acc["rev_train_ctrl200_share05.csv"], 0.729, 0.0005, "rev_train_ctrl200_share05.csv")
+check("mean accuracy, 0.1 (40 canaries, control)", acc["rev_train_ctrl200_share01.csv"], 0.731, 0.0005, "rev_train_ctrl200_share01.csv")
+c5, c1 = rows("rev_train_ctrl200_share05.csv"), rows("rev_train_ctrl200_share01.csv")
+check_true("controls use base_orth's clipping norm", all(abs(float(r["C_clip"]) - float(rows("rev_train_base_orth.csv")[0]["C_clip"])) < 1e-9 for r in c5 + c1), "rev_train_ctrl200_*.csv C_clip")
+check("control audits above the reference (of 100)", sum(int(r["above_ref"]) for r in c5 + c1), 0, 0, "rev_train_ctrl200_*.csv")
+check("control flags, 200 canaries (of 50)", sum(int(r["flag"]) for r in c5), 49, 0, "rev_train_ctrl200_share05.csv")
+check("control flags, 40 canaries (of 50)", sum(int(r["flag"]) for r in c1), 19, 0, "rev_train_ctrl200_share01.csv")
+check("control, 40 canaries: runs below the table's grid (report 0)", sum(float(r["cert"]) == 0 for r in c1), 31, 0, "rev_train_ctrl200_share01.csv")
 
 print(f"\n{'ALL CHECKS PASSED' if fails == 0 else f'{fails} CHECK(S) FAILED'}")
 sys.exit(1 if fails else 0)

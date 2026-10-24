@@ -1,19 +1,23 @@
 """Summary of the revision training runs (rev_train_*.csv) for the paper's training table and diagnostics paragraph.
-Output rev_train_summary.csv (one row per configuration plus pooled rows)."""
+Output rev_train_summary.csv (one row per configuration plus pooled rows) and, for the eleventh-round accuracy controls
+at 200 real clients (ctrl200_share05, ctrl200_share01; not among the 200 runs of the table's text),
+rev_train_controls_summary.csv."""
 import csv, glob
 import numpy as np
 
 ORDER = ["base_orth", "base_rand", "ratio_1to2", "ratio_1to10", "medium", "medium_iid"]
 DESC = {"base_orth": "784-64-10, 200 clients, 1,000 canaries, orthogonal", "base_rand": "784-64-10, 200 clients, 1,000 canaries, random",
         "ratio_1to2": "784-64-10, 1,000 clients, 1,000 canaries", "ratio_1to10": "784-64-10, 1,000 clients, 200 canaries",
-        "medium": "784-256-128-10, 500 clients, 1,000 canaries", "medium_iid": "784-256-128-10, 500 clients, 1,000 canaries, iid"}
+        "medium": "784-256-128-10, 500 clients, 1,000 canaries", "medium_iid": "784-256-128-10, 500 clients, 1,000 canaries, iid",
+        "ctrl200_share05": "784-64-10, 200 clients, 200 canaries (accuracy control)", "ctrl200_share01": "784-64-10, 200 clients, 40 canaries (accuracy control)"}
+CONTROLS = ["ctrl200_share05", "ctrl200_share01"]
 rows = {}
 for f in glob.glob("rev_train_*.csv"):
     if f.endswith("summary.csv"): continue
     for r in csv.DictReader(open(f)):
         rows.setdefault(r["config"], []).append(r)
 out = []
-def summ(name, R):
+def summ(name, R, out=out):
     g = lambda k: np.array([float(r[k]) for r in R])
     cert, unc, ref, pois = g("cert"), g("uncert"), g("ref"), g("poisson")
     n_real, m = float(R[0]["n_clients"]), float(R[0]["m_canary"])
@@ -23,7 +27,7 @@ def summ(name, R):
              cert=f"{cert.mean():.2f}", cert_sd=f"{cert.std():.2f}", recovery=f"{cert.mean()/ref[0]:.3f}",
              flags=int((cert > pois).sum()), above=int((cert > ref).sum()), unc=f"{unc.mean():.2f}", unc_recovery=f"{unc.mean()/ref[0]:.3f}",
              unc_above=int((unc > ref).sum()), unc_flags=int((unc > pois).sum()), violated=int(viol),
-             coverage=f"{g('covered').mean():.3f}", a_lo=f"{g('a_lo').mean():.4f}", a_hat=f"{g('a_hat').mean():.4f}", a_hat_sd=f"{g('a_hat').std():.4f}",
+             coverage=f"{g('covered').mean():.3f}", a_lo=f"{g('a_lo').mean():.4f}", a_hat=f"{g('a_hat').mean():.5f}", a_hat_sd=f"{g('a_hat').std():.4f}",
              s_hat=f"{g('s_hat').mean():.4f}", s_hat_range=f"{g('s_hat').min():.3f}-{g('s_hat').max():.3f}", lag1=f"{g('lag1').mean():.4f}",
              xcorr_mean=f"{g('xcorr_mean').mean():.5f}", xcorr_sd=f"{g('xcorr_sd').mean():.4f}", xcorr_maxabs=f"{g('xcorr_maxabs').max():.3f}",
              ks=f"{g('ks').mean():.4f}", ks_max=f"{g('ks').max():.4f}", res_nonpart=f"{g('res_nonpart').mean():.4f}",
@@ -42,3 +46,9 @@ cov = np.mean([float(r["covered"]) for r in allr]) if allr else float("nan")
 print(f"all runs: {len(allr)}; coverage of a_lo <= a: {cov:.3f}")
 with open("rev_train_summary.csv", "w", newline="") as f:
     w = csv.DictWriter(f, fieldnames=list(out[0].keys())); w.writeheader(); [w.writerow(d) for d in out]
+out_c = []
+for name in CONTROLS:
+    if name in rows: summ(name, rows[name], out_c)
+if out_c:
+    with open("rev_train_controls_summary.csv", "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(out_c[0].keys())); w.writeheader(); [w.writerow(d) for d in out_c]

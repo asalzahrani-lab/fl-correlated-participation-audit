@@ -1,10 +1,15 @@
-"""LaTeX rows for the paper's training-diagnostics table, from rev_train_summary.csv."""
+"""LaTeX rows for the paper's training-diagnostics table, from rev_train_summary.csv (and the two accuracy-control rows,
+printed after the second row, from rev_train_controls_summary.csv)."""
+import os
 import csv
 R = {r["config"]: r for r in csv.DictReader(open("rev_train_summary.csv"))}
+if os.path.exists("rev_train_controls_summary.csv"):
+    R.update({r["config"]: r for r in csv.DictReader(open("rev_train_controls_summary.csv"))})
 LAB = {"base_orth": ("64", "200", "1,000", "orth.", "Markov"), "base_rand": ("64", "200", "1,000", "random", "Markov"),
        "ratio_1to2": ("64", "1,000", "1,000", "orth.", "Markov"), "ratio_1to10": ("64", "1,000", "200", "orth.", "Markov"),
-       "medium": ("256--128", "500", "1,000", "orth.", "Markov"), "medium_iid": ("256--128", "500", "1,000", "orth.", "\\iid")}
-for k in ["base_orth", "base_rand", "ratio_1to2", "ratio_1to10", "medium", "medium_iid"]:
+       "medium": ("256--128", "500", "1,000", "orth.", "Markov"), "medium_iid": ("256--128", "500", "1,000", "orth.", "\\iid"),
+       "ctrl200_share05": ("64", "200", "200", "orth.", "Markov"), "ctrl200_share01": ("64", "200", "40", "orth.", "Markov")}
+for k in ["base_orth", "base_rand", "ctrl200_share05", "ctrl200_share01", "ratio_1to2", "ratio_1to10", "medium", "medium_iid"]:
     if k not in R: continue
     r = R[k]; h, n, m, dirs, law = LAB[k]; runs = int(r["runs"])
     flag = f"flags {r['flags']}/{runs}" if law != "\\iid" else f"flags {r['flags']}/{runs}"
