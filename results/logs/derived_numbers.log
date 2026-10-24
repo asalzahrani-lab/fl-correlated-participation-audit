@@ -7,10 +7,10 @@ thinning s=0.50: identity predicts D = 19.55, measured 19.18
 10-min run: Var(p_i)/E[p_i] = 0.0832
 5-min run: Var(p_i)/E[p_i] = 0.0720
 far-tail threshold eps_0: Binomial 5.21, chain lambda=0.9 14.1
-simulated certified audits on correlated laws: 960 (flags 960), i.i.d. control: 120 (false flags 0), above reference: 0
+simulated certified audits on correlated laws: 1200 (flags 1200), i.i.d. control: 120 (false flags 0), above reference: 0
 training runs (first set): 74 (37 Markov: flags 37; 37 i.i.d.: false flags 0); above reference 0
 training runs (orthogonal canaries): 200 (180 Markov: flags 179; 20 i.i.d.: false flags 0); above reference 0; a_lo <= a in 199
-totals: simulated 1080, training runs 274, all audits 1354, above reference 0, violated claims flagged 1176 of 1177, correct claims flagged 0 of 177
-independent audit data sets: 874 (simulated 480 on correlated laws + 120 i.i.d., training 274); violated claims flagged 696 of 697; correct claims flagged 0 of 177; above the reference at either delta: 0
+totals: simulated 1320, training runs 274, all audits 1594, above reference 0, violated claims flagged 1416 of 1417, correct claims flagged 0 of 177
+independent audit data sets: 994 (simulated 600 on correlated laws + 120 i.i.d., training 274); violated claims flagged 816 of 817; correct claims flagged 0 of 177; above the reference at either delta: 0
 T=200 i.i.d.: Monte-Carlo 2.869 vs PLD 2.866 (+0.1%)
 T=1000 i.i.d.: Monte-Carlo 7.225 vs PLD 7.275 (-0.7%)

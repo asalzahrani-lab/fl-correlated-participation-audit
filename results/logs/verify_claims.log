@@ -37,19 +37,19 @@
 [PASS] its upper 99% limit: 1.13 (paper 1.13, tolerance 0.005) <- rev_refs_timer20.csv
 == 4. Audits (abstract, Sections V-E, V-F)
 [PASS] lowest certified recovery: 0.7374 (paper 0.74, tolerance 0.005) <- step19_results.csv, step16_results_*_T1000.csv
-[PASS] highest certified recovery: 0.8978 (paper 0.9, tolerance 0.005) <- step19_results.csv, step16_results_*_T1000.csv
+[PASS] highest certified recovery: 0.9026 (paper 0.9, tolerance 0.005) <- step19_results.csv, step16_results_*_T1000.csv
 [PASS] Gaussian fit, lowest recovery on correlated laws: 0.0331 (paper 0.03, tolerance 0.005) <- step19_results.csv gauss
 [PASS] Gaussian fit, highest recovery on correlated laws: 0.1504 (paper 0.15, tolerance 0.005) <- step19_results.csv gauss
 [PASS] training runs: 274 (paper 274, tolerance 0) <- fl_mlp*_results.csv, rev_train_*.csv
-[PASS] all certified audit evaluations: 1354 (paper 1354, tolerance 0) <- step19, step16 T=1000, training files
+[PASS] all certified audit evaluations: 1594 (paper 1594, tolerance 0) <- step19, rev_round10_cyclic, step16 T=1000, training files
 [PASS] estimates above the reference: 0 (paper 0, tolerance 0) <- same files
-[PASS] violated claims flagged: 1176 (paper 1176, tolerance 0) <- same files (of 1177)
-[PASS] violated claims tested: 1177 (paper 1177, tolerance 0) <- same files
+[PASS] violated claims flagged: 1416 (paper 1416, tolerance 0) <- same files (of 1417)
+[PASS] violated claims tested: 1417 (paper 1417, tolerance 0) <- same files
 [PASS] correct claims flagged: 0 (paper 0, tolerance 0) <- same files (of 177)
 [PASS] correct claims tested: 177 (paper 177, tolerance 0) <- same files
-[PASS] independent audit data sets (abstract, Sections I, V-E, VII): 874 (paper 874, tolerance 0) <- same files, delta = 1e-4 rows
-[PASS] violated claims flagged, independent data sets: 696 (paper 696, tolerance 0) <- same files (of 697)
-[PASS] violated claims tested, independent data sets: 697 (paper 697, tolerance 0) <- same files
+[PASS] independent audit data sets (abstract, Sections I, V-E, VII): 994 (paper 994, tolerance 0) <- same files, delta = 1e-4 rows
+[PASS] violated claims flagged, independent data sets: 816 (paper 816, tolerance 0) <- same files (of 817)
+[PASS] violated claims tested, independent data sets: 817 (paper 817, tolerance 0) <- same files
 [PASS] training, lowest configuration-mean recovery (Section VII: 73 to 93%): 0.727 (paper 0.73, tolerance 0.005) <- rev_train_summary.csv
 [PASS] training, highest configuration-mean recovery (5,000 canaries, i.i.d.): 0.9253 (paper 0.93, tolerance 0.0051) <- fl_mlp_5k_results.csv
 == 5. Monte-Carlo provenance (Table II, Table S2)
@@ -119,5 +119,77 @@
 [PASS] largest change of any per-device value against release v8 (1e-4 and 1e-5, both ends): 1.107e-08 (paper 0, tolerance 1e-07) <- rev_round9_compare.csv
 [PASS] worst windows, refinement counts and certificates unchanged <- rev_round9_compare.csv
 [PASS] upper end quoted as 28.3x (34.527 / 1.2189, not rounded down): 28.3 (paper 28.3, tolerance 0.001) <- rev_peruser_exact2_summary.csv
+== 10. Tenth-round checks (smaller delta, cyclic audit, erasure, canaries)
+[PASS] chain0.9_T200 sum_stat_ratio at delta=0.0001: 3.088 (paper 3.09, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] trace_T200 sum_stat_ratio at delta=0.0001: 5.157 (paper 5.16, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] trace_T200 thm2_over_poisson at delta=0.0001: 16.38 (paper 16.4, tolerance 0.05) <- rev_round10_small_delta.csv
+[PASS] chain0.9_T200 sum_stat_ratio at delta=1e-08: 4.929 (paper 4.93, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] trace_T200 sum_stat_ratio at delta=1e-08: 7.907 (paper 7.91, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] chain0.9_T200 sum_stat_ratio at delta=1e-10: 5.582 (paper 5.58, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] trace_T200 sum_stat_ratio at delta=1e-10: 8.368 (paper 8.37, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] trace_T1000 thm2_over_poisson at delta=0.0001: 20.77 (paper 20.8, tolerance 0.05) <- rev_round10_small_delta.csv
+[PASS] trace_T1000 thm2_over_poisson at delta=1e-10: 17.64 (paper 17.6, tolerance 0.05) <- rev_round10_small_delta.csv
+[PASS] chain, T = 200: Theorem 2 / Poisson rises at every step from 1e-4 to 1e-10 <- rev_round10_small_delta.csv
+[PASS] chain, T = 200: Theorem 2 / Poisson at 1e-4 (7.7; supplement 7.73): 7.73 (paper 7.73, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] chain, T = 200: Theorem 2 / Poisson at 1e-10 (8.6; supplement 8.64): 8.642 (paper 8.64, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] trace, T = 200: smallest Theorem 2 / Poisson over 1e-4..1e-10 (16.3; supplement 16.27): 16.27 (paper 16.27, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] trace, T = 200: largest Theorem 2 / Poisson over 1e-4..1e-10 (16.7; supplement 16.74): 16.74 (paper 16.74, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] trace, T = 1,000: final-model ratio at 1e-4: 7.313 (paper 7.31, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] trace, T = 1,000: final-model ratio at 1e-8 (levels off at 7.9): 7.867 (paper 7.87, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] trace, T = 1,000: final-model ratio at 1e-10: 7.861 (paper 7.86, tolerance 0.005) <- rev_round10_small_delta.csv
+[PASS] numerical checks of the small-delta file (finer PLD, finer grid) below 1e-4 <- rev_round10_small_delta.csv
+[PASS] every policy's final-model ratio grows as delta falls from 1e-4 to 1e-10 <- rev_round10_small_delta_policies.csv
+[PASS] take-all final-model ratio at 1e-10: 12.39 (paper 12.4, tolerance 0.05) <- rev_round10_small_delta_policies.csv
+[PASS] cyclic per-round reference at 1e-4 (20M samples): 7.937 (paper 7.94, tolerance 0.005) <- rev_round10_cyclic_reference.csv
+[PASS] ... lower 99% limit: 7.893 (paper 7.89, tolerance 0.005) <- rev_round10_cyclic_reference.csv
+[PASS] ... upper 99% limit: 7.983 (paper 7.98, tolerance 0.005) <- rev_round10_cyclic_reference.csv
+[PASS] cyclic reference at 1e-5: 9.191 (paper 9.19, tolerance 0.005) <- rev_round10_cyclic_reference.csv
+[PASS] ... lower 99% limit at 1e-5: 9.075 (paper 9.07, tolerance 0.005) <- rev_round10_cyclic_reference.csv
+[PASS] ... upper 99% limit at 1e-5: 9.329 (paper 9.33, tolerance 0.005) <- rev_round10_cyclic_reference.csv
+[PASS] cyclic per-round ratio at 1e-4 (falls ...): 2.769 (paper 2.77, tolerance 0.005) <- rev_round10_cyclic_reference.csv
+[PASS] ... to 1e-5: 2.736 (paper 2.74, tolerance 0.005) <- rev_round10_cyclic_reference.csv
+[PASS] cyclic certified audit, mean at 1e-4: 7.164 (paper 7.16, tolerance 0.005) <- rev_round10_cyclic_results.csv
+[PASS] cyclic certified audit, recovery at 1e-4: 0.9026 (paper 0.9, tolerance 0.005) <- rev_round10_cyclic_results.csv
+[PASS] cyclic certified audit, flags of 120 at 1e-4 and 1e-5: 240 (paper 240, tolerance 0) <- rev_round10_cyclic_results.csv
+[PASS] cyclic certified audit, estimates above the reference: 0 (paper 0, tolerance 0) <- rev_round10_cyclic_results.csv
+[PASS] uncertified estimates above the reference at 1e-4, four laws (11 of 480): 11 (paper 11, tolerance 0) <- step19_results.csv, rev_round10_cyclic_results.csv
+[PASS] cyclic per-round ratio at T = 1,000, 1e-4 (3.9 times): 3.854 (paper 3.9, tolerance 0.05) <- rev_round10_cyclic_T1000.csv
+[PASS] cyclic Theorem 2 (= schema) over the reference at T = 1,000: 1.082 (paper 1.08, tolerance 0.005) <- rev_round10_cyclic_T1000.csv
+[PASS] cyclic per-round ratio at T = 1,000, 1e-4 (falls ...): 3.854 (paper 3.85, tolerance 0.005) <- rev_round10_cyclic_T1000.csv
+[PASS] ... to 1e-5: 3.718 (paper 3.72, tolerance 0.005) <- rev_round10_cyclic_T1000.csv
+[PASS] per device, worst pr_lo / claim at 1e-06: 19.05 (paper 19, tolerance 0.05) <- rev_round10_peruser_summary.csv
+[PASS] per device, worst thm3 / claim at 1e-06: 24.11 (paper 24.1, tolerance 0.05) <- rev_round10_peruser_summary.csv
+[PASS] per device, worst pr_lo / claim at 1e-08: 17.48 (paper 17.5, tolerance 0.05) <- rev_round10_peruser_summary.csv
+[PASS] per device, worst thm3 / claim at 1e-08: 21.99 (paper 22, tolerance 0.05) <- rev_round10_peruser_summary.csv
+[PASS] per device, worst upper end at 1e-8 (value): 45.51 (paper 45.51, tolerance 0.005) <- rev_round10_peruser_summary.csv
+[PASS] largest lower end at 1e-6 and 1e-8 is device 335, largest upper end device 176 (two different devices) <- rev_round10_peruser_summary.csv
+[PASS] per device, worst lower end at 1e-8 (value): 36.18 (paper 36.18, tolerance 0.005) <- rev_round10_peruser_summary.csv
+[PASS] per device, median lower end / claim at 1e-06: 5.54 (paper 5.5, tolerance 0.05) <- rev_round10_peruser_summary.csv
+[PASS] per device, median lower end / claim at 1e-08: 5.3 (paper 5.3, tolerance 0.05) <- rev_round10_peruser_summary.csv
+[PASS] small-delta window-search certificate holds for every device <- rev_round10_peruser_devices.csv certified
+[PASS] small-delta all-window check of the 20 largest devices agrees with the certified search <- rev_round10_peruser_top20.csv
+[PASS] worst device recomputed at discretisation 1e-4 (small delta) is logged <- logs/rev_round10_peruser_delta.log
+[PASS] worst device at 1e-4 discretisation, 1e-8, over the claim: 17.52 (paper 17.5, tolerance 0.05) <- logs/rev_round10_peruser_delta.log
+[PASS] canary sweep, markov, m=100: certified recovery: 0.6764 (paper 0.68, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, markov, m=200: certified recovery: 0.7662 (paper 0.77, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, markov, m=500: certified recovery: 0.8336 (paper 0.83, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, markov, m=1000: certified recovery: 0.8606 (paper 0.86, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, markov, m=2000: certified recovery: 0.8987 (paper 0.9, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, markov, m=5000: certified recovery: 0.9224 (paper 0.92, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, trace, m=100: certified recovery: 0.4449 (paper 0.44, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, trace, m=200: certified recovery: 0.5386 (paper 0.54, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, trace, m=500: certified recovery: 0.6636 (paper 0.66, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, trace, m=1000: certified recovery: 0.7387 (paper 0.74, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, trace, m=2000: certified recovery: 0.7725 (paper 0.77, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep, trace, m=5000: certified recovery: 0.8267 (paper 0.83, tolerance 0.005) <- rev_round10_canaries.csv
+[PASS] canary sweep: audits that do not flag the claim (of 1,440): 1 (paper 1, tolerance 0) <- rev_round10_canaries.csv
+[PASS] canary sweep: estimates above the reference (trace, m = 100): 2 (paper 2, tolerance 0) <- rev_round10_canaries.csv
+[PASS] canary sweep: estimates above the reference elsewhere: 0 (paper 0, tolerance 0) <- rev_round10_canaries.csv
+[PASS] canary sweep: smallest gap of a_lo over z/sqrt(n_obs): 1.01 (paper 1, tolerance 0.05) <- rev_round10_canaries.csv
+[PASS] canary sweep: largest gap of a_lo over z/sqrt(n_obs): 1.257 (paper 1.3, tolerance 0.05) <- rev_round10_canaries.csv
+[PASS] erasure ratio, pca50_random: runs: 10 (paper 10, tolerance 0) <- rev_round10_erasure.csv
+[PASS] erasure ratio, pca50_random: mean: 0.4975 (paper 0.5, tolerance 0.005) <- rev_round10_erasure.csv
+[PASS] erasure ratio, raw_lowvar: runs: 4 (paper 4, tolerance 0) <- rev_round10_erasure.csv
+[PASS] erasure ratio, raw_lowvar: mean: 0.9523 (paper 0.95, tolerance 0.005) <- rev_round10_erasure.csv
 
 ALL CHECKS PASSED
