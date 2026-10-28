@@ -32,6 +32,7 @@ class Table:
         self.a = np.array(sorted(d)); self.plain = np.array([d[k][0] for k in self.a]); self.cert = np.array([d[k][1] for k in self.a])
 
     def cert_floor(self, x):
+        if not np.isfinite(x): return 0.0                 # non-finite estimate: certificate 0 (round 12)
         i = np.searchsorted(self.a - 1e-9, x, side="right") - 1
         return 0.0 if i < 0 else float(self.cert[i])
 

@@ -123,6 +123,8 @@ class CertifiedTable2:
         if keep_samples: self.lps, self.lqs = lps, lqs
 
     def _floor(self, a):
+        if not np.isfinite(a):                       # a non-finite estimate reads as "below the grid": certificate 0
+            return -1
         idx = np.searchsorted(self.a_grid - 1e-9, a, side="right") - 1
         return idx
 
@@ -138,11 +140,22 @@ class CertifiedTable2:
 
 def snr_lower_bound(X, present, B, alpha):
     """Lower confidence limit on a = shift / noise sd at level 1 - alpha: two one-sided limits (normal for the
-    regression shift, chi-square for the absent-group sd), each at level alpha/2 (Bonferroni)."""
+    regression shift, chi-square for the absent-group sd), each at level alpha/2 (Bonferroni).
+    Returns 0 (the paper's convention, Section V-C) when there is no participating present-canary observation
+    (n_obs = 0) or fewer than two absent-canary observations (n_0 < 2); the checks come before any division, so
+    no NaN can reach the table lookup (round 12)."""
+    present = np.asarray(present, dtype=bool)
     Bp = B[present].astype(float); Xp = X[present].astype(float)
-    nobs = Bp.sum(); shift = (Bp * Xp).sum() / nobs
-    xa = X[~present].astype(float).ravel(); n0 = len(xa); sd = xa.std(ddof=1)
+    nobs = Bp.sum()
+    xa = X[~present].astype(float).ravel(); n0 = len(xa)
+    if nobs <= 0 or n0 < 2:
+        return 0.0
+    shift = (Bp * Xp).sum() / nobs
+    sd = xa.std(ddof=1)
     sd_hi = sd * np.sqrt((n0 - 1) / chi2.ppf(alpha / 2, n0 - 1))     # one-sided upper limit on the noise sd
     z = norm.ppf(1 - alpha / 2)                                         # one-sided lower limit on the shift
+    if not np.isfinite(sd_hi) or sd_hi <= 0:
+        return 0.0
     shift_lo = max(shift - z * sd_hi / np.sqrt(nobs), 0.0)
-    return shift_lo / sd_hi
+    a_lo = shift_lo / sd_hi
+    return float(a_lo) if np.isfinite(a_lo) else 0.0

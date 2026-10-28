@@ -16,7 +16,7 @@ PASS or FAIL against the value in the manuscripts. It covers:
 - the pooled ratios 9.4, 8.8, 8.35, 16.4, 16.7, 17.07 and 20.8;
 - the per-device 22.2× and 28.3×, the window-search certificate and the PLD gap;
 - the timer schema bound (3.21 / 6.62, 20× / 41×) and the 1.10 [1.07, 1.13] ratio;
-- the audit counts (994 independent data sets and 1,594 certifications; 816 of 817 and 1,416 of 1,417; 0 of 177; none above the reference) and recoveries (74–90 %, Gaussian fit 3–15 %);
+- the audit counts (994 independent data sets and 1,594 certifications; 816 of 817 and 1,416 of 1,417; 0 of 177; none above the reference) and recoveries (74–90 %, Gaussian fit 3–22 %);
 - the Monte-Carlo sample sizes, the disjointness of certificate and audit seeds, and the fifth-round counterexamples;
 - the seventh-round computations: audit power at small violations, audits with a table built for a misspecified law,
   the sampling error of the law estimated from logs, round length at a fixed horizon and device subsampling, and the
@@ -26,20 +26,23 @@ PASS or FAIL against the value in the manuscripts. It covers:
   failure of the observation model in a 510-parameter model;
 - the eleventh-round computations: the step-function column of Table III recomputed with the current protocol (with a
   check that the replay reproduces every published KL-certified table entry), and the accuracy controls at 200 real clients.
+- the twelfth-round computations: the accuracy baseline without canaries (mean, range, seed and clipping norm), the one
+  below-grid run of the 200-canary control, the 68 control flags, the finiteness of every stored lower confidence limit,
+  and the presence of `test_lower_limit.py`, which pins the zero-return convention of the lower limit (eleven cases).
 
 The output of the last run is in `results/logs/verify_claims.log`.
 
-The generating scripts recompute the underlying values; their run times range from seconds to hours (see the script
+The generating scripts recompute the underlying values. Their run times range from seconds to hours (see the script
 docstrings).
 
 ## 1. Version identity
 
-This is release **v11**. It matches **TIFS v11** (main text and Supplementary Material) and the **extended version v16**
+This is release **v12**. It matches **TIFS v12** (main text and Supplementary Material) and the **extended version v17**
 (`VERSION.md`).
 
-The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`).
-`requirements.txt` pins dp-accounting 0.6.0 and gives lower bounds for the other libraries. `verify_claims.py` was
-last run with Python 3.13.16 and the same library versions.
+The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`);
+`requirements.txt` pins dp-accounting 0.6.0 and gives lower bounds for the other libraries. The last run of
+`verify_claims.py` used Python 3.13.16 and the same library versions.
 
 ## 2. Traceable results
 
@@ -68,6 +71,7 @@ last run with Python 3.13.16 and the same library versions.
 | Erasure runs (tenth round) | `rev_round10_erasure.py` | 1013 |
 | Step-function column of Table III (eleventh round): replay of the step-16 tables | `rev_round11_step.py` | 3031 (Markov), 3032 (trace), the seeds of `step16_delta5.py`, so the samples are identical |
 | Accuracy controls at 200 real clients (eleventh round) | `rev_train.py ctrl200_share01`, `ctrl200_share05` | 901 (the seed of `base_orth`, hence the same clipping norm) |
+| Accuracy baseline at 200 real clients without canaries (twelfth round) | `rev_train.py ctrl200_share00` | 901 (the seed of `base_orth`, hence the same clipping norm) |
 | Guess-counting audits | `rev_guess2.py` | 8101–8103 |
 | Training runs | `fl_mlp2.py`, `fl_mlp3.py`, `fl_mlp_5k.py`, `rev_train.py` | 777; 1717; 7777; 901–906 |
 | Timer-cost training | `rev_timer_utility.py` | 5000 + s, 6000 + s (s = 0–4) |
@@ -80,11 +84,11 @@ last run with Python 3.13.16 and the same library versions.
 ## 3. PLD certification (per-device lower end)
 
 - **Script.** `rev_peruser_exact2.py`. The docstring states the construction.
-  - The optimistic estimate of `dp_accounting` (privacy buckets: rounding down), with every composition run with
-    `tail_mass_truncation=0` so that no mass is truncated or added to the infinity mass, is a lower estimate of ε(δ) for
-    the mechanism with the rates as computed (grouped exactly, no rounding). It is the published lower end, at
-    discretisation 1e-3. (Release v8 rounded the rates to 9 decimals and used the library default 1e-15, which
-    dp-accounting 0.6.0 adds to the infinity mass even in optimistic mode; the change is at most 1.1e-8, section 7.)
+  - The optimistic estimate of `dp_accounting` (privacy buckets: rounding down) is a lower estimate of ε(δ) for
+    the mechanism with the rates as computed, grouped exactly and without rounding, when every composition is run with
+    `tail_mass_truncation=0` so that no mass is truncated or added to the infinity mass. It is the published lower end, at
+    discretisation 1e-3. Release v8 rounded the rates to 9 decimals and used the library default 1e-15, which
+    dp-accounting 0.6.0 adds to the infinity mass even in optimistic mode; the change is at most 1.1e-8 (section 7).
   - The pessimistic estimate (connect-the-dots: rounding up, truncated tail mass added to the infinity mass) is an
     upper estimate.
 - **Per-device values.** `results/rev_peruser_exact2_devices.csv`: columns `pr_lo_<δ>` (optimistic) and `pr_hi_<δ>`
@@ -115,7 +119,7 @@ last run with Python 3.13.16 and the same library versions.
   - The per-device greedy count, started unblocked in each window, bounds every draw's count.
   - Outputs: `results/rev_timer_structural.csv` and `results/rev_timer_schema.csv` (median 3.21, maximum 6.62 at
     δ = 1e-4 under the 20-round timer).
-  - It is an upper bound, not a lower bound for an adversary who knows availability only.
+  - It is an upper bound. For an adversary who knows availability only it is no lower bound.
 - **Realised paths.** `rev_timer_peruser.py` → `rev_timer_peruser.csv`. These values are exact for an adversary who
   also sees the cohort draws, conditionally on those draws.
 - **100-seed study.** `rev_timer_seeds.py` → `rev_timer_seeds.csv`. This is an empirical sensitivity check, not a
@@ -149,7 +153,7 @@ last run with Python 3.13.16 and the same library versions.
   `rev_round7_power_<λ>_est.npy`.
 - **Misspecified law.** `python rev_round7_audit_sens.py misspec 0.91` (and 0.85, 0.89, 0.9, 0.95). The canaries follow
   λ = 0.9 and every table certifies the same 120 audit data sets (one stream, seed 9399), so the rows differ only by the
-  table. The logs list the certified table value at each grid point; these values increase with the assumed λ' at all
+  table. The logs list the certified table value at each grid point, and these values increase with the assumed λ' at all
   nine grid points.
 - **Sampling error of the log-estimated law.** `python rev_round7_audit_sens.py lamse` (seconds) → `rev_round7_lamse.csv`.
 - **Round length and device subsampling.** `python rev_round7_trace_sens.py` (under a minute; needs the FLASH trace in `trace/`,
@@ -158,7 +162,7 @@ last run with Python 3.13.16 and the same library versions.
 - `verify_claims.py`, section 7, re-derives every number of these computations quoted in the manuscripts and checks that
   their table and reference seeds (9101–9108, 9201–9208) are disjoint from their audit seeds (9301–9303, 9399).
 - **Ninth round (certificate implementation).** `rev_peruser_exact2.py` now groups the inclusion rates exactly and
-  runs every composition of the optimistic PLD with `tail_mass_truncation=0` (dp-accounting 0.6.0 otherwise truncates
-  1e-15 and, in `self_compose`, adds it to the infinity mass even in optimistic mode). `python rev_round9_compare.py` compares the regenerated outputs with the
-  v8 outputs (read from the repository's tag v8): largest change 1.1e-8, same windows and certificates.
+  runs every composition of the optimistic PLD with `tail_mass_truncation=0`, because dp-accounting 0.6.0 otherwise truncates
+  1e-15 and, in `self_compose`, adds it to the infinity mass even in optimistic mode. `python rev_round9_compare.py` compares the regenerated outputs with the
+  v8 outputs, read from the repository's tag v8: the largest change is 1.1e-8, with the same windows and certificates.
   `verify_claims.py`, section 8, checks the source and the comparison.

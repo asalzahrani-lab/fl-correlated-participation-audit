@@ -136,7 +136,7 @@ for rep in range(R):
     B = law.sample(m, rng)
     X = (B * present[:, None]) * a_true + rng.standard_normal((m, T)).astype(np.float32)
     a_c = snr_lower_bound(X, present, B, A_EST); a_v = snr_lower_bound(X, present, B, 0.05)
-    i = np.searchsorted(a_grid - 1e-9, a_c, side="right") - 1
+    i = np.searchsorted(a_grid - 1e-9, a_c, side="right") - 1 if np.isfinite(a_c) else -1   # non-finite: certificate 0 (round 12)
     for d, key in [(1e-5, "1e-5"), (1e-4, "1e-4")]:
         res[f"cert_{key}"].append(0.0 if i < 0 else float(tab[d]["cert"][i]))
         res[f"v2_{key}"].append(float(np.interp(a_v, a_grid, tab[d]["plain"], left=0.0)))

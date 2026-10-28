@@ -70,7 +70,7 @@ for k in ["markov", "trace"]:
             Bc = laws[k].sample(m, rng)
             X = (Bc * present[:, None]) * a_true + rng.standard_normal((m, T)).astype(np.float32)
             a_c = snr_lower_bound(X, present, Bc, A_EST)
-            i = np.searchsorted(ag - 1e-9, a_c, side="right") - 1
+            i = np.searchsorted(ag - 1e-9, a_c, side="right") - 1 if np.isfinite(a_c) else -1
             est.append(0.0 if i < 0 else float(ce[i])); alo.append(a_c); nobs.append(float(Bc[present].sum()))
         est, alo, nobs = map(np.array, (est, alo, nobs))
         rows.append([k, m, R, f"{est.mean():.4f}", f"{est.std():.4f}", f"{est.mean() / refs[k]:.4f}", int(np.sum(est > claim[k])), int(np.sum(est > refs[k])),

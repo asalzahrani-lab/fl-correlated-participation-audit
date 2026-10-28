@@ -116,6 +116,7 @@ class CertifiedTable:
         self.eps_cert = np.array(self.eps_cert); self.eps_plain = np.array(self.eps_plain)
 
     def cert(self, a):
+        if not np.isfinite(a): return 0.0                 # non-finite estimate: certificate 0 (round 12)
         idx = np.searchsorted(self.a_grid, a, side="right") - 1
         return 0.0 if idx < 0 else float(self.eps_cert[idx])
 
@@ -124,15 +125,24 @@ class CertifiedTable:
 
 
 def snr_lower_bound(X, present, B, alpha):
-    """a_lo from the path regression (shift) and the absent-group sd, Bonferroni alpha/2 each."""
+    """a_lo from the path regression (shift) and the absent-group sd, Bonferroni alpha/2 each (older split, kept
+    for the step-13 scripts). Returns 0 when n_obs = 0 or n_0 < 2, before any division (round 12)."""
     a2 = alpha / 2
+    present = np.asarray(present, dtype=bool)
     Bp = B[present].astype(float); Xp = X[present].astype(float)
-    nobs = Bp.sum(); shift = (Bp * Xp).sum() / nobs
-    xa = X[~present].astype(float).ravel(); n0 = len(xa); sd = xa.std(ddof=1)
+    nobs = Bp.sum()
+    xa = X[~present].astype(float).ravel(); n0 = len(xa)
+    if nobs <= 0 or n0 < 2:
+        return 0.0
+    shift = (Bp * Xp).sum() / nobs
+    sd = xa.std(ddof=1)
     sd_hi = sd * np.sqrt((n0 - 1) / chi2.ppf(a2 / 2, n0 - 1))
     z = norm.ppf(1 - a2 / 2)
+    if not np.isfinite(sd_hi) or sd_hi <= 0:
+        return 0.0
     shift_lo = max(shift - z * sd_hi / np.sqrt(nobs), 0.0)
-    return shift_lo / sd_hi
+    a_lo = shift_lo / sd_hi
+    return float(a_lo) if np.isfinite(a_lo) else 0.0
 
 
 def certified_audit(X, present, B, table, alpha_est):

@@ -17,6 +17,7 @@ class CsvTable:
         self.bern = np.array([float(r["eps_cert_bern_0.005"]) for r in rows])
 
     def cert(self, a):
+        if not np.isfinite(a): return 0.0                 # non-finite estimate: certificate 0 (round 12)
         i = np.searchsorted(self.a - 1e-9, a, side="right") - 1
         return 0.0 if i < 0 else float(self.bern[i])
 

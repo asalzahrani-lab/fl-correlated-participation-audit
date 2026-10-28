@@ -70,6 +70,7 @@ with open("rev_round10_cyclic_table.csv", "w", newline="") as f:
 
 # ---- 120 audits
 def floor(arr, x):
+    if not np.isfinite(x): return 0.0                     # non-finite estimate: certificate 0 (round 12)
     i = np.searchsorted(a_grid - 1e-9, x, side="right") - 1
     return 0.0 if i < 0 else float(arr[i])
 res = {k: [] for k in ["cert_1e-4", "v2_1e-4", "step_1e-4", "cert_1e-5", "v2_1e-5", "alo"]}

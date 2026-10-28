@@ -94,6 +94,7 @@ with open(f"step16_accounting_{which}{SUF}.csv", "w", newline="") as f:
 
 # ---- audits at delta = 1e-5 (and 1e-4) with the merged certified auditor
 def floor_idx(a):
+    if not np.isfinite(a): return -1                   # non-finite estimate: below the grid, certificate 0 (round 12)
     i = np.searchsorted(a_grid - 1e-9, a, side="right") - 1
     return i
 res = {"cert_1e-5": [], "v2_1e-5": [], "cert_1e-4": [], "v2_1e-4": []}

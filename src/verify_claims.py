@@ -1,6 +1,6 @@
 """Reviewer check: re-derive every headline number of the paper from the stored outputs in ../results/ and print
 PASS / FAIL for each.  No heavy computation is repeated (that is what the generating scripts are for); this script
-checks that the numbers in the manuscripts (TIFS v11 main + supplement, extended v16) follow from the files that the
+checks that the numbers in the manuscripts (TIFS v12 main + supplement, extended v17) follow from the files that the
 generating scripts wrote, and that the random streams that generate the certificate tables are disjoint from those
 that generate the audit data.  Runs in a few seconds:  cd src && python verify_claims.py
 Exit status 0 if every check passes."""
@@ -105,8 +105,11 @@ recs = [float(r["recovery"]) for r in cert + t1k]
 check("lowest certified recovery", min(recs), 0.74, 0.005, "step19_results.csv, step16_results_*_T1000.csv")
 check("highest certified recovery", max(recs), 0.90, 0.005, "step19_results.csv, step16_results_*_T1000.csv")
 gauss = [float(r["recovery"]) for r in sim if r["estimator"].startswith("gauss") and r["law"] in ("markov", "trace")]
-check("Gaussian fit, lowest recovery on correlated laws", min(gauss), 0.03, 0.005, "step19_results.csv gauss")
-check("Gaussian fit, highest recovery on correlated laws", max(gauss), 0.15, 0.005, "step19_results.csv gauss")
+cyc_ref = float(cyc[0]["reference"])                   # retained 20M-sample reference of the cyclic law (7.9371)
+gauss_cyc = [float(r["mean"]) / cyc_ref for r in sim if r["estimator"] == "gauss_1e-4" and r["law"] == "cyclic"]
+check("Gaussian fit, lowest recovery on correlated laws (abstract: 3 %)", min(gauss + gauss_cyc), 0.03, 0.005, "step19_results.csv gauss")
+check("Gaussian fit, highest recovery on the Markov and trace laws (Contribution 2: 15 %)", max(gauss), 0.15, 0.005, "step19_results.csv gauss")
+check("Gaussian fit, recovery on the cyclic law (abstract: 22 %; Table III)", max(gauss_cyc), 0.215, 0.005, "step19_results.csv gauss (cyclic) / rev_round10_cyclic_results.csv reference")
 n_corr = sum(int(r["R"]) for r in cert + t1k if r["law"] != "iid"); n_iid = sum(int(r["R"]) for r in cert if r["law"] == "iid")
 above = sum(int(r["n_above_reference"]) for r in cert + t1k)
 flags = sum(int(r["n_above_poisson"]) for r in cert + t1k if r["law"] != "iid")
@@ -222,7 +225,7 @@ check_true("worst windows, refinement counts and certificates unchanged", cmp9["
 hi9 = one("rev_peruser_exact2_summary.csv", quantity="thm3", delta="0.0001")
 check("upper end quoted as 28.3x (34.527 / 1.2189, not rounded down)", round(float(hi9["max"]) / float(hi9["reference"]), 1), 28.3, 0.001, "rev_peruser_exact2_summary.csv")
 
-print("== 10. Tenth-round checks (smaller delta, cyclic audit, erasure, canaries)")
+print("== 9. Tenth-round checks (smaller delta, cyclic audit, erasure, canaries)")
 sd = {(r["law"], r["delta"]): r for r in rows("rev_round10_small_delta.csv")}
 for law, d, col, val, tol in (("chain0.9_T200", "0.0001", "sum_stat_ratio", 3.09, 0.005), ("trace_T200", "0.0001", "sum_stat_ratio", 5.16, 0.005),
                               ("trace_T200", "0.0001", "thm2_over_poisson", 16.4, 0.05), ("chain0.9_T200", "1e-08", "sum_stat_ratio", 4.93, 0.005),
@@ -303,7 +306,7 @@ for cfg, val, n in (("pca50_random", 0.50, 10), ("raw_lowvar", 0.95, 4)):
     check(f"erasure ratio, {cfg}: runs", len(v), n, 0, "rev_round10_erasure.csv")
     check(f"erasure ratio, {cfg}: mean", sum(v) / len(v), val, 0.005, "rev_round10_erasure.csv")
 
-print("== 11. Eleventh-round checks (step-function column of Table III, accuracy controls)")
+print("== 10. Eleventh-round checks (step-function column of Table III, accuracy controls)")
 for law, n in (("markov", 9), ("trace", 5)):
     t = rows(f"rev_round11_step_table_{law}.csv")
     check_true(f"step-16 replay, {law}: {len(t)} grid points, every published KL-certified entry reproduced at 1e-4 and 1e-5",
@@ -336,6 +339,22 @@ check("control audits above the reference (of 100)", sum(int(r["above_ref"]) for
 check("control flags, 200 canaries (of 50)", sum(int(r["flag"]) for r in c5), 49, 0, "rev_train_ctrl200_share05.csv")
 check("control flags, 40 canaries (of 50)", sum(int(r["flag"]) for r in c1), 19, 0, "rev_train_ctrl200_share01.csv")
 check("control, 40 canaries: runs below the table's grid (report 0)", sum(float(r["cert"]) == 0 for r in c1), 31, 0, "rev_train_ctrl200_share01.csv")
+
+print("== 11. Twelfth-round checks (canary-free accuracy baseline, below-grid run, zero-return convention)")
+c0 = rows("rev_train_ctrl200_share00.csv")
+check("baseline without canaries: runs", len(c0), 50, 0, "rev_train_ctrl200_share00.csv")
+check_true("baseline without canaries: every row has 0 canaries and no audit columns", all(r["m_canary"] == "0" and r["cert"] == "" for r in c0), "rev_train_ctrl200_share00.csv")
+check("mean accuracy, no canaries (baseline; main text V-F, Table S4 row 5)", sum(float(r["acc"]) for r in c0) / len(c0), 0.731, 0.0005, "rev_train_ctrl200_share00.csv")
+a0 = [float(r["acc"]) for r in c0]
+check("baseline accuracy range, lower end (Table S4: 0.708)", min(a0), 0.708, 0.0005, "rev_train_ctrl200_share00.csv")
+check("baseline accuracy range, upper end (Table S4: 0.754)", max(a0), 0.754, 0.0005, "rev_train_ctrl200_share00.csv")
+check_true("baseline uses base_orth's seed and clipping norm", all(abs(float(r["C_clip"]) - float(rows("rev_train_base_orth.csv")[0]["C_clip"])) < 1e-9 for r in c0), "rev_train_ctrl200_share00.csv C_clip")
+check("control, 200 canaries: runs below the table's grid (Table S4 caption: one, repetition 26)", sum(float(r["cert"]) == 0 for r in c5), 1, 0, "rev_train_ctrl200_share05.csv")
+check_true("control, 200 canaries: the below-grid run is repetition 26 with a_lo = 0.3867", any(r["rep"] == "26" and abs(float(r["a_lo"]) - 0.3867) < 5e-5 and float(r["cert"]) == 0 for r in c5), "rev_train_ctrl200_share05.csv")
+check("control flags, both arms (text S-V: 68 of 100)", sum(int(r["flag"]) for r in c5 + c1), 68, 0, "rev_train_ctrl200_*.csv")
+allv = [float(r["a_lo"]) for f in ("rev_train_base_orth.csv", "rev_train_base_rand.csv", "rev_train_ratio_1to2.csv", "rev_train_ratio_1to10.csv", "rev_train_medium.csv", "rev_train_medium_iid.csv", "rev_train_ctrl200_share05.csv", "rev_train_ctrl200_share01.csv") for r in rows(f)]
+check_true("every stored lower confidence limit of the 300 audited training runs is finite (the NaN path of the pre-v12 code was never reached)", len(allv) == 300 and all(v == v and abs(v) != float("inf") for v in allv), "rev_train_*.csv a_lo")
+check_true("zero-return convention test script present (cd src && python test_lower_limit.py)", os.path.exists(os.path.join(HERE, "test_lower_limit.py")), "src/test_lower_limit.py")
 
 print(f"\n{'ALL CHECKS PASSED' if fails == 0 else f'{fails} CHECK(S) FAILED'}")
 sys.exit(1 if fails else 0)

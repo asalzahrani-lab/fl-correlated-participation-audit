@@ -4,7 +4,7 @@ Code, certified tables and trace pipeline for the paper
 
 > A. S. Alzahrani, "When Clients Come Back: Privacy Accounting and Auditing of Federated Learning under Temporally Correlated Participation," manuscript, 2026.
 
-Every number in the paper is traced to a script and an output file in [`PROVENANCE.md`](PROVENANCE.md); the headline numbers of the abstract are mapped one by one in [`CLAIMS.md`](CLAIMS.md), and [`VERSION.md`](VERSION.md) states which manuscript version this release matches. Reviewers: [`REVIEWER_CHECKS.md`](REVIEWER_CHECKS.md) maps each artifact check to files and commands, and `cd src && python verify_claims.py` re-derives every headline number from the stored outputs in a few seconds.
+Every number in the paper is traced to a script and an output file in [`PROVENANCE.md`](PROVENANCE.md). The headline numbers of the abstract are mapped one by one in [`CLAIMS.md`](CLAIMS.md), and [`VERSION.md`](VERSION.md) states which manuscript version this release matches. Reviewers: [`REVIEWER_CHECKS.md`](REVIEWER_CHECKS.md) maps each artifact check to files and commands, and `cd src && python verify_claims.py` re-derives every headline number from the stored outputs in a few seconds.
 
 ## What is here
 
@@ -23,9 +23,9 @@ python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
 bash trace/fetch_trace.sh        # clones FLASH (BSD-2-Clause) and copies data/state_traces.json into trace/
 ```
-Python ≥ 3.10. The code was run with numpy 2.5, scipy 1.18, dp-accounting 0.6.0 on one CPU core; nothing uses a GPU.
+Python ≥ 3.10. The code was run with numpy 2.5, scipy 1.18, dp-accounting 0.6.0 on one CPU core. Nothing uses a GPU.
 
-Paths: scripts look for the trace in `trace/` (override with `P3_TRACE=/path`) and for the image data in `data/fmnist`, `data/mnist` (override with `P3_DATA`, `P3_DATA_MNIST`). Run every script from inside `src/`.
+Paths: scripts look for the trace in `trace/`, which `P3_TRACE=/path` overrides, and for the image data in `data/fmnist`, `data/mnist`, which `P3_DATA`, `P3_DATA_MNIST` override. Run every script from inside `src/`.
 
 ## Reproducing the paper
 
@@ -109,6 +109,9 @@ python3 rev_round10_erasure.py                  # where Model 1 fails: 510-param
 (cd ../results && python3 ../src/rev_round11_step.py join trace && python3 ../src/rev_round11_step.py join markov && python3 ../src/rev_round11_step.py apply)
                                                 # run from results/: table and join write to the working directory, apply reads results/
 python3 rev_train.py ctrl200_share01 50 && python3 rev_train.py ctrl200_share05 50   # accuracy controls at 200 real clients (needs data/)
+# Twelfth revision round
+python3 rev_train.py ctrl200_share00 50               # accuracy baseline at 200 real clients without canaries (needs data/; ~7 min)
+python3 test_lower_limit.py                      # zero-return convention of the lower confidence limit (seconds)
 
 # Figures
 cd ../paper && python3 make_figures.py
@@ -116,13 +119,13 @@ cd ../paper && python3 make_figures.py
 
 `results/theory_notes.md` records the derivations and the review corrections in the order they were made.
 
-`src/derived_numbers.py` recomputes from the result files the numbers that are derived in the text rather than read from a table (the no-subsampling ε of 50.5, the thinning identity, the OLS slopes of D on T, the far-tail thresholds of the threshold-criterion proposition, the aggregate audit counts (994 independent data sets, 1,594 certifications; 816 of 817 and 0 of 177), and the i.i.d. Monte-Carlo checks).
+`src/derived_numbers.py` recomputes from the result files the numbers that are derived in the text rather than read from a table: the no-subsampling ε of 50.5, the thinning identity, the OLS slopes of D on T, the far-tail thresholds of the threshold-criterion proposition, the aggregate audit counts (994 independent data sets, 1,594 certifications; 816 of 817 and 0 of 177), and the i.i.d. Monte-Carlo checks.
 
 ## Naming notes
-* `eps_cert_bern*` columns and `merged_bern_*` estimator names are historical: since step 14 the certificate is the Chernoff–Hoeffding (KL-form) lower confidence bound (`certified2.kl_lo`, the default of `eps_cert_bern`); the empirical-Bernstein variant is kept as `bernstein_lo` but was not used for any reported number.
+* `eps_cert_bern*` columns and `merged_bern_*` estimator names are historical. Since step 14 the certificate has been the Chernoff–Hoeffding (KL-form) lower confidence bound (`certified2.kl_lo`, the default of `eps_cert_bern`); the empirical-Bernstein variant is kept as `bernstein_lo`, but no reported number uses it.
 * `path_aware_v2` = the uncertified path-aware estimator (plain Monte-Carlo curve, linear interpolation); `merged_certified` / `cert_*` = the certified path-aware auditor; `gauss_sum` = Gaussian-fit audit of the final-model scores; `count_cond*` = count-conditioned audit; `old_certified` / `step_*` = the step-function certification of step 12.
 * "FM" = final model, "PR" = per-round in table headers.
-* `vecgauss.py` in this release evaluates Gaussian upper tails as `ndtr(-z)` rather than `1 - ndtr(z)`; the change affects only ε above about 12 (no reported Gaussian-fit or count-conditioned value exceeds 5) and is documented in the file.
+* `vecgauss.py` in this release evaluates Gaussian upper tails as `ndtr(-z)` rather than `1 - ndtr(z)`. The change is documented in the file and affects only ε above about 12; no reported Gaussian-fit or count-conditioned value exceeds 5.
 
 ## License
 MIT (see `LICENSE`). The FLASH trace and simulator are BSD-2-Clause, © their authors (Yang et al., WWW 2021).

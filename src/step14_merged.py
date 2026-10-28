@@ -72,6 +72,7 @@ for a in coarse:
     lp = table.lps[gi].astype(np.float64); lq = table.lqs[gi].astype(np.float64)
     old_vals[a] = eps_from_lower_curve(delta_lo_curve(lp, lq, A_MC_OLD), DELTA)
 def cert_old(a):
+    if not np.isfinite(a): return 0.0                  # non-finite estimate: certificate 0 (round 12)
     i = np.searchsorted(coarse - 1e-9, a, side="right") - 1
     return 0.0 if i < 0 else float(old_vals[coarse[i]])
 log(f"table at a=0.50: plain={table.plain(0.5):.3f} cert_bern={table.cert(0.5):.3f} cert_step={table.cert_step(0.5):.3f} old(0.025,0.05grid)={cert_old(0.5):.3f}; Poisson={ep:.3f}")

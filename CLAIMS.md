@@ -1,6 +1,6 @@
 # Headline claims → computation
 
-Each row is a number in the abstract or the conclusions of the journal version (TIFS v11), the script that produces it, the
+Each row gives a number from the abstract or the conclusions of the journal version (TIFS v12), the script that produces it, the
 output file, and the value it contains. "Certified" = a deterministic bound or a bound holding with stated confidence;
 "estimate" = a Monte-Carlo point estimate.
 
@@ -16,7 +16,7 @@ output file, and the value it contains. "Certified" = a deterministic bound or a
 | Worst device: guarantee to report 28.3× (upper end 34.53) | exact (Theorem 2 on the Poisson-binomial law) | `rev_peruser_exact2.py` | `rev_peruser_exact2_summary.csv` `thm3` max 34.527 (device 176) / 1.2189 = 28.3 |
 | Worst-window search for the lower end (certified) | branch-and-bound with pessimistic 1e-2 screen | `rev_peruser_exact2.py` | `rev_peruser_exact2_devices.csv`: per device `n_refined` (windows computed at 1e-3), `max_coarse_unrefined_<δ>` (largest screen value left unrefined), `certified` = 1 for all 402; `rev_peruser_exact2_top20.csv`: all 24 windows at 1e-3 for the 20 largest devices, `same` = 1 for all 20 |
 | Upper end maximised over windows | exact on every window (no screening) | `rev_peruser_exact2.py` | array `thm3` over all 24 windows; `rev_peruser_exact2_devices.csv` `thm3_<δ>`, `w_thm3` |
-| Audit recovers 74–90 %; Gaussian fit 3–15 % | estimates over 120 audits | `step19_rerun_audits.py` | `step19_results.csv` |
+| Audit recovers 74–90 %; Gaussian fit 3–22 % | estimates over 120 audits; the Gaussian fit's 22 % is the cyclic law (1.7079 against the retained reference 7.9371) | `step19_rerun_audits.py`, `rev_round10_cyclic.py` | `step19_results.csv` (`gauss_1e-4` rows: markov, trace, cyclic), `rev_round10_cyclic_results.csv` (`reference`) |
 | Main evaluation, 994 independent audit data sets (1,594 certifications: each simulated data set under a violated claim is certified at both δ; the cyclic-law audits of `rev_round10_cyclic.py` included): violated claims (2.7× to 17×) flagged on 816 of 817 data sets (1,416 of 1,417 certifications), correct claims on 0 of 177; never above the reference | counts | `derived_numbers.py` | printed by `src/derived_numbers.py` (section 5) |
 | 20-round timer: pooled per-round ratio 1.10 [1.07, 1.13] | estimate with 99 % interval | `rev_refs.py` (law `timer20`) | `rev_refs_timer20.csv` |
 | Timer: pool exceeds the cohort in 2 of 432 rounds (realised run); later rounds can bind under some draws | count / exact search | `rev_timer_peruser.py`, `rev_timer_structural.py` | `rev_timer_peruser.log` (binding 2/432); `rev_timer_structural.log` (max pool 28 > K = 27 at t = 21, one round; ten rounds under the 5-round timer) |
@@ -46,5 +46,5 @@ output file, and the value it contains. "Certified" = a deterministic bound or a
 | The factors are those of 10-minute rounds and grow as rounds shorten: 8.9, 5.2, 2.5 at 5-, 10-, 30-minute rounds (33 h) | exact (Theorem 1) | `rev_round7_trace_sens.py` | `rev_round7_trace_sens.csv` (`check` = round_length) |
 | Over 20 random halves of the devices the final-model ratio is 3.7 to 7.3 | exact (Theorem 1) per subset | `rev_round7_trace_sens.py` | `rev_round7_trace_sens.csv` (`check` = device_subsample, 286 devices) |
 
-All rows above are re-derived from the stored outputs by `src/verify_claims.py` (PASS / FAIL per number; log in
-`results/logs/verify_claims.log`); `REVIEWER_CHECKS.md` maps the artifact checks to files and commands.
+`src/verify_claims.py` re-derives every row above from the stored outputs, PASS / FAIL per number, with the log in
+`results/logs/verify_claims.log`. `REVIEWER_CHECKS.md` maps the artifact checks to files and commands.

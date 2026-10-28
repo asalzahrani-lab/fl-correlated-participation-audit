@@ -11,7 +11,7 @@ New relative to fl_mlp2.py / fl_mlp3.py:
 Server update, clipping calibration, local SGD and the audits are those of fl_mlp2.py.
 
 usage: python rev_train.py CONFIG R      (CONFIG in base_orth, ratio_1to10, ratio_1to2, medium, medium_iid, base_rand,
-                                          ctrl200_share01, ctrl200_share05)"""
+                                          ctrl200_share01, ctrl200_share05, ctrl200_share00)"""
 import sys, csv, time, os
 import numpy as np
 from scipy.stats import kstest, norm
@@ -32,6 +32,8 @@ CONFIGS = {
     # round 11: accuracy controls at 200 real clients (canary share 0.1 and 0.5 instead of base_orth's 2.5)
     "ctrl200_share01": ((64,),  200,       40,       "hadamard", "markov"),
     "ctrl200_share05": ((64,),  200,       200,      "hadamard", "markov"),
+    # round 12: accuracy baseline with no canaries at all (same seed as base_orth, hence its clipping norm; no audit)
+    "ctrl200_share00": ((64,),  200,       0,        "hadamard", "markov"),
 }
 
 
@@ -169,6 +171,7 @@ class CsvTable:
         self.cert_ = np.array([float(r["eps_cert_bern_0.005"]) for r in rows])     # KL-form certificate (see README)
 
     def cert(self, a):
+        if not np.isfinite(a): return 0.0                 # non-finite estimate: certificate 0 (round 12)
         i = np.searchsorted(self.a - 1e-9, a, side="right") - 1
         return 0.0 if i < 0 else float(self.cert_[i])
 
@@ -177,7 +180,7 @@ class CsvTable:
 
 if __name__ == "__main__":
     name, R = sys.argv[1], int(sys.argv[2]); cfg = CONFIGS[name]
-    rng = np.random.default_rng({"base_orth": 901, "base_rand": 902, "ratio_1to10": 903, "ratio_1to2": 904, "medium": 905, "medium_iid": 906, "ctrl200_share01": 901, "ctrl200_share05": 901}[name])   # controls use base_orth's seed, hence its clipping norm
+    rng = np.random.default_rng({"base_orth": 901, "base_rand": 902, "ratio_1to10": 903, "ratio_1to2": 904, "medium": 905, "medium_iid": 906, "ctrl200_share01": 901, "ctrl200_share05": 901, "ctrl200_share00": 901}[name])   # controls use base_orth's seed, hence its clipping norm
     Xtr = load_idx(f"{DATA}/train-images-idx3-ubyte.gz"); ytr = load_idx(f"{DATA}/train-labels-idx1-ubyte.gz")
     Xte = load_idx(f"{DATA}/t10k-images-idx3-ubyte.gz"); yte = load_idx(f"{DATA}/t10k-labels-idx1-ubyte.gz")
     mu = Xtr.mean(axis=0); data = (Xtr - mu, ytr, Xte - mu, yte)
@@ -201,6 +204,10 @@ if __name__ == "__main__":
     for rep in range(R):
         res = run_once(cfg, data, C_clip, rng)            # always run, so that the random stream is the same on resume
         if rep < done:
+            continue
+        if cfg[2] == 0:                                   # no canaries: accuracy only, no audit or diagnostics
+            w.writerow([name, rep, res["d"], cfg[1], 0, cfg[3], cfg[4], f"{C_clip:.4f}", f"{res['acc']:.4f}", f"{res['clip']:.3f}"] + [""] * 18); f.flush()
+            print(f"  rep {rep}: d={res['d']} acc={res['acc']:.3f} clip={res['clip']:.2f} (no canaries) [{time.time()-t0:.0f}s]", flush=True)
             continue
         X, present, B = res["X"], res["present"], res["B"]
         a_lo = snr_lower_bound(X, present, B, 0.045); a_v2 = snr_lower_bound(X, present, B, 0.05)
