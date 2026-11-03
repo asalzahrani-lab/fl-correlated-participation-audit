@@ -31,9 +31,9 @@ other window (start 540, 9 devices) thinning 0.20: D 4.48 ratio 1e-4 1.18 1e-5 1
 other window (start 540, 9 devices) thinning 0.50: D 7.71 ratio 1e-4 1.45 1e-5 1.58 [55s]
 other window (start 540, 9 devices) take all available: D 17.83 ratio 1e-4 2.94 1e-5 3.47 [55s]
 Traceback (most recent call last):
-  File "/home/claude/p3_pilot/rev_trace_robust.py", line 91, in <module>
+  File "p3_pilot/rev_trace_robust.py", line 91, in <module>
     s = summarize(apply_policy(A2, kind, par, b, np.random.default_rng(0)))
-  File "/home/claude/p3_pilot/rev_trace_robust.py", line 36, in summarize
+  File "p3_pilot/rev_trace_robust.py", line 36, in summarize
     out[f"fm_{d:g}"] = e; out[f"fmb_{d:g}"] = eb; out[f"ratio_{d:g}"] = e / eb
                                                                         ~~^~~~
 ZeroDivisionError: float division by zero

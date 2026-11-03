@@ -13,10 +13,10 @@ T=200 minsep 2 tmix=2 var=11.2 dK=6.0e-06 delta=0.0001: full=2.789 sum=2.628 poi
 T=200 minsep 5 tmix=8 var=4.1 dK=3.4e-06 delta=0.001: full=2.253 sum=2.076 poisson=2.303 schema(k=26)=10.479  [235s]
 T=200 minsep 5 tmix=8 var=4.1 dK=3.4e-06 delta=0.0001: full=2.787 sum=2.567 poisson=2.866 schema(k=26)=12.119  [236s]
 Traceback (most recent call last):
-  File "/home/claude/p3_pilot/pilot_a.py", line 30, in <module>
+  File "p3_pilot/pilot_a.py", line 30, in <module>
     P, pi, emit = minsep_chain(q, int(par))
                   ~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "/home/claude/p3_pilot/corraudit.py", line 50, in minsep_chain
+  File "p3_pilot/corraudit.py", line 50, in minsep_chain
     assert 0 < p <= 1, "q*b must be < 1 - q... choose smaller b or q"
            ^^^^^^^^^^
 AssertionError: q*b must be < 1 - q... choose smaller b or q
