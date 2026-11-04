@@ -237,5 +237,60 @@
 [PASS] control flags, both arms (text S-V: 68 of 100): 68 (paper 68, tolerance 0) <- rev_train_ctrl200_*.csv
 [PASS] every stored lower confidence limit of the 300 audited training runs is finite (the NaN path of the pre-v12 code was never reached) <- rev_train_*.csv a_lo
 [PASS] zero-return convention test script present (cd src && python test_lower_limit.py) <- src/test_lower_limit.py
+== 12. Thirteenth-round checks (bootstrap over devices; the audit pointed at the worst device's law)
+[PASS] bootstrap, fixed cohort 0.6: one analysis-population row and 1,000 replicates <- rev_round13_bootstrap.csv
+[PASS] bootstrap, fixed cohort 0.6: analysis population reproduces the paper's fm_ratio_0.0001: 5.157 (paper 5.16, tolerance 0.006) <- rev_round13_bootstrap.csv replicate -1
+[PASS] bootstrap, fixed cohort 0.6: analysis population reproduces the paper's fm_ratio_1e-05: 6.254 (paper 6.25, tolerance 0.006) <- rev_round13_bootstrap.csv replicate -1
+[PASS] bootstrap, fixed cohort 0.6: analysis population reproduces the paper's thm2_0.0001: 19.94 (paper 19.94, tolerance 0.06) <- rev_round13_bootstrap.csv replicate -1
+[PASS] bootstrap, fixed cohort 0.6: analysis population reproduces the paper's thm2_ratio_0.0001: 16.38 (paper 16.38, tolerance 0.06) <- rev_round13_bootstrap.csv replicate -1
+[PASS] bootstrap, fixed cohort 0.6: analysis population reproduces the paper's D: 21.31 (paper 21.3, tolerance 0.06) <- rev_round13_bootstrap.csv replicate -1
+[PASS] bootstrap, fixed cohort 0.6: replicate seeds 13001+r give distinct populations (q varies) <- rev_round13_bootstrap.csv
+[PASS] bootstrap, take all available: one analysis-population row and 1,000 replicates <- rev_round13_bootstrap.csv
+[PASS] bootstrap, take all available: analysis population reproduces the paper's fm_ratio_0.0001: 9.439 (paper 9.44, tolerance 0.006) <- rev_round13_bootstrap.csv replicate -1
+[PASS] bootstrap, take all available: analysis population reproduces the paper's thm2_ratio_0.0001: 13.67 (paper 13.67, tolerance 0.06) <- rev_round13_bootstrap.csv replicate -1
+[PASS] bootstrap, take all available: analysis population reproduces the paper's D: 38.1 (paper 38.1, tolerance 0.06) <- rev_round13_bootstrap.csv replicate -1
+[PASS] bootstrap, take all available: replicate seeds 13001+r give distinct populations (q varies) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, fixed cohort 0.6, fm_ratio_0.0001: lower end (Sec. S-VI / VI-G): 3.977 (paper 3.98, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, fixed cohort 0.6, fm_ratio_0.0001: upper end: 7.344 (paper 7.34, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, fixed cohort 0.6, fm_ratio_1e-05: lower end (Sec. S-VI / VI-G): 4.603 (paper 4.6, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, fixed cohort 0.6, fm_ratio_1e-05: upper end: 8.761 (paper 8.76, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, fixed cohort 0.6, thm2_ratio_0.0001: lower end (Sec. S-VI / VI-G): 14.73 (paper 14.73, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, fixed cohort 0.6, thm2_ratio_0.0001: upper end: 19.21 (paper 19.21, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, fixed cohort 0.6, thm2_ratio_1e-05: lower end (Sec. S-VI / VI-G): 14.78 (paper 14.78, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, fixed cohort 0.6, thm2_ratio_1e-05: upper end: 19.7 (paper 19.7, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, fixed cohort 0.6, D: lower end (Sec. S-VI / VI-G): 19.31 (paper 19.3, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, fixed cohort 0.6, D: upper end: 24.69 (paper 24.7, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, take all available, fm_ratio_0.0001: lower end (Sec. S-VI / VI-G): 6.578 (paper 6.58, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, take all available, fm_ratio_0.0001: upper end: 11.75 (paper 11.75, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, take all available, fm_ratio_1e-05: lower end (Sec. S-VI / VI-G): 7.029 (paper 7.03, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, take all available, fm_ratio_1e-05: upper end: 12.98 (paper 12.98, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, take all available, thm2_ratio_0.0001: lower end (Sec. S-VI / VI-G): 11.93 (paper 11.93, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, take all available, thm2_ratio_0.0001: upper end: 15.52 (paper 15.52, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, take all available, thm2_ratio_1e-05: lower end (Sec. S-VI / VI-G): 11.87 (paper 11.87, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, take all available, thm2_ratio_1e-05: upper end: 15.81 (paper 15.81, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, take all available, D: lower end (Sec. S-VI / VI-G): 33.93 (paper 33.9, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap 95% interval, take all available, D: upper end: 42.24 (paper 42.2, tolerance 0.06) <- rev_round13_bootstrap.csv
+[PASS] bootstrap summary file lists 1,000 replicates for every quantity <- rev_round13_bootstrap_summary.csv
+[PASS] bootstrap: no final-model or Theorem 2 interval reaches 1 <- rev_round13_bootstrap_summary.csv
+[PASS] worst-device table: grid points 0.40 to 0.52 (13): 13 (paper 13, tolerance 0) <- rev_round13_worst_table.csv
+[PASS] worst-device table at 1e-4: increasing in a (the floor rule is valid) <- rev_round13_worst_table.csv
+[PASS] worst-device table at 1e-4: pessimistic exceeds optimistic by at most 0.09: 0.0861 (paper 0.086, tolerance 0.005) <- rev_round13_worst_table.csv
+[PASS] worst-device table at 1e-5: increasing in a (the floor rule is valid) <- rev_round13_worst_table.csv
+[PASS] worst-device table at 1e-5: pessimistic exceeds optimistic by at most 0.09: 0.0861 (paper 0.086, tolerance 0.005) <- rev_round13_worst_table.csv
+[PASS] worst-device audits: 120 audits: 120 (paper 120, tolerance 0) <- rev_round13_worst_audits.csv
+[PASS] worst-device audits: mean n_obs (text: about 58,000): 5.779e+04 (paper 57785, tolerance 50) <- rev_round13_worst_audits.csv
+[PASS] worst-device audits: coverage of a_lo <= a = 0.5: 0.9833 (paper 0.983, tolerance 0.001) <- rev_round13_worst_audits.csv
+[PASS] worst-device audit, certified mean at 1e-4 (text: 25.77): 25.77 (paper 25.77, tolerance 0.005) <- rev_round13_worst_audits.csv
+[PASS] worst-device audit, certified sd at 1e-4 (text: 0.44): 0.4404 (paper 0.44, tolerance 0.005) <- rev_round13_worst_audits.csv
+[PASS] worst-device audit, recovery at 1e-4 against the reference 27.07 (text: 95%): 0.952 (paper 0.952, tolerance 0.001) <- rev_round13_worst_audits.csv, log
+[PASS] worst-device audit, certified mean at 1e-5 (text: 28.32): 28.32 (paper 28.32, tolerance 0.005) <- rev_round13_worst_audits.csv
+[PASS] worst-device audit, recovery at 1e-5 against 29.71 (text: 95%): 0.9533 (paper 0.953, tolerance 0.001) <- rev_round13_worst_audits.csv, log
+[PASS] worst-device audit: flags against the claim 1.219 at 1e-4 (of 120): 120 (paper 120, tolerance 0) <- rev_round13_worst_audits.csv
+[PASS] worst-device audit: audits above the reference at 1e-4: 0 (paper 0, tolerance 0) <- rev_round13_worst_audits.csv
+[PASS] worst-device audit: audits above the reference at 1e-5: 0 (paper 0, tolerance 0) <- rev_round13_worst_audits.csv
+[PASS] worst-device audit: every certified value is a table value (floor rule; the table file is rounded to 4 decimals) <- rev_round13_worst_audits.csv
+[PASS] worst-device audit: the maximum certified value 26.99 is below the reference 27.07 <- rev_round13_worst_audits.csv
+[PASS] worst-device log: device 335, window 21, K=27, reference 27.0672 / 29.7062 (optimistic, 1e-4 discretisation) bracketed by 27.0758 / 29.7148 <- logs/rev_round13_worst_device_audit.log
+[PASS] worst device: the stored lower end at 1e-4 (Table VI: 26.99 at discretisation 1e-3): 26.99 (paper 26.99, tolerance 0.005) <- rev_peruser_exact2_devices.csv
 
 ALL CHECKS PASSED

@@ -1,8 +1,45 @@
 # Version
 
-Release **v12** (2026-10-28), matching the journal submission **TIFS v12** (main text and Supplementary Material) and the
-**extended version v17**. Earlier releases: v11 (TIFS v11 / extended v16), v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
+Release **v13** (2026-11-04), matching the journal submission **TIFS v13** (main text and Supplementary Material) and the
+**extended version v18**. Earlier releases: v12 (TIFS v12 / extended v17), v11 (TIFS v11 / extended v16), v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
 v2 (TIFS v2 / v7).
+
+What changed in v13 (thirteenth internal pre-submission review, two independent reports on TIFS v12): two scripts added,
+two computations added, no published value changed. **Bootstrap over devices** (`rev_round13_bootstrap.py`). The 572
+devices of the analysis window are resampled with replacement 1,000 times (replicate r with seed 13001 + r); the policy is
+re-applied to each resampled population with its own cohort size (fixed cohort: K = round(0.6 x the resampled mean pool),
+policy seed 0), the count law is taken over the 24 windows, and Theorem 1 (exact final-model eps), Theorem 2 (count-averaged
+bound) and the Poisson figure at the replicate's own rate are evaluated at 1e-4 and 1e-5. The analysis population
+reproduces the paper (5.16, 6.25, 19.94, 16.38 for the running example; 9.44, 13.67 for take-all). 95 % percentile
+intervals: running example, final-model ratio 3.98 to 7.34 (1e-4) and 4.60 to 8.76 (1e-5), Theorem 2 over Poisson 14.73 to
+19.21 and 14.78 to 19.70, D 19.3 to 24.7; take-all, final-model ratio 6.58 to 11.75 and 7.03 to 12.98, Theorem 2 over
+Poisson 11.93 to 15.52 and 11.87 to 15.81, D 33.9 to 42.2. Outputs `rev_round13_bootstrap.csv` (one row per replicate and
+policy; replicate -1 is the analysis population) and `rev_round13_bootstrap_summary.csv`. It replaces the "20 random halves"
+summary of the text (TIFS VI-G and Sec. S-VI; the halves and four-fifths subsets stay in the extended version). **The
+audit pointed at the worst device's law** (`rev_round13_worst_device_audit.py`). Canaries are given device 335's law under
+position (b) over its worst window (window 21, rounds 210 to 409; K = 27; 115 expected participations). Given the rates the
+rounds are independent, so eps(delta; a) comes from the PLD accountant on the 0.01 grid of a at discretisation
+1e-3 (the table is the optimistic estimate, a lower estimate; the pessimistic estimate exceeds it by at most 0.086) and no Monte-Carlo
+certificate is needed; the reference is the optimistic estimate at a = 0.5 and discretisation 1e-4, 27.0672 at 1e-4
+(bracketed by the pessimistic 27.0758) and 29.7062 at 1e-5. 120 audits of 1,000 canaries (seed 13002, level 0.05, the whole
+level on the estimate): certified 25.77 +- 0.44 (95.2 % of the reference), 120 flags of the Poisson claim 1.219, none above
+the reference; at 1e-5, 28.32 +- 0.47 (95.3 % of 29.71). Outputs `rev_round13_worst_table.csv` and
+`rev_round13_worst_audits.csv`. `verify_claims.py` gains a thirteenth-round section (54 checks; 280 in all, all passing).
+**Text.** The reported per-device figure is now called "the bound to report from the logs" (conditional on the logged
+availability) rather than "the guarantee to report", and Section III-C states the three kinds of number (a measurement
+for a given law, a bound for the run from the logs, the schema bound for every path); the stateless-client scope and the
+audit's independence from it are stated in Sections V-E and VII; the training scope ("small vision models, so the
+mechanism is architecture-independent and the numbers are not"), the timer's accuracy cost in the conclusion, and the
+step-function certificate as "a Clopper-Pearson limit on one tail probability" are stated; references with more than six
+authors use "et al." (IEEE Reference Guide). TIFS v13 main text 13 pages, supplement 6, abstract 250 words.
+
+Values that differ between release v12 and release v13, with the reason:
+
+| Quantity | v12 | v13 | Reason |
+|---|---|---|---|
+| Sampling uncertainty of the trace numbers | 20 random halves: final-model ratio 3.7 to 7.3 (median 5.4) | bootstrap over devices: 95 % interval 3.98 to 7.34 about 5.16; Theorem 2 over Poisson 14.73 to 19.21 about 16.38 | thirteenth-round request; the halves summary stays in the extended version |
+| Audit of one device's law | not computed | device 335 under (b): certified 25.77 +- 0.44 of 27.07 (95 %), 120/120 flags, 0 above | thirteenth-round request; new script |
+| `verify_claims.py` checks | 226 | 280 | thirteenth-round section |
 
 What changed in v12 (twelfth internal pre-submission review, three independent reports on TIFS v11): one defect fixed, one
 test script added, one configuration added, one summary extended. No published value changed. **Defect.** With no

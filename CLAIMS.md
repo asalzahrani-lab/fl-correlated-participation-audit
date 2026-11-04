@@ -1,6 +1,6 @@
 # Headline claims → computation
 
-Each row gives a number from the abstract or the conclusions of the journal version (TIFS v12), the script that produces it, the
+Each row gives a number from the abstract or the conclusions of the journal version (TIFS v13), the script that produces it, the
 output file, and the value it contains. "Certified" = a deterministic bound or a bound holding with stated confidence;
 "estimate" = a Monte-Carlo point estimate.
 
@@ -13,7 +13,7 @@ output file, and the value it contains. "Certified" = a deterministic bound or a
 | … upper end 16.4× | exact (Theorem 2) | `step21b_consistent.py` | `step21b_policies.csv` `thm3_bound_1e-4` = 19.942 / 1.218 = 16.4 |
 | T = 1,000: 17 to 21× | certified lower (99 %) / exact upper | `step20b_parts.py`, `rev_refs.py stored`, `rev_t1000_bracket.py` | lower limit 50.43 / 2.954 = 17.07 (`rev_refs_stored.csv`); Theorem 2: 61.34 / 2.954 = 20.8 (`rev_t1000_bracket.csv`) |
 | Worst device: claim must cover ≥ 22× | certified numerically (optimistic PLD, rates grouped exactly, composed with no tail truncation; v9) | `rev_peruser_exact2.py` | `rev_peruser_exact2_summary.csv` `pr_lo` max 26.990 (1e-3; 22.1×); `rev_peruser_exact2.log`: device 335 at discretisation 1e-4 [27.067, 27.076] → 22.2× of 1.2189 |
-| Worst device: guarantee to report 28.3× (upper end 34.53) | exact (Theorem 2 on the Poisson-binomial law) | `rev_peruser_exact2.py` | `rev_peruser_exact2_summary.csv` `thm3` max 34.527 (device 176) / 1.2189 = 28.3 |
+| Worst device: the bound to report from the logs, 28.3× (upper end 34.53; a bound for the run, conditional on the logged availability) | exact (Theorem 2 on the Poisson-binomial law) | `rev_peruser_exact2.py` | `rev_peruser_exact2_summary.csv` `thm3` max 34.527 (device 176) / 1.2189 = 28.3 |
 | Worst-window search for the lower end (certified) | branch-and-bound with pessimistic 1e-2 screen | `rev_peruser_exact2.py` | `rev_peruser_exact2_devices.csv`: per device `n_refined` (windows computed at 1e-3), `max_coarse_unrefined_<δ>` (largest screen value left unrefined), `certified` = 1 for all 402; `rev_peruser_exact2_top20.csv`: all 24 windows at 1e-3 for the 20 largest devices, `same` = 1 for all 20 |
 | Upper end maximised over windows | exact on every window (no screening) | `rev_peruser_exact2.py` | array `thm3` over all 24 windows; `rev_peruser_exact2_devices.csv` `thm3_<δ>`, `w_thm3` |
 | Audit recovers 74–90 %; Gaussian fit 3–22 % | estimates over 120 audits; the Gaussian fit's 22 % is the cyclic law (1.7079 against the retained reference 7.9371) | `step19_rerun_audits.py`, `rev_round10_cyclic.py` | `step19_results.csv` (`gauss_1e-4` rows: markov, trace, cyclic), `rev_round10_cyclic_results.csv` (`reference`) |

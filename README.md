@@ -112,6 +112,9 @@ python3 rev_train.py ctrl200_share01 50 && python3 rev_train.py ctrl200_share05 
 # Twelfth revision round
 python3 rev_train.py ctrl200_share00 50               # accuracy baseline at 200 real clients without canaries (needs data/; ~7 min)
 python3 test_lower_limit.py                      # zero-return convention of the lower confidence limit (seconds)
+# Thirteenth revision round (run from results/, needs trace/)
+(cd ../results && P3_TRACE=../trace python3 ../src/rev_round13_bootstrap.py 1000)        # bootstrap over devices: final-model and Theorem-2 ratios (~22 min)
+(cd ../results && P3_TRACE=../trace python3 ../src/rev_round13_worst_device_audit.py)   # the audit pointed at the worst device's law (~3 min)
 
 # Figures
 cd ../paper && python3 make_figures.py

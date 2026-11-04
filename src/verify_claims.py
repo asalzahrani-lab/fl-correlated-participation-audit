@@ -1,6 +1,6 @@
 """Reviewer check: re-derive every headline number of the paper from the stored outputs in ../results/ and print
 PASS / FAIL for each.  No heavy computation is repeated (that is what the generating scripts are for); this script
-checks that the numbers in the manuscripts (TIFS v12 main + supplement, extended v17) follow from the files that the
+checks that the numbers in the manuscripts (TIFS v13 main + supplement, extended v18) follow from the files that the
 generating scripts wrote, and that the random streams that generate the certificate tables are disjoint from those
 that generate the audit data.  Runs in a few seconds:  cd src && python verify_claims.py
 Exit status 0 if every check passes."""
@@ -355,6 +355,56 @@ check("control flags, both arms (text S-V: 68 of 100)", sum(int(r["flag"]) for r
 allv = [float(r["a_lo"]) for f in ("rev_train_base_orth.csv", "rev_train_base_rand.csv", "rev_train_ratio_1to2.csv", "rev_train_ratio_1to10.csv", "rev_train_medium.csv", "rev_train_medium_iid.csv", "rev_train_ctrl200_share05.csv", "rev_train_ctrl200_share01.csv") for r in rows(f)]
 check_true("every stored lower confidence limit of the 300 audited training runs is finite (the NaN path of the pre-v12 code was never reached)", len(allv) == 300 and all(v == v and abs(v) != float("inf") for v in allv), "rev_train_*.csv a_lo")
 check_true("zero-return convention test script present (cd src && python test_lower_limit.py)", os.path.exists(os.path.join(HERE, "test_lower_limit.py")), "src/test_lower_limit.py")
+
+print("== 12. Thirteenth-round checks (bootstrap over devices; the audit pointed at the worst device's law)")
+import statistics
+bs = rows("rev_round13_bootstrap.csv")
+def q(vals, p):
+    v = sorted(vals); k = (len(v) - 1) * p; f = int(k); c = min(f + 1, len(v) - 1)
+    return v[f] + (v[c] - v[f]) * (k - f)
+for pol, pt in (("fixed cohort 0.6", {"fm_ratio_0.0001": 5.16, "fm_ratio_1e-05": 6.25, "thm2_0.0001": 19.94, "thm2_ratio_0.0001": 16.38, "D": 21.3}),
+                ("take all available", {"fm_ratio_0.0001": 9.44, "thm2_ratio_0.0001": 13.67, "D": 38.1})):
+    base = [r for r in bs if r["policy"] == pol and r["replicate"] == "-1"]
+    reps = [r for r in bs if r["policy"] == pol and int(r["replicate"]) >= 0]
+    check_true(f"bootstrap, {pol}: one analysis-population row and 1,000 replicates", len(base) == 1 and len(reps) == 1000, "rev_round13_bootstrap.csv")
+    for k, v in pt.items():
+        check(f"bootstrap, {pol}: analysis population reproduces the paper's {k}", float(base[0][k]), v, 0.006 if v < 10 else 0.06, "rev_round13_bootstrap.csv replicate -1")
+    check_true(f"bootstrap, {pol}: replicate seeds 13001+r give distinct populations (q varies)", len({r["q"] for r in reps}) > 900, "rev_round13_bootstrap.csv")
+ivals = {("fixed cohort 0.6", "fm_ratio_0.0001"): (3.98, 7.34), ("fixed cohort 0.6", "fm_ratio_1e-05"): (4.60, 8.76), ("fixed cohort 0.6", "thm2_ratio_0.0001"): (14.73, 19.21),
+         ("fixed cohort 0.6", "thm2_ratio_1e-05"): (14.78, 19.70), ("fixed cohort 0.6", "D"): (19.3, 24.7), ("take all available", "fm_ratio_0.0001"): (6.58, 11.75),
+         ("take all available", "fm_ratio_1e-05"): (7.03, 12.98), ("take all available", "thm2_ratio_0.0001"): (11.93, 15.52), ("take all available", "thm2_ratio_1e-05"): (11.87, 15.81),
+         ("take all available", "D"): (33.9, 42.2)}
+for (pol, k), (lo, hi) in ivals.items():
+    v = [float(r[k]) for r in bs if r["policy"] == pol and int(r["replicate"]) >= 0]
+    check(f"bootstrap 95% interval, {pol}, {k}: lower end (Sec. S-VI / VI-G)", q(v, 0.025), lo, 0.06, "rev_round13_bootstrap.csv")
+    check(f"bootstrap 95% interval, {pol}, {k}: upper end", q(v, 0.975), hi, 0.06, "rev_round13_bootstrap.csv")
+sm = rows("rev_round13_bootstrap_summary.csv")
+check_true("bootstrap summary file lists 1,000 replicates for every quantity", all(r["replicates"] == "1000" for r in sm), "rev_round13_bootstrap_summary.csv")
+check_true("bootstrap: no final-model or Theorem 2 interval reaches 1", all(float(r["q025"]) > 1.5 for r in sm if r["quantity"].endswith("ratio_0.0001") or r["quantity"].endswith("ratio_1e-05")), "rev_round13_bootstrap_summary.csv")
+wt = rows("rev_round13_worst_table.csv"); wa = rows("rev_round13_worst_audits.csv")
+check("worst-device table: grid points 0.40 to 0.52 (13)", len(wt), 13, 0, "rev_round13_worst_table.csv")
+for d in ("1e-4", "1e-5"):
+    lo = [float(r[f"eps_lo_{d}"]) for r in wt]; hi = [float(r[f"eps_hi_{d}"]) for r in wt]
+    check_true(f"worst-device table at {d}: increasing in a (the floor rule is valid)", all(b > a for a, b in zip(lo, lo[1:])), "rev_round13_worst_table.csv")
+    check(f"worst-device table at {d}: pessimistic exceeds optimistic by at most 0.09", max(h - l for h, l in zip(hi, lo)), 0.086, 0.005, "rev_round13_worst_table.csv")
+check("worst-device audits: 120 audits", len(wa), 120, 0, "rev_round13_worst_audits.csv")
+check("worst-device audits: mean n_obs (text: about 58,000)", sum(int(r["n_obs"]) for r in wa) / len(wa), 57785, 50, "rev_round13_worst_audits.csv")
+check("worst-device audits: coverage of a_lo <= a = 0.5", sum(float(r["a_lo"]) <= 0.5 for r in wa) / len(wa), 0.983, 0.001, "rev_round13_worst_audits.csv")
+c4 = [float(r["cert_0.0001"]) for r in wa]; c5 = [float(r["cert_1e-05"]) for r in wa]
+check("worst-device audit, certified mean at 1e-4 (text: 25.77)", statistics.mean(c4), 25.77, 0.005, "rev_round13_worst_audits.csv")
+check("worst-device audit, certified sd at 1e-4 (text: 0.44)", statistics.pstdev(c4), 0.44, 0.005, "rev_round13_worst_audits.csv")
+check("worst-device audit, recovery at 1e-4 against the reference 27.07 (text: 95%)", statistics.mean(c4) / 27.0672, 0.952, 0.001, "rev_round13_worst_audits.csv, log")
+check("worst-device audit, certified mean at 1e-5 (text: 28.32)", statistics.mean(c5), 28.32, 0.005, "rev_round13_worst_audits.csv")
+check("worst-device audit, recovery at 1e-5 against 29.71 (text: 95%)", statistics.mean(c5) / 29.7062, 0.953, 0.001, "rev_round13_worst_audits.csv, log")
+check("worst-device audit: flags against the claim 1.219 at 1e-4 (of 120)", sum(int(r["flag_0.0001"]) for r in wa), 120, 0, "rev_round13_worst_audits.csv")
+check("worst-device audit: audits above the reference at 1e-4", sum(int(r["above_ref_0.0001"]) for r in wa), 0, 0, "rev_round13_worst_audits.csv")
+check("worst-device audit: audits above the reference at 1e-5", sum(int(r["above_ref_1e-05"]) for r in wa), 0, 0, "rev_round13_worst_audits.csv")
+check_true("worst-device audit: every certified value is a table value (floor rule; the table file is rounded to 4 decimals)", all(any(abs(float(r["cert_0.0001"]) - float(t["eps_lo_1e-4"])) < 6e-5 for t in wt) for r in wa), "rev_round13_worst_audits.csv")
+check_true("worst-device audit: the maximum certified value 26.99 is below the reference 27.07", max(c4) < 27.0672, "rev_round13_worst_audits.csv")
+wl = open(os.path.join(LOGS, "rev_round13_worst_device_audit.log")).read()
+check_true("worst-device log: device 335, window 21, K=27, reference 27.0672 / 29.7062 (optimistic, 1e-4 discretisation) bracketed by 27.0758 / 29.7148", all(x in wl for x in ("device 335", "window 21", "K=27", "optimistic 27.0672 / 29.7062", "pessimistic 27.0758 / 29.7148")), "logs/rev_round13_worst_device_audit.log")
+dev335 = one("rev_peruser_exact2_devices.csv", device="335")
+check("worst device: the stored lower end at 1e-4 (Table VI: 26.99 at discretisation 1e-3)", float(dev335["pr_lo_0.0001"]), 26.99, 0.005, "rev_peruser_exact2_devices.csv")
 
 print(f"\n{'ALL CHECKS PASSED' if fails == 0 else f'{fails} CHECK(S) FAILED'}")
 sys.exit(1 if fails else 0)

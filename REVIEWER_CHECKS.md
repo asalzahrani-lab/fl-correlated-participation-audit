@@ -29,6 +29,8 @@ PASS or FAIL against the value in the manuscripts. It covers:
 - the twelfth-round computations: the accuracy baseline without canaries (mean, range, seed and clipping norm), the one
   below-grid run of the 200-canary control, the 68 control flags, the finiteness of every stored lower confidence limit,
   and the presence of `test_lower_limit.py`, which pins the zero-return convention of the lower limit (eleven cases).
+- the thirteenth-round computations: the bootstrap intervals over devices (point values equal to the paper's, interval
+  endpoints as printed) and the audit of the worst device's law (reference, recovery, flags, exceedances, table monotone).
 
 The output of the last run is in `results/logs/verify_claims.log`.
 
@@ -37,7 +39,7 @@ docstrings).
 
 ## 1. Version identity
 
-This is release **v12**. It matches **TIFS v12** (main text and Supplementary Material) and the **extended version v17**
+This is release **v13**. It matches **TIFS v13** (main text and Supplementary Material) and the **extended version v18**
 (`VERSION.md`).
 
 The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`);
@@ -72,6 +74,8 @@ The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accountin
 | Step-function column of Table III (eleventh round): replay of the step-16 tables | `rev_round11_step.py` | 3031 (Markov), 3032 (trace), the seeds of `step16_delta5.py`, so the samples are identical |
 | Accuracy controls at 200 real clients (eleventh round) | `rev_train.py ctrl200_share01`, `ctrl200_share05` | 901 (the seed of `base_orth`, hence the same clipping norm) |
 | Accuracy baseline at 200 real clients without canaries (twelfth round) | `rev_train.py ctrl200_share00` | 901 (the seed of `base_orth`, hence the same clipping norm) |
+| Bootstrap over devices (thirteenth round) | `rev_round13_bootstrap.py` | 13001 + replicate (resampling); 0 (policy) |
+| Audit of the worst device's law (thirteenth round) | `rev_round13_worst_device_audit.py` | 13002 (audits); the table is deterministic (PLD) |
 | Guess-counting audits | `rev_guess2.py` | 8101–8103 |
 | Training runs | `fl_mlp2.py`, `fl_mlp3.py`, `fl_mlp_5k.py`, `rev_train.py` | 777; 1717; 7777; 901–906 |
 | Timer-cost training | `rev_timer_utility.py` | 5000 + s, 6000 + s (s = 0–4) |
