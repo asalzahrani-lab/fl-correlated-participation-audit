@@ -52,7 +52,7 @@ docstrings).
 
 ## 1. Version identity
 
-This is release **v15**. It matches **TIFS v15** (main text and Supplementary Material) and the **extended version v20**
+This is release **v16**. It matches **TIFS v16** (main text and Supplementary Material) and the **extended version v21**
 (`VERSION.md`).
 
 The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`; the CNN runs of

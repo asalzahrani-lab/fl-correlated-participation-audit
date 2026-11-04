@@ -1,6 +1,6 @@
 """Reviewer check: re-derive every headline number of the paper from the stored outputs in ../results/ and print
 PASS / FAIL for each.  No heavy computation is repeated (that is what the generating scripts are for); this script
-checks that the numbers in the manuscripts (TIFS v15 main + supplement, extended v20) follow from the files that the
+checks that the numbers in the manuscripts (TIFS v16 main + supplement, extended v21) follow from the files that the
 generating scripts wrote, and that the random streams that generate the certificate tables are disjoint from those
 that generate the audit data.  Runs in a few seconds:  cd src && python verify_claims.py
 Exit status 0 if every check passes."""

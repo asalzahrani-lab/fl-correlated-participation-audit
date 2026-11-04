@@ -1,8 +1,17 @@
 # Version
 
-Release **v15** (2026-11-04), matching the journal submission **TIFS v15** (main text and Supplementary Material) and the
-**extended version v20**. Earlier releases: v14 (TIFS v14 / extended v19), v13 (TIFS v13 / extended v18), v12 (TIFS v12 / extended v17), v11 (TIFS v11 / extended v16), v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
+Release **v16** (2026-11-04), matching the journal submission **TIFS v16** (main text and Supplementary Material) and the
+**extended version v21**. Earlier releases: v15 (TIFS v15 / extended v20), v14 (TIFS v14 / extended v19), v13 (TIFS v13 / extended v18), v12 (TIFS v12 / extended v17), v11 (TIFS v11 / extended v16), v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
 v2 (TIFS v2 / v7).
+
+What changed in v16 (sixteenth internal pre-submission review, a readiness review of TIFS v15 that re-ran the checks on
+commit 0f3902b): documentation only -- no script, stored result or check changed, `verify_claims.py` still 502 checks.
+The manuscript (TIFS v16 / extended v21) names the estimator behind the 62 to 100 % detection range after shape screening
+(eq. (11): 120 / 110 / 74 of 120 at r = 0.90) and adds the centred estimator's range, 56 to 100 % (120 / 107 / 67, both in
+`rev_round15_screening_noise.csv`), in the abstract, Contribution 2, V-F and the conclusion; VII practice (4) says that an
+audit of the sum release's own privacy can miss a violation confined to the per-round transcript while a sum estimator
+given the law, the counts and the same table flags it with less power; V-C writes the quantity that eq. (11) bounds as
+theta = mu / s (a in the model, a / r under a noise scale r times the declared). CLAIMS.md carries the centred range.
 
 What changed in v15 (fifteenth internal pre-submission review, a referee report and re-analysis plan on TIFS v14): six
 scripts added, no new experimental condition (the only new computations are four null calibration cells and twelve
