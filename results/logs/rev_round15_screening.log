@@ -1,0 +1,287 @@
+sufficient statistics: 7480 rows recomputed, largest absolute discrepancy 3.33e-16
+round-14 noise aggregates reproduced in all 24 cells
+rule A at full precision vs the rounded file: 1 of 6680 audits decided differently
+round-14 residual aggregates reproduced in all 19 cells (rule A at full precision)
+rule A (round-14 null): s_hat 1.00004+-0.00212, lag1_200 -0.00494+-0.00490, mean_a 0.00019+-0.00319, erasure 1.00849+-0.06269, ks max 0.00383
+rule A_cal (Markov 1,000, independent null): s_hat 1.00003+-0.00234, lag1_200 -0.00474+-0.00538, mean_a 0.00028+-0.00326, erasure 1.00374+-0.06440, ks max 0.00352
+  null ('markov', 1000): s_hat sd 0.00234, mean_a sd 0.00326, lag1 sd 0.00538, erasure sd 0.0644, ks max 0.00352
+  null ('markov', 200): s_hat sd 0.00492, mean_a sd 0.00707, lag1 sd 0.00648, erasure sd 0.1487, ks max 0.00807
+  null ('iid', 1000): s_hat sd 0.00217, mean_a sd 0.00334, lag1 sd 0.00471, erasure sd 0.0651, ks max 0.00365
+  null ('trace', 1000): s_hat sd 0.00224, mean_a sd 0.00300, lag1 sd 0.00530, erasure sd 0.1367, ks max 0.00363
+
+NOISE CELLS (per rule: A = flag kept, B = flag withheld, C = no flag reported, D = withheld without flag; reasons in brackets)
+markov m=1000 r=1.10: claim 11.869, realised 9.600 [9.059, 10.405]; raw flags 0/120 (upper limit 0); centred raw 0; scale alarms 120 (calibrated 120); above point 1, above interval 0, inside 4
+      rule A    : eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120]
+      rule B    : eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+      rule A_cal: eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120]
+      rule B_cal: eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+markov m=1000 r=1.00: claim 11.869, realised 11.869 [11.019, 12.678]; raw flags 0/120 (upper limit 0); centred raw 0; scale alarms 0 (calibrated 0); above point 0, above interval 0, inside 12
+      rule A    : eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+      rule B    : eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+      rule A_cal: eq. 11 A   0 B   0 C 119 D   1 (after screening 0/120); centred A   0 B   0 C 119 D   1 [ks 1]
+      rule B_cal: eq. 11 A   0 B   0 C 119 D   1 (after screening 0/120); centred A   0 B   0 C 119 D   1 [ks 1]
+markov m=1000 r=0.98: claim 11.869, realised 12.414 [11.806, 13.335]; raw flags 1/120 (upper limit 1); centred raw 1; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 1
+      rule A    : eq. 11 A   0 B   1 C   0 D 119 (after screening 0/120); centred A   0 B   1 C   0 D 119 [s_hat 120]
+      rule B    : eq. 11 A   1 B   0 C 119 D   0 (after screening 1/120); centred A   1 B   0 C 119 D   0 []
+      rule A_cal: eq. 11 A   0 B   1 C   0 D 119 (after screening 0/120); centred A   0 B   1 C   0 D 119 [s_hat 120]
+      rule B_cal: eq. 11 A   1 B   0 C 119 D   0 (after screening 1/120); centred A   1 B   0 C 119 D   0 []
+markov m=1000 r=0.95: claim 11.869, realised 13.281 [12.359, 14.153]; raw flags 40/120 (upper limit 40); centred raw 33; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 10
+      rule A    : eq. 11 A   0 B  40 C   0 D  80 (after screening 0/120); centred A   0 B  33 C   0 D  87 [s_hat 120]
+      rule B    : eq. 11 A  40 B   0 C  80 D   0 (after screening 40/120); centred A  33 B   0 C  87 D   0 []
+      rule A_cal: eq. 11 A   0 B  40 C   0 D  80 (after screening 0/120); centred A   0 B  33 C   0 D  87 [s_hat 120, ks 1]
+      rule B_cal: eq. 11 A  40 B   0 C  79 D   1 (after screening 40/120); centred A  33 B   0 C  86 D   1 [ks 1]
+markov m=1000 r=0.90: claim 11.869, realised 15.024 [14.463, 16.341]; raw flags 120/120 (upper limit 120); centred raw 120; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B 120 C   0 D   0 (after screening 0/120); centred A   0 B 120 C   0 D   0 [s_hat 120]
+      rule B    : eq. 11 A 120 B   0 C   0 D   0 (after screening 120/120); centred A 120 B   0 C   0 D   0 []
+      rule A_cal: eq. 11 A   0 B 120 C   0 D   0 (after screening 0/120); centred A   0 B 120 C   0 D   0 [s_hat 120]
+      rule B_cal: eq. 11 A 120 B   0 C   0 D   0 (after screening 120/120); centred A 120 B   0 C   0 D   0 []
+markov m=1000 r=0.80: claim 11.869, realised 19.653 [18.308, 20.551]; raw flags 120/120 (upper limit 120); centred raw 120; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B 120 C   0 D   0 (after screening 0/120); centred A   0 B 120 C   0 D   0 [s_hat 120]
+      rule B    : eq. 11 A 120 B   0 C   0 D   0 (after screening 120/120); centred A 120 B   0 C   0 D   0 []
+      rule A_cal: eq. 11 A   0 B 120 C   0 D   0 (after screening 0/120); centred A   0 B 120 C   0 D   0 [s_hat 120, ks 1]
+      rule B_cal: eq. 11 A 119 B   1 C   0 D   0 (after screening 119/120); centred A 119 B   1 C   0 D   0 [ks 1]
+markov m= 200 r=1.10: claim 11.869, realised 9.600 [9.059, 10.405]; raw flags 0/120 (upper limit 0); centred raw 0; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120, lag1_200 1, mean_a 7, erasure 14, ks 87]
+      rule B    : eq. 11 A   0 B   0 C  29 D  91 (after screening 0/120); centred A   0 B   0 C  29 D  91 [lag1_200 1, mean_a_norm 4, erasure 14, ks 87]
+      rule A_cal: eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120]
+      rule B_cal: eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+markov m= 200 r=1.00: claim 11.869, realised 11.869 [11.019, 12.678]; raw flags 0/120 (upper limit 0); centred raw 0; scale alarms 11 (calibrated 0); above point 0, above interval 0, inside 4
+      rule A    : eq. 11 A   0 B   0 C  19 D 101 (after screening 0/120); centred A   0 B   0 C  19 D 101 [s_hat 11, mean_a 4, erasure 13, ks 92]
+      rule B    : eq. 11 A   0 B   0 C  22 D  98 (after screening 0/120); centred A   0 B   0 C  22 D  98 [mean_a_norm 4, erasure 13, ks 92]
+      rule A_cal: eq. 11 A   0 B   0 C 119 D   1 (after screening 0/120); centred A   0 B   0 C 119 D   1 [ks 1]
+      rule B_cal: eq. 11 A   0 B   0 C 119 D   1 (after screening 0/120); centred A   0 B   0 C 119 D   1 [ks 1]
+markov m= 200 r=0.98: claim 11.869, realised 12.414 [11.806, 13.335]; raw flags 1/120 (upper limit 1); centred raw 0; scale alarms 120 (calibrated 56); above point 0, above interval 0, inside 1
+      rule A    : eq. 11 A   0 B   1 C   0 D 119 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120, lag1_200 1, mean_a 6, erasure 10, ks 83]
+      rule B    : eq. 11 A   0 B   1 C  32 D  87 (after screening 0/120); centred A   0 B   0 C  32 D  88 [lag1_200 1, mean_a_norm 6, erasure 10, ks 83]
+      rule A_cal: eq. 11 A   0 B   1 C  64 D  55 (after screening 0/120); centred A   0 B   0 C  64 D  56 [s_hat 56]
+      rule B_cal: eq. 11 A   1 B   0 C 119 D   0 (after screening 1/120); centred A   0 B   0 C 120 D   0 []
+markov m= 200 r=0.95: claim 11.869, realised 13.281 [12.359, 14.153]; raw flags 9/120 (upper limit 9); centred raw 6; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 3
+      rule A    : eq. 11 A   0 B   9 C   0 D 111 (after screening 0/120); centred A   0 B   6 C   0 D 114 [s_hat 120, lag1_200 2, mean_a 8, erasure 10, ks 84]
+      rule B    : eq. 11 A   1 B   8 C  30 D  81 (after screening 1/120); centred A   1 B   5 C  30 D  84 [lag1_200 2, mean_a_norm 11, erasure 10, ks 84]
+      rule A_cal: eq. 11 A   0 B   9 C   0 D 111 (after screening 0/120); centred A   0 B   6 C   0 D 114 [s_hat 120, ks 1]
+      rule B_cal: eq. 11 A   8 B   1 C 111 D   0 (after screening 8/120); centred A   5 B   1 C 114 D   0 [ks 1]
+markov m= 200 r=0.90: claim 11.869, realised 14.882 [14.463, 16.341]; raw flags 47/120 (upper limit 47); centred raw 43; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B  47 C   0 D  73 (after screening 0/120); centred A   0 B  43 C   0 D  77 [s_hat 120, mean_a 7, erasure 5, ks 96]
+      rule B    : eq. 11 A   8 B  39 C  15 D  58 (after screening 8/120); centred A   6 B  37 C  17 D  60 [mean_a_norm 7, erasure 5, ks 96]
+      rule A_cal: eq. 11 A   0 B  47 C   0 D  73 (after screening 0/120); centred A   0 B  43 C   0 D  77 [s_hat 120]
+      rule B_cal: eq. 11 A  47 B   0 C  73 D   0 (after screening 47/120); centred A  43 B   0 C  77 D   0 []
+markov m= 200 r=0.80: claim 11.869, realised 19.413 [18.308, 20.551]; raw flags 120/120 (upper limit 120); centred raw 119; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B 120 C   0 D   0 (after screening 0/120); centred A   0 B 119 C   0 D   1 [s_hat 120, mean_a 1, erasure 8, ks 84]
+      rule B    : eq. 11 A  32 B  88 C   0 D   0 (after screening 32/120); centred A  32 B  87 C   0 D   1 [mean_a_norm 10, erasure 8, ks 84]
+      rule A_cal: eq. 11 A   0 B 120 C   0 D   0 (after screening 0/120); centred A   0 B 119 C   0 D   1 [s_hat 120]
+      rule B_cal: eq. 11 A 120 B   0 C   0 D   0 (after screening 120/120); centred A 119 B   0 C   1 D   0 []
+iid    m=1000 r=1.10: claim 2.866, realised 2.521 [2.521, 2.521]; raw flags 0/120 (upper limit ); centred raw 0; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120]
+      rule B    : eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+      rule A_cal: eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120, ks 1]
+      rule B_cal: eq. 11 A   0 B   0 C 119 D   1 (after screening 0/120); centred A   0 B   0 C 119 D   1 [ks 1]
+iid    m=1000 r=1.00: claim 2.866, realised 2.866 [2.866, 2.866]; raw flags 0/120 (upper limit ); centred raw 0; scale alarms 0 (calibrated 0); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+      rule B    : eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+      rule A_cal: eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+      rule B_cal: eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+iid    m=1000 r=0.98: claim 2.866, realised 2.947 [2.947, 2.947]; raw flags 0/120 (upper limit ); centred raw 0; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120]
+      rule B    : eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+      rule A_cal: eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120]
+      rule B_cal: eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   0 B   0 C 120 D   0 []
+iid    m=1000 r=0.95: claim 2.866, realised 3.076 [3.076, 3.076]; raw flags 5/120 (upper limit ); centred raw 4; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B   5 C   0 D 115 (after screening 0/120); centred A   0 B   4 C   0 D 116 [s_hat 120]
+      rule B    : eq. 11 A   5 B   0 C 115 D   0 (after screening 5/120); centred A   4 B   0 C 116 D   0 []
+      rule A_cal: eq. 11 A   0 B   5 C   0 D 115 (after screening 0/120); centred A   0 B   4 C   0 D 116 [s_hat 120, ks 1]
+      rule B_cal: eq. 11 A   5 B   0 C 114 D   1 (after screening 5/120); centred A   4 B   0 C 115 D   1 [ks 1]
+iid    m=1000 r=0.90: claim 2.866, realised 3.318 [3.318, 3.318]; raw flags 111/120 (upper limit ); centred raw 108; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B 111 C   0 D   9 (after screening 0/120); centred A   0 B 108 C   0 D  12 [s_hat 120, ks 1]
+      rule B    : eq. 11 A 110 B   1 C   9 D   0 (after screening 110/120); centred A 107 B   1 C  12 D   0 [ks 1]
+      rule A_cal: eq. 11 A   0 B 111 C   0 D   9 (after screening 0/120); centred A   0 B 108 C   0 D  12 [s_hat 120, ks 1]
+      rule B_cal: eq. 11 A 110 B   1 C   9 D   0 (after screening 110/120); centred A 107 B   1 C  12 D   0 [ks 1]
+iid    m=1000 r=0.80: claim 2.866, realised 3.934 [3.934, 3.934]; raw flags 120/120 (upper limit ); centred raw 120; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B 120 C   0 D   0 (after screening 0/120); centred A   0 B 120 C   0 D   0 [s_hat 120]
+      rule B    : eq. 11 A 120 B   0 C   0 D   0 (after screening 120/120); centred A 120 B   0 C   0 D   0 []
+      rule A_cal: eq. 11 A   0 B 120 C   0 D   0 (after screening 0/120); centred A   0 B 120 C   0 D   0 [s_hat 120, ks 1]
+      rule B_cal: eq. 11 A 119 B   1 C   0 D   0 (after screening 119/120); centred A 119 B   1 C   0 D   0 [ks 1]
+trace  m=1000 r=1.10: claim 10.690, realised 7.781 [6.899, 8.802]; raw flags 0/120 (upper limit 0); centred raw 0; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120, erasure 13]
+      rule B    : eq. 11 A   0 B   0 C 107 D  13 (after screening 0/120); centred A   0 B   0 C 107 D  13 [erasure 13]
+      rule A_cal: eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   0 C   0 D 120 [s_hat 120, ks 1]
+      rule B_cal: eq. 11 A   0 B   0 C 119 D   1 (after screening 0/120); centred A   0 B   0 C 119 D   1 [ks 1]
+trace  m=1000 r=1.00: claim 10.690, realised 10.685 [9.237, 11.533]; raw flags 0/120 (upper limit 0); centred raw 0; scale alarms 0 (calibrated 0); above point 0, above interval 0, inside 3
+      rule A    : eq. 11 A   0 B   0 C 113 D   7 (after screening 0/120); centred A   0 B   0 C 113 D   7 [erasure 7]
+      rule B    : eq. 11 A   0 B   0 C 113 D   7 (after screening 0/120); centred A   0 B   0 C 113 D   7 [erasure 7]
+      rule A_cal: eq. 11 A   0 B   0 C 119 D   1 (after screening 0/120); centred A   0 B   0 C 119 D   1 [ks 1]
+      rule B_cal: eq. 11 A   0 B   0 C 119 D   1 (after screening 0/120); centred A   0 B   0 C 119 D   1 [ks 1]
+trace  m=1000 r=0.98: claim 10.690, realised 11.004 [9.874, 11.905]; raw flags 0/120 (upper limit 0); centred raw 1; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 10
+      rule A    : eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   1 C   0 D 119 [s_hat 120, erasure 6]
+      rule B    : eq. 11 A   0 B   0 C 114 D   6 (after screening 0/120); centred A   1 B   0 C 113 D   6 [erasure 6]
+      rule A_cal: eq. 11 A   0 B   0 C   0 D 120 (after screening 0/120); centred A   0 B   1 C   0 D 119 [s_hat 120]
+      rule B_cal: eq. 11 A   0 B   0 C 120 D   0 (after screening 0/120); centred A   1 B   0 C 119 D   0 []
+trace  m=1000 r=0.95: claim 10.690, realised 12.066 [10.933, 13.286]; raw flags 7/120 (upper limit 7); centred raw 4; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 1
+      rule A    : eq. 11 A   0 B   7 C   0 D 113 (after screening 0/120); centred A   0 B   4 C   0 D 116 [s_hat 120, erasure 4]
+      rule B    : eq. 11 A   7 B   0 C 109 D   4 (after screening 7/120); centred A   4 B   0 C 112 D   4 [erasure 4]
+      rule A_cal: eq. 11 A   0 B   7 C   0 D 113 (after screening 0/120); centred A   0 B   4 C   0 D 116 [s_hat 120]
+      rule B_cal: eq. 11 A   7 B   0 C 113 D   0 (after screening 7/120); centred A   4 B   0 C 116 D   0 []
+trace  m=1000 r=0.90: claim 10.690, realised 13.922 [12.819, 15.472]; raw flags 76/120 (upper limit 76); centred raw 69; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 1
+      rule A    : eq. 11 A   0 B  76 C   0 D  44 (after screening 0/120); centred A   0 B  69 C   0 D  51 [s_hat 120, erasure 4]
+      rule B    : eq. 11 A  74 B   2 C  42 D   2 (after screening 74/120); centred A  67 B   2 C  49 D   2 [erasure 4]
+      rule A_cal: eq. 11 A   0 B  76 C   0 D  44 (after screening 0/120); centred A   0 B  69 C   0 D  51 [s_hat 120, ks 1]
+      rule B_cal: eq. 11 A  75 B   1 C  44 D   0 (after screening 75/120); centred A  68 B   1 C  51 D   0 [ks 1]
+trace  m=1000 r=0.80: claim 10.690, realised 19.578 [18.176, 21.789]; raw flags 120/120 (upper limit 120); centred raw 120; scale alarms 120 (calibrated 120); above point 0, above interval 0, inside 0
+      rule A    : eq. 11 A   0 B 120 C   0 D   0 (after screening 0/120); centred A   0 B 120 C   0 D   0 [s_hat 120, erasure 2]
+      rule B    : eq. 11 A 118 B   2 C   0 D   0 (after screening 118/120); centred A 118 B   2 C   0 D   0 [erasure 2]
+      rule A_cal: eq. 11 A   0 B 120 C   0 D   0 (after screening 0/120); centred A   0 B 120 C   0 D   0 [s_hat 120]
+      rule B_cal: eq. 11 A 120 B   0 C   0 D   0 (after screening 120/120); centred A 120 B   0 C   0 D   0 []
+
+RESIDUAL CELLS (Markov, m = 1,000; rules A and B frozen on the null cell; A_cal / B_cal on the independent Markov-1,000 null)
+none      rho=0.00 phi=0.0: ref 11.869; eq.11 10.352 above 0; centred 10.289 above 0; scale alarms 0
+      rule A    : rejected   0; above ref among passers eq.11 0, centred 0 []
+      rule B    : rejected   0; above ref among passers eq.11 0, centred 0 []
+      rule A_cal: rejected   2; above ref among passers eq.11 0, centred 0 [ks 2]
+      rule B_cal: rejected   2; above ref among passers eq.11 0, centred 0 [ks 2]
+white     rho=0.05 phi=0.0: ref 11.836; eq.11 10.317 above 0; centred 10.250 above 0; scale alarms 0
+      rule A    : rejected   0; above ref among passers eq.11 0, centred 0 []
+      rule B    : rejected   0; above ref among passers eq.11 0, centred 0 []
+      rule A_cal: rejected   1; above ref among passers eq.11 0, centred 0 [ks 1]
+      rule B_cal: rejected   1; above ref among passers eq.11 0, centred 0 [ks 1]
+white     rho=0.10 phi=0.0: ref 11.739; eq.11 10.225 above 0; centred 10.148 above 0; scale alarms 13
+      rule A    : rejected  13; above ref among passers eq.11 0, centred 0 [s_hat 13]
+      rule B    : rejected   0; above ref among passers eq.11 0, centred 0 []
+      rule A_cal: rejected   5; above ref among passers eq.11 0, centred 0 [s_hat 5]
+      rule B_cal: rejected   0; above ref among passers eq.11 0, centred 0 []
+white     rho=0.25 phi=0.0: ref 11.096; eq.11 9.642 above 0; centred 9.593 above 0; scale alarms 200
+      rule A    : rejected 200; above ref among passers eq.11 0, centred 0 [s_hat 200, ks 2]
+      rule B    : rejected   2; above ref among passers eq.11 0, centred 0 [ks 2]
+      rule A_cal: rejected 200; above ref among passers eq.11 0, centred 0 [s_hat 200, ks 2]
+      rule B_cal: rejected   2; above ref among passers eq.11 0, centred 0 [ks 2]
+mean      rho=0.05 phi=0.0: ref 11.869; eq.11 12.873 above 189; centred 10.355 above 0; scale alarms 0
+      rule A    : rejected 200; above ref among passers eq.11 0, centred 0 [mean_a 200, erasure 200]
+      rule B    : rejected 200; above ref among passers eq.11 0, centred 0 [mean_a_norm 200, erasure 200]
+      rule A_cal: rejected 200; above ref among passers eq.11 0, centred 0 [mean_a 200, erasure 200]
+      rule B_cal: rejected 200; above ref among passers eq.11 0, centred 0 [mean_a_norm 200, erasure 200]
+mean      rho=0.10 phi=0.0: ref 11.869; eq.11 14.220 above 200; centred 10.211 above 0; scale alarms 0
+      rule A    : rejected 200; above ref among passers eq.11 0, centred 0 [mean_a 200, erasure 200]
+      rule B    : rejected 200; above ref among passers eq.11 0, centred 0 [mean_a_norm 200, erasure 200]
+      rule A_cal: rejected 200; above ref among passers eq.11 0, centred 0 [mean_a 200, erasure 200]
+      rule B_cal: rejected 200; above ref among passers eq.11 0, centred 0 [mean_a_norm 200, erasure 200]
+mean      rho=0.25 phi=0.0: ref 11.869; eq.11 14.220 above 200; centred 10.318 above 0; scale alarms 0
+      rule A    : rejected 200; above ref among passers eq.11 0, centred 0 [mean_a 200, erasure 200]
+      rule B    : rejected 200; above ref among passers eq.11 0, centred 0 [mean_a_norm 200, erasure 200]
+      rule A_cal: rejected 200; above ref among passers eq.11 0, centred 0 [mean_a 200, erasure 200, ks 1]
+      rule B_cal: rejected 200; above ref among passers eq.11 0, centred 0 [mean_a_norm 200, erasure 200, ks 1]
+presence+ rho=0.05 phi=0.0: ref 14.626; eq.11 12.749 above 0; centred 12.731 above 0; scale alarms 0
+      rule A    : rejected   2; above ref among passers eq.11 0, centred 0 [erasure 1, ks 1]
+      rule B    : rejected   2; above ref among passers eq.11 0, centred 0 [erasure 1, ks 1]
+      rule A_cal: rejected   3; above ref among passers eq.11 0, centred 0 [erasure 1, ks 2]
+      rule B_cal: rejected   3; above ref among passers eq.11 0, centred 0 [erasure 1, ks 2]
+presence+ rho=0.10 phi=0.0: ref 14.626; eq.11 14.220 above 0; centred 14.220 above 0; scale alarms 0
+      rule A    : rejected  41; above ref among passers eq.11 0, centred 0 [erasure 41, ks 1]
+      rule B    : rejected  41; above ref among passers eq.11 0, centred 0 [erasure 41, ks 1]
+      rule A_cal: rejected  41; above ref among passers eq.11 0, centred 0 [erasure 40, ks 2]
+      rule B_cal: rejected  41; above ref among passers eq.11 0, centred 0 [erasure 40, ks 2]
+presence+ rho=0.25 phi=0.0: ref 14.626; eq.11 14.220 above 0; centred 14.220 above 0; scale alarms 0
+      rule A    : rejected 200; above ref among passers eq.11 0, centred 0 [erasure 200]
+      rule B    : rejected 200; above ref among passers eq.11 0, centred 0 [erasure 200]
+      rule A_cal: rejected 199; above ref among passers eq.11 0, centred 0 [erasure 199, ks 1]
+      rule B_cal: rejected 199; above ref among passers eq.11 0, centred 0 [erasure 199, ks 1]
+presence- rho=0.05 phi=0.0: ref 9.385; eq.11 7.972 above 0; centred 7.900 above 0; scale alarms 0
+      rule A    : rejected   3; above ref among passers eq.11 0, centred 0 [erasure 3, ks 1]
+      rule B    : rejected   3; above ref among passers eq.11 0, centred 0 [erasure 3, ks 1]
+      rule A_cal: rejected   2; above ref among passers eq.11 0, centred 0 [erasure 1, ks 1]
+      rule B_cal: rejected   2; above ref among passers eq.11 0, centred 0 [erasure 1, ks 1]
+presence- rho=0.10 phi=0.0: ref 7.206; eq.11 0.175 above 0; centred 0.179 above 2; scale alarms 0
+      rule A    : rejected  51; above ref among passers eq.11 0, centred 2 [erasure 51]
+      rule B    : rejected  51; above ref among passers eq.11 0, centred 2 [erasure 51]
+      rule A_cal: rejected  45; above ref among passers eq.11 0, centred 2 [erasure 45]
+      rule B_cal: rejected  45; above ref among passers eq.11 0, centred 2 [erasure 45]
+presence- rho=0.25 phi=0.0: ref 7.206; eq.11 0.000 above 0; centred 0.000 above 0; scale alarms 0
+      rule A    : rejected 200; above ref among passers eq.11 0, centred 0 [erasure 200]
+      rule B    : rejected 200; above ref among passers eq.11 0, centred 0 [erasure 200]
+      rule A_cal: rejected 200; above ref among passers eq.11 0, centred 0 [erasure 200, ks 2]
+      rule B_cal: rejected 200; above ref among passers eq.11 0, centred 0 [erasure 200, ks 2]
+ar        rho=0.05 phi=0.5: ref 11.869; eq.11 10.308 above 0; centred 10.250 above 0; scale alarms 0
+      rule A    : rejected   0; above ref among passers eq.11 0, centred 0 []
+      rule B    : rejected   0; above ref among passers eq.11 0, centred 0 []
+      rule A_cal: rejected   1; above ref among passers eq.11 0, centred 0 [ks 1]
+      rule B_cal: rejected   1; above ref among passers eq.11 0, centred 0 [ks 1]
+ar        rho=0.10 phi=0.5: ref 11.869; eq.11 10.183 above 0; centred 10.136 above 0; scale alarms 10
+      rule A    : rejected  11; above ref among passers eq.11 0, centred 0 [s_hat 10, lag1_200 1]
+      rule B    : rejected   1; above ref among passers eq.11 0, centred 0 [lag1_200 1]
+      rule A_cal: rejected   5; above ref among passers eq.11 0, centred 0 [s_hat 2, lag1_200 1, ks 2]
+      rule B_cal: rejected   3; above ref among passers eq.11 0, centred 0 [lag1_200 1, ks 2]
+ar        rho=0.25 phi=0.5: ref 11.869; eq.11 9.607 above 0; centred 9.576 above 0; scale alarms 200
+      rule A    : rejected 200; above ref among passers eq.11 0, centred 0 [s_hat 200, lag1_200 191]
+      rule B    : rejected 191; above ref among passers eq.11 0, centred 0 [lag1_200 191]
+      rule A_cal: rejected 200; above ref among passers eq.11 0, centred 0 [s_hat 200, lag1_200 181]
+      rule B_cal: rejected 181; above ref among passers eq.11 0, centred 0 [lag1_200 181]
+ar        rho=0.05 phi=0.9: ref 11.869; eq.11 10.283 above 0; centred 10.235 above 0; scale alarms 0
+      rule A    : rejected   3; above ref among passers eq.11 0, centred 0 [mean_a 1, ks 2]
+      rule B    : rejected   3; above ref among passers eq.11 0, centred 0 [mean_a_norm 1, ks 2]
+      rule A_cal: rejected   4; above ref among passers eq.11 0, centred 0 [mean_a 1, ks 3]
+      rule B_cal: rejected   4; above ref among passers eq.11 0, centred 0 [mean_a_norm 1, ks 3]
+ar        rho=0.10 phi=0.9: ref 11.869; eq.11 10.224 above 0; centred 10.157 above 0; scale alarms 8
+      rule A    : rejected  11; above ref among passers eq.11 0, centred 0 [s_hat 8, lag1_200 2, ks 1]
+      rule B    : rejected   3; above ref among passers eq.11 0, centred 0 [lag1_200 2, ks 1]
+      rule A_cal: rejected   7; above ref among passers eq.11 0, centred 0 [s_hat 4, ks 3]
+      rule B_cal: rejected   3; above ref among passers eq.11 0, centred 0 [ks 3]
+ar        rho=0.25 phi=0.9: ref 11.869; eq.11 9.571 above 0; centred 9.518 above 0; scale alarms 200
+      rule A    : rejected 200; above ref among passers eq.11 0, centred 0 [s_hat 200, lag1_200 200, mean_a 3, erasure 1, ks 1]
+      rule B    : rejected 200; above ref among passers eq.11 0, centred 0 [lag1_200 200, mean_a_norm 3, erasure 1, ks 1]
+      rule A_cal: rejected 200; above ref among passers eq.11 0, centred 0 [s_hat 200, lag1_200 200, mean_a 3, erasure 1, ks 1]
+      rule B_cal: rejected 200; above ref among passers eq.11 0, centred 0 [lag1_200 200, mean_a_norm 3, erasure 1, ks 1]
+
+TRAINING RUNS (rules transferred from the simulation null cells; mean_a from the round-15 records)
+noise_iid_r0.90: 10 of 10 records identical to rev_round14_train_noise_iid_r0.90.csv on all 33 shared columns
+noise_iid_r0.90    N=10 r=0.90 claim 2.869: raw flags 8; centred raw 8; scale alarms 10; mean_a -0.00015
+      rule A    : A 0 B 8 C 0 D 2 [s_hat 10]
+      rule B    : A 8 B 0 C 2 D 0 []
+      rule A_cal: A 0 B 8 C 0 D 2 [s_hat 10]
+      rule B_cal: A 8 B 0 C 2 D 0 []
+noise_iid_r1.00: 10 of 10 records identical to rev_round14_train_noise_iid_r1.00.csv on all 33 shared columns
+noise_iid_r1.00    N=10 r=1.00 claim 2.869: raw flags 0; centred raw 0; scale alarms 0; mean_a -0.00095
+      rule A    : A 0 B 0 C 10 D 0 []
+      rule B    : A 0 B 0 C 10 D 0 []
+      rule A_cal: A 0 B 0 C 10 D 0 []
+      rule B_cal: A 0 B 0 C 10 D 0 []
+noise_r0.80: 10 of 10 records identical to rev_round14_train_noise_r0.80.csv on all 33 shared columns
+noise_r0.80        N=10 r=0.80 claim 11.869: raw flags 10; centred raw 10; scale alarms 10; mean_a +0.00143
+      rule A    : A 0 B 10 C 0 D 0 [s_hat 10]
+      rule B    : A 10 B 0 C 0 D 0 []
+      rule A_cal: A 0 B 10 C 0 D 0 [s_hat 10]
+      rule B_cal: A 10 B 0 C 0 D 0 []
+noise_r0.90: 10 of 10 records identical to rev_round14_train_noise_r0.90.csv on all 33 shared columns
+noise_r0.90        N=10 r=0.90 claim 11.869: raw flags 10; centred raw 10; scale alarms 10; mean_a -0.00105
+      rule A    : A 0 B 10 C 0 D 0 [s_hat 10]
+      rule B    : A 10 B 0 C 0 D 0 []
+      rule A_cal: A 0 B 10 C 0 D 0 [s_hat 10]
+      rule B_cal: A 10 B 0 C 0 D 0 []
+noise_r0.95: 10 of 10 records identical to rev_round14_train_noise_r0.95.csv on all 33 shared columns
+noise_r0.95        N=10 r=0.95 claim 11.869: raw flags 2; centred raw 3; scale alarms 10; mean_a -0.00027
+      rule A    : A 0 B 2 C 0 D 8 [s_hat 10]
+      rule B    : A 2 B 0 C 8 D 0 []
+      rule A_cal: A 0 B 2 C 0 D 8 [s_hat 10]
+      rule B_cal: A 2 B 0 C 8 D 0 []
+noise_r1.00: 10 of 10 records identical to rev_round14_train_noise_r1.00.csv on all 33 shared columns
+noise_r1.00        N=10 r=1.00 claim 11.869: raw flags 0; centred raw 0; scale alarms 0; mean_a -0.00232
+      rule A    : A 0 B 0 C 10 D 0 []
+      rule B    : A 0 B 0 C 10 D 0 []
+      rule A_cal: A 0 B 0 C 10 D 0 []
+      rule B_cal: A 0 B 0 C 10 D 0 []
+cnn_iid: 0 of 3 records identical to rev_round14_cnn_cnn_iid.csv on all 31 shared columns, 3 within the tolerances on the non-decision columns
+cnn_iid            N=3 r=1.00 claim 2.869: raw flags 0; centred raw 0; scale alarms 0; mean_a +0.00046
+      rule A    : A 0 B 0 C 3 D 0 []
+      rule B    : A 0 B 0 C 3 D 0 []
+      rule A_cal: A 0 B 0 C 3 D 0 []
+      rule B_cal: A 0 B 0 C 3 D 0 []
+cnn_markov: 0 of 5 records identical to rev_round14_cnn_cnn_markov.csv on all 31 shared columns, 5 within the tolerances on the non-decision columns
+cnn_markov         N=5 r=1.00 claim 11.869: raw flags 0; centred raw 0; scale alarms 0; mean_a +0.00064
+      rule A    : A 0 B 0 C 5 D 0 []
+      rule B    : A 0 B 0 C 5 D 0 []
+      rule A_cal: A 0 B 0 C 5 D 0 []
+      rule B_cal: A 0 B 0 C 5 D 0 []
+cnn_markov_r0.90: 0 of 2 records identical to rev_round14_cnn_cnn_markov_r0.90.csv on all 31 shared columns, 2 within the tolerances on the non-decision columns
+cnn_markov_r0.90   N=2 r=0.90 claim 11.869: raw flags 2; centred raw 2; scale alarms 2; mean_a -0.00341
+      rule A    : A 0 B 2 C 0 D 0 [s_hat 2]
+      rule B    : A 2 B 0 C 0 D 0 []
+      rule A_cal: A 0 B 2 C 0 D 0 [s_hat 2]
+      rule B_cal: A 2 B 0 C 0 D 0 []
+
+all checks passed

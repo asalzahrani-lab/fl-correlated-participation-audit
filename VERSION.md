@@ -1,8 +1,80 @@
 # Version
 
-Release **v14** (2026-11-04), matching the journal submission **TIFS v14** (main text and Supplementary Material) and the
-**extended version v19**. Earlier releases: v13 (TIFS v13 / extended v18), v12 (TIFS v12 / extended v17), v11 (TIFS v11 / extended v16), v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
+Release **v15** (2026-11-04), matching the journal submission **TIFS v15** (main text and Supplementary Material) and the
+**extended version v20**. Earlier releases: v14 (TIFS v14 / extended v19), v13 (TIFS v13 / extended v18), v12 (TIFS v12 / extended v17), v11 (TIFS v11 / extended v16), v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
 v2 (TIFS v2 / v7).
+
+What changed in v15 (fifteenth internal pre-submission review, a referee report and re-analysis plan on TIFS v14): six
+scripts added, no new experimental condition (the only new computations are four null calibration cells and twelve
+400k-sample reference runs), no simulated or training number changed; two statements of the text corrected and the
+noise-shortfall claim restated with the diagnostic rule applied. **Per-audit records** (`rev_round15_records.py`): the
+2,880 noise-error audits (seeds 14500 + cell) and the 3,800 residual audits (seeds 14700 + cell) of v14 regenerated with
+one record each (identifier, cell, seed, law, m, r, claim, the sha256 identity of the merged certified table,
+full-precision a_lo and certificate for eq. (11) and for the centred estimator, the five diagnostics with the
+definitions of `rev_round14_residual_sim.py`, and sufficient statistics that recompute a_lo, the centred a_lo, the
+noise scale, the absent mean and the erasure exactly; KS and the per-canary lag-1 are reproduced from the seed), plus
+four null calibration cells of 200 audits at the declared noise for (Markov, 1,000), (Markov, 200), (iid, 1,000),
+(trace, 1,000) (seeds 15000-15003, generated after the test cells). **Screening** (`rev_round15_screening.py`):
+recomputes every record from its sufficient statistics (largest discrepancy 3e-16), reproduces every per-cell aggregate
+of `rev_round14_noise_sim.csv` and `rev_round14_residual_sim.csv`, and applies the rule of v14 as frozen (rule A; the
+rounded rule file and the full-precision thresholds decide 1 of 6,680 audits differently), rule B (the noise scale
+reported as a separate scale alarm, the shape diagnostics -- lag-1, the absent mean over the scale, the normalised KS,
+the erasure -- deciding with thresholds frozen on the same null cell) and the two forms with thresholds frozen on the independent
+null of each (law, m) (`rev_round15_rules.csv`). Four counts per cell (flag kept / flag withheld / no flag / withheld
+without flag), reasons, Wilson 95 % intervals. Results (1,000 canaries): the scale statistic, which estimates r with sd
+0.002, leaves its band 1 +- 0.0085 in 120 / 120 audits at every r != 1 (0.98 and 1.10 included) and 0 / 360 at r = 1;
+rule A therefore keeps no flag at any r != 1 (the v14 flag counts were counts before screening) and withholds 0 / 0 / 7
+of 120 reports at r = 1 (Markov / iid / trace; the 7 by the erasure band, sd 0.063 on the Markov null against 0.137
+under the trace law); rule B keeps 120 / 110 / 74 of the 120 / 111 / 76 flags at r = 0.90, all 40 / 5 / 7 at 0.95,
+120 / 120 / 118 at 0.80, and withholds 7 / 360 at r = 1 (2 / 360 with per-configuration nulls, which also keep 75
+trace flags at 0.90); 200 canaries: the Markov-1,000 thresholds withhold 101 (rule A) and 98 (rule B) of 120 reports at
+r = 1 (null KS maximum 0.0081 against 0.0038), the m = 200 rule withholds 1 and keeps all 47 flags at r = 0.90; the
+centred estimator flags 120 / 108 / 69 at r = 0.90 before and 120 / 107 / 67 after rule B. Flags against the Markov
+claim's upper limit 12.033 equal those against 11.869 in every cell. **Realised-loss intervals**
+(`rev_round15_intervals.py`): independent 400k-sample two-sided 99 % intervals at every (law, r) (seeds 14900-14911;
+iid exact): 1 of 2,880 certificates above the point reference (Markov r = 1.10, as in v14), 0 above an interval's upper
+end, 50 inside an interval (undecided); every v14 point value lies inside its interval. **Training records**
+(`rev_round15_train_records.py`, `rev_round15_cnn_records.py`): the six Fashion-MNIST noise configurations and the
+CIFAR-10 runs regenerated with the absent mean, lag1_200, the centred estimator and the sufficient statistics recorded
+(same seeds; the Fashion-MNIST rows reproduce `rev_round14_train_*.csv` on all 33 shared columns; the CNN rows reproduce
+a_lo, s_hat, lag-1, the certificate and every flag exactly, while accuracy (within 0.003), erasure, KS, the uncertified
+value and the correlation sample (a few units of the last printed digit) differ between PyTorch runs); screened as a transfer test:
+scale alarm 10 / 10 at r < 1 and 0 / 10 at r = 1, rule A withholds every report at r < 1, rule B none, no abstention
+at r = 1. **Device decomposition of the horizon curves** (`rev_round15_horizon_decomp.py`): Var(N_T) = B + W exactly
+(equal device weights); the between-device term B / E[N_T] grows at 0.085 and 0.074 per round (Var(p)/E[p] = 0.083 and
+0.072 from the realised rates), above the fitted slopes of D (0.064, 0.058); the within-device term is 7.05 and 14.72
+at the shortest horizon and 0.19 and 0.81 at the longest (4 and 31 overlapping windows per device, none disjoint),
+slope -0.021 and -0.017; the two slopes add to the slope of D; B / Var(N_T) = 0.375, 0.583, 0.829, 0.959, 0.994
+(10-minute panel, T = 50 ... 400) and 0.331, 0.522, 0.756, 0.904, 0.960, 0.989 (5-minute, T = 100 ... 1,000); on disjoint
+windows 0.384, 0.576, 0.777 and 0.334, 0.526, 0.765 where at least two exist. The v14 sentence "the realised rates
+account for 77 % and 80 % of the slopes" was the ratio of the fitted slope to Var(p)/E[p] (0.768, 0.802) read as a
+share; it is replaced by the decomposition. `verify_claims.py` gains a fifteenth-round section (72 checks; 502 in all,
+all passing). **Text.** Abstract, Contribution 2, V-F and the conclusion: a 10 % shortfall trips the scale alarm in every
+audit and is flagged by the certified report in 62 to 100 % of the audits by law after screening ("can detect"
+replaced); V-F states the two outputs, rule A's abstention and rule B's counts; V-A: observations in declared-noise
+units, so the noise scale reads r and the limit bounds a/r; Corollary 3 bounds the probability of a flag when the claim
+is correct or conservative; VI-C and S-VI.B carry the decomposition; VII: for a stateful client with an exogenous path
+the count-averaged bound survives (fully adaptive composition given the path), and what the logs give (rates: brackets;
+count law: sum release and count-averaged bound; joint law: the exact per-round value); S-V.E carries the re-analysis;
+S-V.F the AR(1) scoping, the scale alarm on the white cells and the centred estimator's certificate; S-V.D names the
+maximum-over-rounds comparator as in the manner of Algorithm 3 of Andrew et al. with the fixed noise-unit normalisation
+in place of their per-round cosine; S-V.C calls the CNN a small-sample second-architecture check and notes the clipping
+calibration's own accounting; S-V.G notes the delta-method limit. To hold the budgets (main 13 pages, supplement 6):
+Table S3 (per-device values at 1e-5 and 1e-8) and the two 500-client rows of Table S1 are prose in S-VI.D and S-V.C; the
+main text drops VI-B's accuracy sentence (VII, S-VI keep it), VI-G's fixed-horizon comparison (extended only), V-A's
+n_obs sentence, V-E's population-level sentence, V-F's softmax detail and VI-E's 3 % / 11 % (Table III). The extended
+version adds a screening table and a decomposition table.
+
+Values that differ between release v14 and release v15, with the reason:
+
+| Quantity | v14 | v15 | Reason |
+|---|---|---|---|
+| Noise-shortfall detection (abstract, I, V-F, VII) | "can detect a 10 % shortfall" (flags 120 / 111 / 76 of 120 at r = 0.90, counts before the diagnostic rule) | scale alarm in 120 / 120 audits at every r != 1 and 0 / 360 at r = 1; rule A as frozen withholds every report at r != 1; with the scale as alarm and the shape diagnostics deciding, 120 / 110 / 74 flags remain, 7 / 360 reports withheld at r = 1 (2 with per-configuration nulls) | fifteenth-round re-analysis; the simulated numbers are unchanged |
+| Within-device / between-device attribution (VI-C, S-VI.B) | "the realised rates account for 77 % and 80 % of the slopes" | the between-device term alone grows at 0.085 / 0.074 per round, above the fitted slopes; the within-device term shrinks with the window overlap; B / Var(N_T) = 0.38 ... 0.99 (as in v14) and 0.38, 0.58, 0.78 on disjoint windows | the v14 ratio was slope / coefficient, not a share |
+| Coverage statement of the noise experiment | 1 of 2,880 above the realised loss (point value) | 1 above the point value, 0 above an independent 99 % interval, 50 inside | new intervals |
+| Corollary 3 | "a flag is a false alarm with probability at most alpha" | "if the claim is correct or conservative, the probability of a flag is at most alpha" | wording |
+| Stateful client (VII) | "only the schema bound survives" | the count-averaged bound of Theorem 2 survives with an exogenous path; the schema bound alone without exogeneity | wording |
+| `verify_claims.py` checks | 430 | 502 | fifteenth-round section |
 
 What changed in v14 (fourteenth internal pre-submission review, two reports on TIFS v13): eight source files added (seven scripts and the CIFAR-10 conversion), six
 computations added, no published value changed. The noise, residual and comparator simulations use the merged certified
@@ -191,7 +263,7 @@ this file, README.md, PROVENANCE.md, REVIEWER_CHECKS.md) refers to internal pre-
 The manuscript has not been submitted to a journal before. "TIFS vN" and "extended vN" are internal draft labels.
 
 Computed with NumPy 2.5.3, SciPy 1.18.1, dp-accounting 0.6.0, on one or two CPU cores; no GPU (the CNN runs of the
-fourteenth round with PyTorch 2.15, CPU, and Pillow for the CIFAR-10 conversion). `src/verify_claims.py` was last run
+fourteenth and fifteenth rounds with PyTorch 2.15, CPU, and Pillow for the CIFAR-10 conversion). `src/verify_claims.py` was last run
 with Python 3.13.16 and these library versions.
 
 What changed after the eighth internal pre-submission review (2026-10-20, same release v8: the manuscript had not been

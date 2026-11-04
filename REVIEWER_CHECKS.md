@@ -37,6 +37,13 @@ PASS or FAIL against the value in the manuscripts. It covers:
   recoveries, exceedances of the reference and of its upper limit, flags, abstentions, the rule's table choice, the
   monotonicity of the thirteen tables in lambda and in a) and the out-of-family check; the Dirichlet / IID training
   cells and the CNN runs (recovery, flags, exceedances, accuracy, diagnostics, parameter count).
+- the fifteenth-round computations: the per-audit records (row counts, no duplicate or missing identifier, the
+  reproduction of every round-14 noise cell), the screening counts per cell and rule (scale alarms, flags kept and
+  withheld, abstentions, reasons, the 200-canary transfer, the flags against the upper limit 12.033), the coverage
+  classes against the independent intervals, the centred estimator's counts, the rule thresholds against the round-14
+  rule file and the independent nulls, the residual cells under both rules, the training transfer counts and the
+  identity of the regenerated training records with the stored ones, and the device decomposition of the horizon
+  curves (B + W = Var, the slopes and their sum, Var(p)/E[p], the shares, the windows per device).
 
 The output of the last run is in `results/logs/verify_claims.log`.
 
@@ -45,11 +52,11 @@ docstrings).
 
 ## 1. Version identity
 
-This is release **v14**. It matches **TIFS v14** (main text and Supplementary Material) and the **extended version v19**
+This is release **v15**. It matches **TIFS v15** (main text and Supplementary Material) and the **extended version v20**
 (`VERSION.md`).
 
 The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`; the CNN runs of
-the fourteenth round with PyTorch 2.15 on the CPU);
+the fourteenth and fifteenth rounds with PyTorch 2.15 on the CPU);
 `requirements.txt` pins dp-accounting 0.6.0 and gives lower bounds for the other libraries. The last run of
 `verify_claims.py` used Python 3.13.16 and the same library versions.
 
@@ -88,6 +95,10 @@ the fourteenth round with PyTorch 2.15 on the CPU);
 | A law learned from logs (fourteenth round) | `rev_round14_learned_law.py` | tables 14100 + 1000 lambda; logs 14200; audits 14300 + replicate + 10 N; out-of-family 14400 (audits), 14401 (table) |
 | Training, noise error and heterogeneous partition (fourteenth round) | `rev_round14_train.py` | 1401 to 1414 by configuration |
 | CNN on CIFAR-10 (fourteenth round) | `rev_round14_cnn.py` | 1431 to 1433 by configuration, 1000 (rep + 1) added per run |
+| Per-audit records and null calibration cells (fifteenth round) | `rev_round15_records.py` | 14500 + cell and 14700 + cell (the round-14 streams, reproduced); 15000 to 15003 (null cells) |
+| Realised-loss intervals (fifteenth round) | `rev_round15_intervals.py` | 14900 to 14911 by (law, r) |
+| Training and CNN records (fifteenth round) | `rev_round15_train_records.py`, `rev_round15_cnn_records.py` | the round-14 seeds, reproduced |
+| Horizon decomposition (fifteenth round) | `rev_round15_horizon_decomp.py` | 0 (policy); deterministic otherwise |
 | Audit of the worst device's law (thirteenth round) | `rev_round13_worst_device_audit.py` | 13002 (audits); the table is deterministic (PLD) |
 | Guess-counting audits | `rev_guess2.py` | 8101–8103 |
 | Training runs | `fl_mlp2.py`, `fl_mlp3.py`, `fl_mlp_5k.py`, `rev_train.py` | 777; 1717; 7777; 901–906 |

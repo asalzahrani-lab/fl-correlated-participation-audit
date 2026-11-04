@@ -443,5 +443,78 @@
 [PASS] CNN cnn_markov_r0.90: certified recovery (text 110%): 1.104 (paper 1.1043, tolerance 0.0015) <- rev_round14_cnn_cnn_markov_r0.90.csv
 [PASS] CNN cnn_markov_r0.90: flags of the Poisson claim 2, of the correct claim 2, none above the realised loss, accuracy 0.368 to 0.404 <- rev_round14_cnn_cnn_markov_r0.90.csv
 [PASS] CNN: the diagnostics match Model 1 (scale within 0.01 of 1, lag-1 within 0.01 of -0.005, correlation sd within 0.002 of 0.0709, erasure 0.90 to 1.15, the per-run spread of the MLP runs) <- rev_round14_cnn_cnn_*.csv
+== 14. Fifteenth-round checks (per-audit records; the noise-shortfall audits before and after the rule; the scale alarm; realised-loss intervals; the device decomposition)
+[PASS] records: 2,880 noise + 3,800 residual + 800 null = 7,480 rows: 7480 (paper 7480, tolerance 0) <- rev_round15_records.csv
+[PASS] records: no duplicate or missing audit id (120 / 200 / 200 reps per cell) <- rev_round15_records.csv
+[PASS] records reproduce the round-14 noise cell markov m=1000 r=1.1 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=1000 r=1.0 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=1000 r=0.98 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=1000 r=0.95 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=1000 r=0.9 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=1000 r=0.8 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=200 r=1.1 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=200 r=1.0 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=200 r=0.98 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=200 r=0.95 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=200 r=0.9 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell markov m=200 r=0.8 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell iid m=1000 r=1.1 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell iid m=1000 r=1.0 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell iid m=1000 r=0.98 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell iid m=1000 r=0.95 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell iid m=1000 r=0.9 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell iid m=1000 r=0.8 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell trace m=1000 r=1.1 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell trace m=1000 r=1.0 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell trace m=1000 r=0.98 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell trace m=1000 r=0.95 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell trace m=1000 r=0.9 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] records reproduce the round-14 noise cell trace m=1000 r=0.8 (mean, flags, exceedances) <- rev_round15_records.csv vs rev_round14_noise_sim.csv
+[PASS] screening: raw flags of every cell equal the round-14 flags <- rev_round15_screening_noise.csv
+[PASS] scale alarm: 120 of 120 at every r != 1 with 1,000 canaries, 0 of 360 at r = 1 (text V-F, S-V.E) <- rev_round15_screening_noise.csv scale_alarms
+[PASS] scale alarm, 200 canaries, own null band: 56 of 120 at r = 0.98, 120 at r <= 0.95 and 1.10, 0 at r = 1 <- rev_round15_screening_noise.csv
+[PASS] rule A (as frozen) keeps no flag at any r != 1 and withholds every report there (1,000 canaries) <- rev_round15_screening_noise.csv rule A
+[PASS] rule A at r = 1: abstentions 0, 0, 7 (Markov, iid, trace; the 7 by erasure) <- rev_round15_screening_noise.csv rule A
+[PASS] rule B keeps 120, 110, 74 of 120, 111, 76 flags at r = 0.90; all 40, 5, 7 at 0.95; 120, 120, 118 at 0.80 <- rev_round15_screening_noise.csv rule B
+[PASS] rule B: one iid audit withheld by KS and two trace audits by erasure at r = 0.90; 7 of 360 abstentions at r = 1 <- rev_round15_screening_noise.csv rule B
+[PASS] per-configuration nulls (rule B_cal): 2 of 360 abstentions at r = 1 (KS), 75 trace flags kept at r = 0.90 <- rev_round15_screening_noise.csv rule B_cal
+[PASS] 200 canaries: transferred rule A withholds 101 of 120 at r = 1, rule B 98, the m = 200 rule 1; the m = 200 rule keeps all 47 flags at r = 0.90 <- rev_round15_screening_noise.csv
+[PASS] flags against the Markov claim's upper limit 12.033 equal the flags against 11.869 in every Markov cell <- rev_round15_screening_noise.csv
+[PASS] coverage: 1 of 2,880 above the point reference, 0 above the independent interval's upper end, 50 inside an interval <- rev_round15_screening_noise.csv
+[PASS] centred estimator: 120, 108, 69 raw flags at r = 0.90 and 120, 107, 67 after rule B <- rev_round15_screening_noise.csv centred
+[PASS] intervals: 18 (law, r) points; iid exact; every round-14 point value lies inside its independent 99% interval <- rev_round15_intervals.csv vs rev_round14_noise_sim.csv
+[PASS] rule A recomputed from the regenerated null cell equals the round-14 rule file (means and sds to 1e-5; KS max) <- rev_round15_rules.csv vs rev_round14_residual_rule.csv
+[PASS] independent nulls: s_hat sd 0.0023 (Markov 1,000), 0.0049 (Markov 200), 0.0022 (iid), 0.0022 (trace) (text: sd 0.002; band 1 +- 0.020 at m = 200) <- rev_round15_rules.csv
+[PASS] independent nulls: KS maximum 0.0081 at m = 200 against 0.0038 for the round-14 rule (twice as large); erasure sd 0.137 (trace) against 0.063 (Markov) <- rev_round15_rules.csv
+[PASS] residual cells: white rho = 0.10 / 0.25 rejected 13 / 200 by rule A (s_hat alone) and 0 / 2 by rule B <- rev_round15_screening_residual.csv
+[PASS] residual cells: every round-14 rejection and exceedance count reproduced under rule A (19 cells) <- rev_round15_screening_residual.csv vs rev_round14_residual_sim.csv
+[PASS] residual cells: the centred estimator exceeds the offset cells' reference in none, before or after the rule <- rev_round15_screening_residual.csv
+[PASS] training noise_r1.00: raw flags 0, scale alarms 0, rule A keeps none at r < 1, rule B keeps all, no abstention at r = 1 <- rev_round15_screening_training.csv
+[PASS] training noise_r0.95: raw flags 2, scale alarms 10, rule A keeps none at r < 1, rule B keeps all, no abstention at r = 1 <- rev_round15_screening_training.csv
+[PASS] training noise_r0.90: raw flags 10, scale alarms 10, rule A keeps none at r < 1, rule B keeps all, no abstention at r = 1 <- rev_round15_screening_training.csv
+[PASS] training noise_r0.80: raw flags 10, scale alarms 10, rule A keeps none at r < 1, rule B keeps all, no abstention at r = 1 <- rev_round15_screening_training.csv
+[PASS] training noise_iid_r1.00: raw flags 0, scale alarms 0, rule A keeps none at r < 1, rule B keeps all, no abstention at r = 1 <- rev_round15_screening_training.csv
+[PASS] training noise_iid_r0.90: raw flags 8, scale alarms 10, rule A keeps none at r < 1, rule B keeps all, no abstention at r = 1 <- rev_round15_screening_training.csv
+[PASS] training records noise_r1.00: 10 runs identical to the round-14 file on every shared column <- rev_round15_train_records_noise_r1.00.csv
+[PASS] training records noise_r0.95: 10 runs identical to the round-14 file on every shared column <- rev_round15_train_records_noise_r0.95.csv
+[PASS] training records noise_r0.90: 10 runs identical to the round-14 file on every shared column <- rev_round15_train_records_noise_r0.90.csv
+[PASS] training records noise_r0.80: 10 runs identical to the round-14 file on every shared column <- rev_round15_train_records_noise_r0.80.csv
+[PASS] training records noise_iid_r1.00: 10 runs identical to the round-14 file on every shared column <- rev_round15_train_records_noise_iid_r1.00.csv
+[PASS] training records noise_iid_r0.90: 10 runs identical to the round-14 file on every shared column <- rev_round15_train_records_noise_iid_r0.90.csv
+[PASS] decomposition: B + W = Var(N_T) to 1e-9 at every horizon <- rev_round15_horizon_decomp.csv
+[PASS] decomposition: slope of D, 10 min (text 0.064): 0.06391 (paper 0.0639, tolerance 0.0005) <- rev_round15_horizon_slopes.csv
+[PASS] decomposition: slope of D, 5 min (text 0.058): 0.05776 (paper 0.0578, tolerance 0.0005) <- rev_round15_horizon_slopes.csv
+[PASS] decomposition: slope of B/mean, 10 min (text 0.085): 0.08478 (paper 0.0848, tolerance 0.0005) <- rev_round15_horizon_slopes.csv
+[PASS] decomposition: slope of B/mean, 5 min (text 0.074): 0.07432 (paper 0.0743, tolerance 0.0005) <- rev_round15_horizon_slopes.csv
+[PASS] decomposition: slope of W/mean, 10 min (text -0.021): -0.02087 (paper -0.0209, tolerance 0.0005) <- rev_round15_horizon_slopes.csv
+[PASS] decomposition: slope of W/mean, 5 min (text -0.017): -0.01656 (paper -0.0166, tolerance 0.0005) <- rev_round15_horizon_slopes.csv
+[PASS] decomposition: the two component slopes add to the slope of D (both panels) <- rev_round15_horizon_slopes.csv
+[PASS] decomposition: Var(p)/E[p], 10 min (text 0.083): 0.08321 (paper 0.0832, tolerance 0.0005) <- rev_round15_horizon_slopes.csv
+[PASS] decomposition: Var(p)/E[p], 5 min (text 0.072): 0.07201 (paper 0.072, tolerance 0.0005) <- rev_round15_horizon_slopes.csv
+[PASS] decomposition: the v14 '77% and 80%' were the ratios of the fitted slope to Var(p)/E[p] (0.768, 0.802), not shares <- rev_round15_horizon_slopes.csv
+[PASS] decomposition: W/mean 7.1 and 14.7 at the shortest horizon, 0.2 and 0.8 at the longest; 4 and 31 windows per device there, none disjoint <- rev_round15_horizon_decomp.csv
+[PASS] decomposition: B/Var(N_T) 0.38, 0.58, 0.83, 0.96, 0.99 (10 min) and 0.33, 0.52, 0.76, 0.90, 0.96, 0.99 (5 min) <- rev_round15_horizon_decomp.csv
+[PASS] decomposition: disjoint-window shares 0.38, 0.58, 0.78 (T = 50, 100, 200) and 0.33, 0.53, 0.77 (T = 100, 200, 400) <- rev_round15_horizon_decomp.csv
+[PASS] decomposition: the between-device term equals T Var(p)/E[p] within 7% at every horizon (edge effects) <- rev_round15_horizon_decomp.csv
 
 ALL CHECKS PASSED

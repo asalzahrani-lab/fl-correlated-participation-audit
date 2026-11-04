@@ -124,6 +124,13 @@ python3 test_lower_limit.py                      # zero-return convention of the
 (cd ../results && P3_TRACE=../trace python3 ../src/rev_round14_learned_law.py outfamily)  # out-of-family check (~10 min)
 (cd ../results && for c in noise_r1.00 noise_r0.95 noise_r0.90 noise_r0.80 noise_iid_r1.00 noise_iid_r0.90 dir01_m100 dir01_m500 iid_m100 iid_m500; do python3 ../src/rev_round14_train.py $c 10; done)   # ~60 min
 (cd ../results && export P3_DATA_CIFAR=../data/cifar10 && python3 ../src/rev_round14_cnn.py cnn_markov 5 && python3 ../src/rev_round14_cnn.py cnn_iid 3 && python3 ../src/rev_round14_cnn.py cnn_markov_r0.90 2)   # CNN on CIFAR-10, 15 to 25 min per run
+# Fifteenth revision round (run from results/; no new experimental condition: the fourteenth-round audits regenerated with per-audit records and screened, plus null calibration cells and reference intervals)
+(cd ../results && P3_TRACE=../trace python3 ../src/rev_round15_records.py)              # one record per noise / residual audit + four null calibration cells (~8 min)
+(cd ../results && P3_TRACE=../trace python3 ../src/rev_round15_intervals.py)            # independent 99 % intervals of the realised losses (~20 min)
+(cd ../results && for c in noise_r1.00 noise_r0.95 noise_r0.90 noise_r0.80 noise_iid_r1.00 noise_iid_r0.90; do python3 ../src/rev_round15_train_records.py $c 10; done)   # the training runs with full records (~10 min)
+(cd ../results && export P3_DATA_CIFAR=../data/cifar10 && python3 ../src/rev_round15_cnn_records.py cnn_markov_r0.90 2 && python3 ../src/rev_round15_cnn_records.py cnn_markov 5 && python3 ../src/rev_round15_cnn_records.py cnn_iid 3)   # CNN runs with full records, 15 to 25 min per run
+(cd ../results && P3_TRACE=../trace python3 ../src/rev_round15_horizon_decomp.py)       # the horizon curves decomposed by device (~1 min)
+(cd ../results && python3 ../src/rev_round15_screening.py)                               # reproduction checks, rules A / B / calibrated, four counts per cell, intervals (seconds)
 
 # Figures
 cd ../paper && python3 make_figures.py

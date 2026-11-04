@@ -1,0 +1,46 @@
+rule,calibration,law,m,statistic,null_mean,null_sd,lower,upper
+A,"round-14 null (residual cell 0, seed 14700)",markov,1000,s_hat,1.000037,0.002121,0.991554,1.008520
+A,"round-14 null (residual cell 0, seed 14700)",markov,1000,lag1_200,-0.004941,0.004904,-0.024558,0.014676
+A,"round-14 null (residual cell 0, seed 14700)",markov,1000,mean_a,0.000194,0.003186,-0.012550,0.012938
+A,"round-14 null (residual cell 0, seed 14700)",markov,1000,erasure,1.008491,0.062689,0.757735,1.259248
+A,"round-14 null (residual cell 0, seed 14700)",markov,1000,ks,,,,0.003833
+B,"round-14 null (residual cell 0, seed 14700)",markov,1000,lag1_200,-0.004941,0.004904,-0.024558,0.014676
+B,"round-14 null (residual cell 0, seed 14700)",markov,1000,mean_a_norm,0.000194,0.003187,-0.012553,0.012942
+B,"round-14 null (residual cell 0, seed 14700)",markov,1000,erasure,1.008491,0.062689,0.757735,1.259248
+B,"round-14 null (residual cell 0, seed 14700)",markov,1000,ks,,,,0.003833
+A_cal,independent null (seeds 15000+),markov,1000,s_hat,1.000028,0.002341,0.990662,1.009394
+A_cal,independent null (seeds 15000+),markov,1000,lag1_200,-0.004736,0.005380,-0.026256,0.016783
+A_cal,independent null (seeds 15000+),markov,1000,mean_a,0.000278,0.003255,-0.012743,0.013300
+A_cal,independent null (seeds 15000+),markov,1000,erasure,1.003741,0.064396,0.746159,1.261323
+A_cal,independent null (seeds 15000+),markov,1000,ks,,,,0.003518
+B_cal,independent null (seeds 15000+),markov,1000,lag1_200,-0.004736,0.005380,-0.026256,0.016783
+B_cal,independent null (seeds 15000+),markov,1000,mean_a_norm,0.000278,0.003256,-0.012745,0.013301
+B_cal,independent null (seeds 15000+),markov,1000,erasure,1.003741,0.064396,0.746159,1.261323
+B_cal,independent null (seeds 15000+),markov,1000,ks,,,,0.003518
+A_cal,independent null (seeds 15000+),markov,200,s_hat,0.999842,0.004917,0.980172,1.019511
+A_cal,independent null (seeds 15000+),markov,200,lag1_200,-0.004753,0.006481,-0.030677,0.021171
+A_cal,independent null (seeds 15000+),markov,200,mean_a,0.000780,0.007074,-0.027516,0.029077
+A_cal,independent null (seeds 15000+),markov,200,erasure,1.001107,0.148736,0.406161,1.596053
+A_cal,independent null (seeds 15000+),markov,200,ks,,,,0.008071
+B_cal,independent null (seeds 15000+),markov,200,lag1_200,-0.004753,0.006481,-0.030677,0.021171
+B_cal,independent null (seeds 15000+),markov,200,mean_a_norm,0.000784,0.007079,-0.027533,0.029102
+B_cal,independent null (seeds 15000+),markov,200,erasure,1.001107,0.148736,0.406161,1.596053
+B_cal,independent null (seeds 15000+),markov,200,ks,,,,0.008071
+A_cal,independent null (seeds 15000+),iid,1000,s_hat,1.000289,0.002173,0.991597,1.008980
+A_cal,independent null (seeds 15000+),iid,1000,lag1_200,-0.004751,0.004710,-0.023591,0.014089
+A_cal,independent null (seeds 15000+),iid,1000,mean_a,0.000038,0.003337,-0.013309,0.013385
+A_cal,independent null (seeds 15000+),iid,1000,erasure,0.997067,0.065061,0.736823,1.257312
+A_cal,independent null (seeds 15000+),iid,1000,ks,,,,0.003649
+B_cal,independent null (seeds 15000+),iid,1000,lag1_200,-0.004751,0.004710,-0.023591,0.014089
+B_cal,independent null (seeds 15000+),iid,1000,mean_a_norm,0.000038,0.003336,-0.013308,0.013383
+B_cal,independent null (seeds 15000+),iid,1000,erasure,0.997067,0.065061,0.736823,1.257312
+B_cal,independent null (seeds 15000+),iid,1000,ks,,,,0.003649
+A_cal,independent null (seeds 15000+),trace,1000,s_hat,0.999911,0.002244,0.990934,1.008888
+A_cal,independent null (seeds 15000+),trace,1000,lag1_200,-0.004822,0.005303,-0.026034,0.016389
+A_cal,independent null (seeds 15000+),trace,1000,mean_a,-0.000201,0.002997,-0.012188,0.011787
+A_cal,independent null (seeds 15000+),trace,1000,erasure,0.992322,0.136694,0.445544,1.539100
+A_cal,independent null (seeds 15000+),trace,1000,ks,,,,0.003633
+B_cal,independent null (seeds 15000+),trace,1000,lag1_200,-0.004822,0.005303,-0.026034,0.016389
+B_cal,independent null (seeds 15000+),trace,1000,mean_a_norm,-0.000200,0.002996,-0.012184,0.011784
+B_cal,independent null (seeds 15000+),trace,1000,erasure,0.992322,0.136694,0.445544,1.539100
+B_cal,independent null (seeds 15000+),trace,1000,ks,,,,0.003633

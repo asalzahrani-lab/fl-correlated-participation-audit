@@ -12,8 +12,10 @@ Four auditors on the same 120 audit data sets per law (m = 1,000, T = 200, a = 0
              the path adds over the count: the information ratio (sum_i N_i^2 / T) / sum_i N_i;
   count-cond the count-conditioned sum audit of Table III (the sum release's own privacy under the exact count law,
              Theorem 1), for reference;
-  max-fit    the maximum-over-rounds score of Andrew et al. (main-text ref. [27], Algorithm 3: each canary scored by
-             the largest projection over the rounds), fitted by Gaussians to the present and absent scores as the
+  max-fit    a maximum-over-rounds score in the manner of Algorithm 3 of Andrew et al. (main-text ref. [27]): each
+             canary scored by its largest projection over the rounds, in declared-noise units (their algorithm scores
+             each round by the cosine with that round's model delta, normalised by the delta's norm; here the
+             normalisation is the fixed noise scale), fitted by Gaussians to the present and absent scores as the
              Gaussian-fit baseline of Table III does with the sum score (Bonferroni box over the four fitted
              parameters, alpha = 0.05), reported against the per-round reference.
 Laws: Markov lambda = 0.9 (reference 11.869), i.i.d. (2.866), the FLASH trace law (10.69) and the cyclic law (7.94), each with the

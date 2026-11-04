@@ -1,0 +1,12 @@
+noise_r1.00: hidden=(64,) clients=200 canaries=1000 law=markov partition=iid noise_r=1.0 C_clip=0.415; resuming at rep 0
+  rep 0: acc=0.711 clip=0.33 a_lo=0.4769 s_hat=1.0023 mean_a=-0.00562 lag1=-0.0074/-0.0079 ks=0.00182 erasure=0.999 cert=10.045 cert_c=10.527 [9s]
+  rep 1: acc=0.737 clip=0.20 a_lo=0.4911 s_hat=1.0011 mean_a=-0.00286 lag1=-0.0043/-0.0017 ks=0.00163 erasure=1.013 cert=11.020 cert_c=11.020 [19s]
+  rep 2: acc=0.718 clip=0.26 a_lo=0.4696 s_hat=1.0023 mean_a=0.00185 lag1=-0.0062/-0.0057 ks=0.00177 erasure=0.949 cert=9.576 cert_c=9.576 [28s]
+  rep 3: acc=0.718 clip=0.27 a_lo=0.4816 s_hat=0.9989 mean_a=-0.00227 lag1=-0.0026/-0.0058 ks=0.00191 erasure=0.975 cert=10.527 cert_c=10.527 [37s]
+  rep 4: acc=0.719 clip=0.32 a_lo=0.4718 s_hat=0.9999 mean_a=0.00088 lag1=-0.0063/-0.0084 ks=0.00173 erasure=0.906 cert=10.045 cert_c=9.576 [46s]
+  rep 5: acc=0.723 clip=0.21 a_lo=0.4731 s_hat=0.9995 mean_a=-0.00373 lag1=-0.0046/-0.0070 ks=0.00213 erasure=1.004 cert=10.045 cert_c=10.045 [55s]
+  rep 6: acc=0.731 clip=0.26 a_lo=0.4659 s_hat=1.0034 mean_a=-0.00405 lag1=-0.0050/-0.0005 ks=0.00191 erasure=0.908 cert=9.576 cert_c=9.576 [65s]
+  rep 7: acc=0.716 clip=0.38 a_lo=0.4679 s_hat=0.9962 mean_a=-0.00390 lag1=-0.0061/-0.0015 ks=0.00207 erasure=1.017 cert=9.576 cert_c=10.045 [74s]
+  rep 8: acc=0.743 clip=0.25 a_lo=0.4605 s_hat=0.9997 mean_a=-0.00328 lag1=-0.0062/-0.0063 ks=0.00189 erasure=0.974 cert=9.576 cert_c=9.576 [83s]
+  rep 9: acc=0.722 clip=0.34 a_lo=0.4571 s_hat=1.0021 mean_a=-0.00024 lag1=-0.0006/-0.0084 ks=0.00261 erasure=0.975 cert=9.118 cert_c=9.118 [93s]
+exit 0

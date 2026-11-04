@@ -1,0 +1,5 @@
+cnn_iid: CNN d=545098 clients=200 canaries=1000 law=iid noise_r=1.0 C_clip=0.060; threads 2; resuming at rep 0
+  rep 0: acc=0.388 clip=1.00 a_lo=0.4748 s_hat=1.0017 mean_a=0.00279 lag1=-0.0068/-0.0067 ks=0.00147 erasure=1.111 cert=2.554 cert_c=2.554 [496s]
+  rep 1: acc=0.387 clip=1.00 a_lo=0.4728 s_hat=0.9998 mean_a=0.00187 lag1=-0.0005/0.0039 ks=0.00240 erasure=1.016 cert=2.554 cert_c=2.481 [1007s]
+  rep 2: acc=0.386 clip=1.00 a_lo=0.4726 s_hat=1.0035 mean_a=-0.00328 lag1=-0.0032/-0.0083 ks=0.00168 erasure=1.019 cert=2.554 cert_c=2.554 [1506s]
+exit 0
