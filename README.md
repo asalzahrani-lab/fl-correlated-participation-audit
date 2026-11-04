@@ -14,7 +14,7 @@ Every number in the paper is traced to a script and an output file in [`PROVENAN
 | `trace/` | `trace_analysis.py`: eligibility mapping of the FLASH device trace (locked ∧ Wi-Fi ∧ charging), availability processes, selection policies and count laws. `pn_*.npy`: the ten count laws of Table VIII (full version). The trace itself is **not** redistributed here; see `trace/README.md`. |
 | `results/` | Every CSV the paper's tables and figures are built from, the run logs (`results/logs/`), `step19_audits.npz` (per-audit values of the consolidated audit tables), `step18_pn_*.npy` (count laws of the six availability models) and `theory_notes.md` (working notes with the proofs as first written). |
 | `paper/` | `make_figures.py` and the three figures. |
-| `data/` | Empty; MNIST / Fashion-MNIST in IDX format go here for the training runs (`data/README.md`). |
+| `data/` | Empty; MNIST / Fashion-MNIST in IDX format go here for the training runs, CIFAR-10 as `data/cifar10/cifar10_jpeg_mirror.npz` for the CNN runs (`data/README.md`). |
 
 ## Setup
 
@@ -23,7 +23,7 @@ python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
 bash trace/fetch_trace.sh        # clones FLASH (BSD-2-Clause) and copies data/state_traces.json into trace/
 ```
-Python ≥ 3.10. The code was run with numpy 2.5, scipy 1.18, dp-accounting 0.6.0 on one CPU core. Nothing uses a GPU.
+Python ≥ 3.10. The code was run with numpy 2.5, scipy 1.18, dp-accounting 0.6.0 on one CPU core. Nothing uses a GPU. The CNN runs of the fourteenth round (`rev_round14_cnn.py`) need PyTorch (`pip install torch`; run with 2.15, CPU) and Pillow for the one-off conversion of the CIFAR-10 images (`src/make_cifar_npz.py`, `data/README.md`).
 
 Paths: scripts look for the trace in `trace/`, which `P3_TRACE=/path` overrides, and for the image data in `data/fmnist`, `data/mnist`, which `P3_DATA`, `P3_DATA_MNIST` override. Run every script from inside `src/`.
 
@@ -115,6 +115,15 @@ python3 test_lower_limit.py                      # zero-return convention of the
 # Thirteenth revision round (run from results/, needs trace/)
 (cd ../results && P3_TRACE=../trace python3 ../src/rev_round13_bootstrap.py 1000)        # bootstrap over devices: final-model and Theorem-2 ratios (~22 min)
 (cd ../results && P3_TRACE=../trace python3 ../src/rev_round13_worst_device_audit.py)   # the audit pointed at the worst device's law (~3 min)
+# Fourteenth revision round (run from results/; the simulations need trace/, the training runs data/, the CNN data/cifar10 and torch)
+(cd ../results && P3_TRACE=../trace python3 ../src/rev_round14_noise_sim.py)             # implementation noise error, simulation (~12 min)
+(cd ../results && python3 ../src/rev_round14_residual_sim.py)                             # operating region: controlled residuals (~5 min)
+(cd ../results && P3_TRACE=../trace python3 ../src/rev_round14_comparators.py)           # comparators on the same information (~10 min)
+(cd ../results && for l in 0.9 0.86 0.87 0.875 0.88 0.885 0.89 0.895 0.905 0.91 0.915 0.92 0.93; do python3 ../src/rev_round14_learned_law.py table $l; done)   # 13 tables, ~6 min each
+(cd ../results && python3 ../src/rev_round14_learned_law.py estimate && python3 ../src/rev_round14_learned_law.py audit)   # a law learned from logs (~2 min)
+(cd ../results && P3_TRACE=../trace python3 ../src/rev_round14_learned_law.py outfamily)  # out-of-family check (~10 min)
+(cd ../results && for c in noise_r1.00 noise_r0.95 noise_r0.90 noise_r0.80 noise_iid_r1.00 noise_iid_r0.90 dir01_m100 dir01_m500 iid_m100 iid_m500; do python3 ../src/rev_round14_train.py $c 10; done)   # ~60 min
+(cd ../results && export P3_DATA_CIFAR=../data/cifar10 && python3 ../src/rev_round14_cnn.py cnn_markov 5 && python3 ../src/rev_round14_cnn.py cnn_iid 3 && python3 ../src/rev_round14_cnn.py cnn_markov_r0.90 2)   # CNN on CIFAR-10, 15 to 25 min per run
 
 # Figures
 cd ../paper && python3 make_figures.py

@@ -1,0 +1,6 @@
+cnn_markov: CNN d=545098 clients=200 canaries=1000 law=markov noise_r=1.0 C_clip=0.047; resuming at rep 0
+  rep 0: acc=0.373 clip=1.00 a_lo=0.478 a_hat=0.500 s_hat=0.997 lag1=0.001 ks=0.0016 erasure=1.00 cert=10.04 (claim 11.87) [1501s]
+  rep 1: acc=0.378 clip=1.00 a_lo=0.478 a_hat=0.500 s_hat=1.001 lag1=-0.003 ks=0.0030 erasure=0.98 cert=10.04 (claim 11.87) [2409s]
+  rep 2: acc=0.403 clip=1.00 a_lo=0.469 a_hat=0.490 s_hat=0.999 lag1=-0.006 ks=0.0021 erasure=1.02 cert=9.58 (claim 11.87) [3452s]
+  rep 3: acc=0.394 clip=1.00 a_lo=0.482 a_hat=0.505 s_hat=1.002 lag1=-0.005 ks=0.0026 erasure=0.94 cert=10.53 (claim 11.87) [4422s]
+  rep 4: acc=0.391 clip=1.00 a_lo=0.485 a_hat=0.509 s_hat=1.002 lag1=-0.009 ks=0.0026 erasure=1.01 cert=10.53 (claim 11.87) [5364s]

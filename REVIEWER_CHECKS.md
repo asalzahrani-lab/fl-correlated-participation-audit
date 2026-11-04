@@ -31,6 +31,12 @@ PASS or FAIL against the value in the manuscripts. It covers:
   and the presence of `test_lower_limit.py`, which pins the zero-return convention of the lower limit (eleven cases).
 - the thirteenth-round computations: the bootstrap intervals over devices (point values equal to the paper's, interval
   endpoints as printed) and the audit of the worst device's law (reference, recovery, flags, exceedances, table monotone).
+- the fourteenth-round computations: the noise-error flags per cell and the single exceedance of the realised loss, the
+  training flags and the noise-scale diagnostic; the residual cells (exceedances, rejections, the centred estimator);
+  the comparators' means, recoveries, flags and information ratios; the learned-law study (sd of lambda_hat, per-rule
+  recoveries, exceedances of the reference and of its upper limit, flags, abstentions, the rule's table choice, the
+  monotonicity of the thirteen tables in lambda and in a) and the out-of-family check; the Dirichlet / IID training
+  cells and the CNN runs (recovery, flags, exceedances, accuracy, diagnostics, parameter count).
 
 The output of the last run is in `results/logs/verify_claims.log`.
 
@@ -39,10 +45,11 @@ docstrings).
 
 ## 1. Version identity
 
-This is release **v13**. It matches **TIFS v13** (main text and Supplementary Material) and the **extended version v18**
+This is release **v14**. It matches **TIFS v14** (main text and Supplementary Material) and the **extended version v19**
 (`VERSION.md`).
 
-The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`);
+The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`; the CNN runs of
+the fourteenth round with PyTorch 2.15 on the CPU);
 `requirements.txt` pins dp-accounting 0.6.0 and gives lower bounds for the other libraries. The last run of
 `verify_claims.py` used Python 3.13.16 and the same library versions.
 
@@ -75,6 +82,12 @@ The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accountin
 | Accuracy controls at 200 real clients (eleventh round) | `rev_train.py ctrl200_share01`, `ctrl200_share05` | 901 (the seed of `base_orth`, hence the same clipping norm) |
 | Accuracy baseline at 200 real clients without canaries (twelfth round) | `rev_train.py ctrl200_share00` | 901 (the seed of `base_orth`, hence the same clipping norm) |
 | Bootstrap over devices (thirteenth round) | `rev_round13_bootstrap.py` | 13001 + replicate (resampling); 0 (policy) |
+| Implementation noise error, simulation (fourteenth round) | `rev_round14_noise_sim.py` | 14500 + cell (audits); 14600 + cell (400k-sample realised loss beyond the grid) |
+| Operating region, controlled residuals (fourteenth round) | `rev_round14_residual_sim.py` | 14700 + cell |
+| Comparators on the same information (fourteenth round) | `rev_round14_comparators.py` | 14800 + law |
+| A law learned from logs (fourteenth round) | `rev_round14_learned_law.py` | tables 14100 + 1000 lambda; logs 14200; audits 14300 + replicate + 10 N; out-of-family 14400 (audits), 14401 (table) |
+| Training, noise error and heterogeneous partition (fourteenth round) | `rev_round14_train.py` | 1401 to 1414 by configuration |
+| CNN on CIFAR-10 (fourteenth round) | `rev_round14_cnn.py` | 1431 to 1433 by configuration, 1000 (rep + 1) added per run |
 | Audit of the worst device's law (thirteenth round) | `rev_round13_worst_device_audit.py` | 13002 (audits); the table is deterministic (PLD) |
 | Guess-counting audits | `rev_guess2.py` | 8101–8103 |
 | Training runs | `fl_mlp2.py`, `fl_mlp3.py`, `fl_mlp_5k.py`, `rev_train.py` | 777; 1717; 7777; 901–906 |

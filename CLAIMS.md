@@ -1,6 +1,6 @@
 # Headline claims → computation
 
-Each row gives a number from the abstract or the conclusions of the journal version (TIFS v13), the script that produces it, the
+Each row gives a number from the abstract or the conclusions of the journal version (TIFS v14), the script that produces it, the
 output file, and the value it contains. "Certified" = a deterministic bound or a bound holding with stated confidence;
 "estimate" = a Monte-Carlo point estimate.
 
@@ -45,6 +45,11 @@ output file, and the value it contains. "Certified" = a deterministic bound or a
 | The λ fitted to 1,000 devices' logs (200 rounds) has standard deviation 0.002 | 200 simulated replicates | `rev_round7_audit_sens.py lamse` | `rev_round7_lamse.csv` `sd_hat` = 0.00215 |
 | The factors are those of 10-minute rounds and grow as rounds shorten: 8.9, 5.2, 2.5 at 5-, 10-, 30-minute rounds (33 h) | exact (Theorem 1) | `rev_round7_trace_sens.py` | `rev_round7_trace_sens.csv` (`check` = round_length) |
 | Over 20 random halves of the devices the final-model ratio is 3.7 to 7.3 | exact (Theorem 1) per subset | `rev_round7_trace_sens.py` | `rev_round7_trace_sens.csv` (`check` = device_subsample, 286 devices) |
+| The audit detects a 10 % shortfall in the implemented noise invisible to any accountant reading the logs: flags 120 / 111 / 76 of 120 at r = 0.90 (Markov / iid / trace), 40 / 5 / 7 at r = 0.95, 0 at r ≥ 1, one of 2,880 above the realised loss; training 10 / 10 at r = 0.90 (Markov), 8 / 10 (iid) | 120 simulated audits per cell; 10 training runs per cell | `rev_round14_noise_sim.py`, `rev_round14_train.py` | `rev_round14_noise_sim.csv`, `rev_round14_train_noise_*.csv` |
+| Given the same law and table, the sum statistic certifies 11 to 24 points less than the path with 2.6 to 10 times the dispersion (information ratio 0.10 to 0.18) | 120 audits per law, the same data sets for every auditor | `rev_round14_comparators.py` | `rev_round14_comparators.csv` |
+| Controlled residuals map the operating region: white residuals up to 0.25 never above the modified release's loss and AR(1) never above the nominal 11.869 (≤ 7 points of recovery lost); reinforcement never above ε(a + ρ); a constant offset of 0.05 biases 189 / 200 upward, is rejected by the frozen rule in 200 / 200, and the centred estimator removes it (86-87 %, none above in the offset cells; 2 of 200 above the pull-back reference at 0.10) | 200 audits per cell | `rev_round14_residual_sim.py` | `rev_round14_residual_sim.csv`, `rev_round14_residual_rule.csv` |
+| With lambda learned from the logs of 100 / 500 / 2,000 devices the plug-in table exceeds the reference in 19, 0, 0 of 1,000 audits; the conservative rule (largest table at or below lambda_hat - z_0.99 se; level 0.01 + 0.035 + 0.005) in 0, 0, 0, recovering 73, 78, 81 % (oracle 86, 86, 86 %), abstaining in 0, 0, 0; out of family (trace law, fitted chain) 12 %, 0/120 above | 1,000 replicates per N, fresh logs and audit data; 120 out-of-family audits | `rev_round14_learned_law.py` | `rev_round14_learned_law.csv`, `_audits.csv`, `rev_round14_lamhat.csv`, `rev_round14_outfamily.csv` |
+| A 545k-parameter CNN on CIFAR-10 recovers 85 % (Markov) and 89 % (iid) with Model-1 diagnostics, none above the reference, and flags the claim 2/2 at r = 0.90; Dirichlet(0.1) shards recover 64 / 82 % with 100 / 500 canaries | 5 + 3 + 2 CNN runs; ten runs per MLP cell | `rev_round14_cnn.py`, `rev_round14_train.py` | `rev_round14_cnn_cnn_*.csv`, `rev_round14_train_dir01_*.csv`, `rev_round14_train_iid_*.csv` |
 
 `src/verify_claims.py` re-derives every row above from the stored outputs, PASS / FAIL per number, with the log in
 `results/logs/verify_claims.log`. `REVIEWER_CHECKS.md` maps the artifact checks to files and commands.

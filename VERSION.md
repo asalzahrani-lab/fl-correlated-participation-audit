@@ -1,8 +1,61 @@
 # Version
 
-Release **v13** (2026-11-04), matching the journal submission **TIFS v13** (main text and Supplementary Material) and the
-**extended version v18**. Earlier releases: v12 (TIFS v12 / extended v17), v11 (TIFS v11 / extended v16), v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
+Release **v14** (2026-11-04), matching the journal submission **TIFS v14** (main text and Supplementary Material) and the
+**extended version v19**. Earlier releases: v13 (TIFS v13 / extended v18), v12 (TIFS v12 / extended v17), v11 (TIFS v11 / extended v16), v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
 v2 (TIFS v2 / v7).
+
+What changed in v14 (fourteenth internal pre-submission review, two reports on TIFS v13): eight source files added (seven scripts and the CIFAR-10 conversion), six
+computations added, no published value changed. The noise, residual and comparator simulations use the merged certified
+tables of Table III (`rev_round14_common.py`: the step-14 and step-16 tables merged as `step19_rerun_audits.py` merges
+them); the learned-law study builds its own 1M-sample tables; the training and CNN scripts use the step-14 tables as
+`rev_train.py` does; m = 1,000, T = 200, a = 0.5, delta = 1e-4 throughout. **Implementation noise error** (`rev_round14_noise_sim.py`, `rev_round14_train.py`
+noise_*): the server adds noise of scale r x the declared sigma = 2 while accountant and auditor are told sigma; the
+claim is the correct accountant's value for the canaries' own law at the declared noise (11.869 Markov, 2.866 iid,
+10.69 trace; the training scripts take the iid claim from `rev_train.REF_IID` = 2.869, the Monte-Carlo reference, and no
+flag count differs between 2.866 and 2.869), so it is true at r = 1 and short of the realised loss eps(a/r) at r < 1. Flags at r = 1.10 / 1.00 /
+0.98 / 0.95 / 0.90 / 0.80: Markov 0 / 0 / 1 / 40 / 120 / 120, iid 0 / 0 / 0 / 5 / 111 / 120, trace 0 / 0 / 0 / 7 / 76 /
+120 (120 audits per cell; Markov with 200 canaries 0 / 0 / 1 / 9 / 47 / 120); one estimate of 2,880 above the realised loss (Markov r = 1.10, a_lo above a/r);
+training (Fashion-MNIST, 784-64-10, ten runs per cell) 0 / 2 / 10 / 10 flags at r = 1, 0.95, 0.90, 0.80 (Markov) and
+0 / 8 at r = 1, 0.90 (iid). **Operating region** (`rev_round14_residual_sim.py`): residuals added to every canary
+observation (white, constant offset, AR(1) with phi = 0.5 and 0.9, reinforcing and pull-back on participating rounds) at
+rho = 0.05, 0.10, 0.25 of the noise scale, 200 audits per cell, a diagnostic rule frozen on the null cell (mean +- 4 sd
+of the absent canaries' scale, lag-1, mean and the erasure ratio; KS at most the null maximum), and a centred
+estimator (`snr_lower_bound_centred`: absent mean subtracted, variance term 1/n_0). White residuals never exceed the modified
+release's loss and AR(1) residuals never exceed the nominal 11.869 (no scalar reference describes that release; at
+most 7 points of recovery lost; both rejected by the rule at 0.25); reinforcement
+never exceeds eps(a + rho); the pull-back costs power only; the constant offset of 0.05 puts 189 of 200 estimates above
+the reference and is rejected 200 / 200 by the rule; the centred estimator recovers 86-87 % with none above in every
+offset cell and agrees with eq. (11) of the journal version within one point elsewhere (2 of 200 above the
+pull-back reference at rho = 0.10, within the allowance). **Comparators on the same information**
+(`rev_round14_comparators.py`): on the same 120 data sets per law, the path-aware audit, a sum audit with the same law
+and the same table (regression of the sum on the known counts; information ratio (sum N_i^2 / T) / sum N_i), the
+count-conditioned audit and the maximum-over-rounds score with the Gaussian fit: Markov 87 / 75 / 35 / 1 %, iid
+89 / 70 / 63 / 4 %, trace 72 / 48 / 11 / 1 %, cyclic 90 / 70 / 22 / 2 % (information ratios 0.18 / 0.10 / 0.15 /
+0.10); one of 480 path audits and one of 480 sum audits above a reference. **A law learned from logs**
+(`rev_round14_learned_law.py`): canaries at lambda = 0.9 with q known; lambda_hat = p11 - p01 by maximum likelihood from the logs of N = 100 / 500 / 2,000 devices (sd 0.0064 / 0.0029 / 0.0015); thirteen tables at lambda' = 0.86 ... 0.93 (1M samples per point, seed 14100 + 1000 lambda'); 1,000 replicates per N (fresh logs, seed 14200; fresh audits, seed 14300 + r + 10 N). Oracle table: recovery 86, 86, 86 %, above 11.869: 0, 0, 0; plug-in table (nearest lambda'): recovery 85, 85, 85 %, above 11.869: 19, 0, 0, above 12.033: 2, 0, 0, flags 1000, 1000, 1000; conservative table (largest lambda' <= lambda_hat - z_0.99 se, level 0.01 + 0.035 + 0.005): recovery 73, 78, 81 %, above 11.869: 0, 0, 0, above 12.033: 0, 0, 0, flags 1000, 1000, 1000, abstentions 0, 0, 0. Out of family (canaries on the FLASH trace law, table for a chain fitted to the trace logs, q = 0.0471, lambda = 0.528): certified 1.33 +- 0.08 (12 % of 10.69), 0 / 120 above, 105 flags. A sensitivity study resting on the observed monotonicity in lambda, not a guarantee. The pooled chain cannot carry the trace law's between-device dispersion (eightfold under-statement, safe here but for no general reason): the table must be built from the logged paths, not from a family fitted to them. **Heterogeneous data** (`rev_round14_train.py` dir01_*, iid_*):
+784-256-128-10, 500 clients, Dirichlet(0.1) label-skewed shards (empty to 1,183 examples; 85 % of updates clipped) or
+IID shards, 100 / 500 canaries, ten runs each: certified recovery 64 / 82 % (Dirichlet) and 52 / 82 % (IID), 9, 10, 8
+and 10 flags of the Poisson claim, none above the reference, diagnostics unchanged. **A convolutional network on
+CIFAR-10** (`rev_round14_cnn.py`, PyTorch, CPU): conv 32, conv 64, fc 128, 10 (545098 parameters), 200 clients with IID shards of 250 images, 1,000 orthonormal canaries, sigma = 2, T = 200 (JPEG re-encoding of CIFAR-10 from github.com/YoongiKim/CIFAR-10-images, converted by `make_cifar_npz.py`; the official archive was unreachable from the build machine): cnn_markov (5 runs, seed 1431) certified 10.14 +- 0.36 (85 % of 11.869), 5 flags, none above the reference, accuracy 0.373 to 0.403, clip fraction 1.00, erasure 0.94 to 1.02; cnn_iid (3 runs, seed 1432) 2.55 +- 0.00 (89 % of 2.866), none above; cnn_markov_r0.90 (2 runs, seed 1433) 13.11 +- 0.00, 2 / 2 flags of the claim 11.869, the table's lower estimate of the realised loss 14.63 (the 400k-sample estimate is 15.02); every update clipped (C calibrated on the initial model). Outputs `rev_round14_cnn_cnn_<config>.csv`. Accuracy is low because at 20 clients per round the noise norm (sigma C sqrt(d)) is 74 times the bound 20 C on the clipped sum, against 22 for the 50,890-parameter network. `verify_claims.py` gains a fourteenth-round section
+(150 checks; 430 in all, all passing). **Text.** VI-F states that the schema bound's maximum under the 20-round timer is the timer's own
+cap (10 participations), so it holds for every device and population, and III-C says the schema bound holds for every
+population once its cap is set by policy; Contribution 2 gives the Gaussian fit's range as 3 to 22 %; the abstract says
+"mutually independent paths" and carries the noise-shortfall sentence; V-A states the measured cost of the sum
+statistic given the law and the counts; Table III's caption defines the count-conditioned audit; V-F gains the
+paragraphs "What the audit adds to the logs" and "Operating region", the learned-law sentence and the heterogeneous-data
+and CNN sentence; VII and the conclusion carry the noise-shortfall clause. The supplement (6 pages, set at 9 points) gains Secs. S-V.D to
+S-V.G, Table S2 (residuals) and the new rows of Table S1; its former protocol, 1e-5-audit and guess-counting tables are prose. The extended version gains a
+novelty table (Section II) and the tables of every new experiment. TIFS v14 main text 13 pages, supplement 6, abstract
+250 words.
+
+Values that differ between release v13 and release v14, with the reason:
+
+| Quantity | v13 | v14 | Reason |
+|---|---|---|---|
+| Cost of the sum statistic given the law | "a tenth of the path's information" (N^2/T = 2 against N = 20, an estimate) | measured: 11 to 24 recovery points less than the path, 2.6 to 10 times the dispersion; information ratio 0.10 to 0.18 | fourteenth-round request; new script |
+| Sensitivity to the table's law | tables at lambda' = 0.85 ... 0.95: 0, 0, 1, 16, 120 of 120 above (kept) | plus a law learned from logs of 100 / 500 / 2,000 devices with plug-in and conservative rules (plug-in above 11.869: 19, 0, 0 of 1,000; conservative 0, 0, 0, recovery 73, 78, 81 %, abstentions 0, 0, 0; out of family (chain fitted to the trace logs) 12 %, 0/120 above) | fourteenth-round request; new script |
+| Training settings | MLPs on MNIST / Fashion-MNIST, IID or 2-class shards | plus Dirichlet(0.1) shards (64 / 82 %) and a 545k-parameter CNN on CIFAR-10 (85 % Markov, 89 % iid, accuracy 0.37-0.40) | fourteenth-round request; new scripts |
+| `verify_claims.py` checks | 280 | 430 | fourteenth-round section |
 
 What changed in v13 (thirteenth internal pre-submission review, two independent reports on TIFS v12): two scripts added,
 two computations added, no published value changed. **Bootstrap over devices** (`rev_round13_bootstrap.py`). The 572
@@ -137,8 +190,9 @@ Review history. Every "review round" or "revision round" named in this package (
 this file, README.md, PROVENANCE.md, REVIEWER_CHECKS.md) refers to internal pre-submission reviews of the manuscript.
 The manuscript has not been submitted to a journal before. "TIFS vN" and "extended vN" are internal draft labels.
 
-Computed with NumPy 2.5.3, SciPy 1.18.1, dp-accounting 0.6.0, on one or two CPU cores; no GPU. `src/verify_claims.py`
-was last run with Python 3.13.16 and these library versions.
+Computed with NumPy 2.5.3, SciPy 1.18.1, dp-accounting 0.6.0, on one or two CPU cores; no GPU (the CNN runs of the
+fourteenth round with PyTorch 2.15, CPU, and Pillow for the CIFAR-10 conversion). `src/verify_claims.py` was last run
+with Python 3.13.16 and these library versions.
 
 What changed after the eighth internal pre-submission review (2026-10-20, same release v8: the manuscript had not been
 submitted): `verify_claims.py` and `derived_numbers.py` also count independent audit data sets (874; violated claims

@@ -1,0 +1,2 @@
+canary_law,table_law,q_hat,lambda_hat,reference,poisson,R,mean_cert,sd_cert,recovery,above_ref,flags
+FLASH trace (fixed cohort 0.6),two-state chain fitted to the trace logs,0.04706,0.52774,10.69,1.2177,120,1.3288,0.0762,0.1243,0,105

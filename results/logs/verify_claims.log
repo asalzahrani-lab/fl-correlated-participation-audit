@@ -292,5 +292,156 @@
 [PASS] worst-device audit: the maximum certified value 26.99 is below the reference 27.07 <- rev_round13_worst_audits.csv
 [PASS] worst-device log: device 335, window 21, K=27, reference 27.0672 / 29.7062 (optimistic, 1e-4 discretisation) bracketed by 27.0758 / 29.7148 <- logs/rev_round13_worst_device_audit.log
 [PASS] worst device: the stored lower end at 1e-4 (Table VI: 26.99 at discretisation 1e-3): 26.99 (paper 26.99, tolerance 0.005) <- rev_peruser_exact2_devices.csv
+== 13. Fourteenth-round checks (noise error; operating region; comparators; a law learned from logs; heterogeneous data; CNN)
+[PASS] noise error, simulation: 6 noise scales x 3 laws at m=1000 plus 6 at m=200: 24 (paper 24, tolerance 0) <- rev_round14_noise_sim.csv
+[PASS] noise error, markov m=1000: flags at r=1.10,1.00,0.98,0.95,0.90,0.80 are [0, 0, 1, 40, 120, 120] (Sec. V-F, S-V) <- rev_round14_noise_sim.csv flags
+[PASS] noise error, iid m=1000: flags at r=1.10,1.00,0.98,0.95,0.90,0.80 are [0, 0, 0, 5, 111, 120] (Sec. V-F, S-V) <- rev_round14_noise_sim.csv flags
+[PASS] noise error, trace m=1000: flags at r=1.10,1.00,0.98,0.95,0.90,0.80 are [0, 0, 0, 7, 76, 120] (Sec. V-F, S-V) <- rev_round14_noise_sim.csv flags
+[PASS] noise error, markov m=200: flags at r=1.10,1.00,0.98,0.95,0.90,0.80 are [0, 0, 1, 9, 47, 120] (Sec. V-F, S-V) <- rev_round14_noise_sim.csv flags
+[PASS] noise error: certified estimates above the realised loss eps(a/r) over the 24 cells (text: one of 2,880 simulated audits, Markov r=1.10): 1 (paper 1, tolerance 0) <- rev_round14_noise_sim.csv above_realised
+[PASS] noise error: 2,880 simulated audits in all: 2880 (paper 2880, tolerance 0) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=1.1: certified mean (text 8.15) and realised loss (text 9.6): 8.151 (paper 8.15, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=1.1: realised loss: 9.6 (paper 9.6, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=1.0: certified mean (text 10.31) and realised loss (text 11.87): 10.31 (paper 10.31, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=1.0: realised loss: 11.87 (paper 11.87, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=0.98: certified mean (text 10.8) and realised loss (text 12.41): 10.8 (paper 10.8, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=0.98: realised loss: 12.41 (paper 12.41, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=0.95: certified mean (text 11.65) and realised loss (text 13.28): 11.65 (paper 11.65, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=0.95: realised loss: 13.28 (paper 13.28, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=0.9: certified mean (text 13.18) and realised loss (text 15.02): 13.18 (paper 13.18, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=0.9: realised loss: 15.02 (paper 15.02, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=0.8: certified mean (text 14.22) and realised loss (text 19.65): 14.22 (paper 14.22, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, Markov r=0.8: realised loss: 19.65 (paper 19.65, tolerance 0.006) <- rev_round14_noise_sim.csv
+[PASS] noise error, training noise_r1.00: ten runs, flags of the claim (text 0): 0 (paper 0, tolerance 0) <- rev_round14_train_noise_r1.00.csv
+[PASS] noise error, training noise_r1.00: no run above the realised loss <- rev_round14_train_noise_r1.00.csv
+[PASS] noise error, training noise_r0.95: ten runs, flags of the claim (text 2): 2 (paper 2, tolerance 0) <- rev_round14_train_noise_r0.95.csv
+[PASS] noise error, training noise_r0.95: no run above the realised loss <- rev_round14_train_noise_r0.95.csv
+[PASS] noise error, training noise_r0.90: ten runs, flags of the claim (text 10): 10 (paper 10, tolerance 0) <- rev_round14_train_noise_r0.90.csv
+[PASS] noise error, training noise_r0.90: no run above the realised loss <- rev_round14_train_noise_r0.90.csv
+[PASS] noise error, training noise_r0.80: ten runs, flags of the claim (text 10): 10 (paper 10, tolerance 0) <- rev_round14_train_noise_r0.80.csv
+[PASS] noise error, training noise_r0.80: no run above the realised loss <- rev_round14_train_noise_r0.80.csv
+[PASS] noise error, training noise_iid_r1.00: ten runs, flags of the claim (text 0): 0 (paper 0, tolerance 0) <- rev_round14_train_noise_iid_r1.00.csv
+[PASS] noise error, training noise_iid_r1.00: no run above the realised loss <- rev_round14_train_noise_iid_r1.00.csv
+[PASS] noise error, training noise_iid_r0.90: ten runs, flags of the claim (text 8): 8 (paper 8, tolerance 0) <- rev_round14_train_noise_iid_r0.90.csv
+[PASS] noise error, training noise_iid_r0.90: no run above the realised loss <- rev_round14_train_noise_iid_r0.90.csv
+[PASS] noise error, training noise_r0.95: the noise-scale diagnostic reads r (text 0.95): 0.9497 (paper 0.95, tolerance 0.003) <- rev_round14_train_noise_r0.95.csv s_hat
+[PASS] noise error, training noise_r0.90: the noise-scale diagnostic reads r (text 0.9): 0.9001 (paper 0.9, tolerance 0.003) <- rev_round14_train_noise_r0.90.csv s_hat
+[PASS] noise error, training noise_r0.80: the noise-scale diagnostic reads r (text 0.801): 0.8013 (paper 0.801, tolerance 0.003) <- rev_round14_train_noise_r0.80.csv s_hat
+[PASS] operating region: 1 null + 4 classes x 3 rho + AR(1) at two phi x 3 rho = 19 cells: 19 (paper 19, tolerance 0) <- rev_round14_residual_sim.csv
+[PASS] operating region, null: certified mean (Table S2: 10.35): 10.35 (paper 10.35, tolerance 0.006) <- rev_round14_residual_sim.csv
+[PASS] operating region, offset 0.05: estimates above the reference (text 189 of 200): 189 (paper 189, tolerance 0) <- rev_round14_residual_sim.csv
+[PASS] operating region, offset 0.05: rejected by the frozen rule (text 200): 200 (paper 200, tolerance 0) <- rev_round14_residual_sim.csv
+[PASS] operating region: the centred estimator is never above the reference in the offset cells and recovers 86-87% <- rev_round14_residual_sim.csv
+[PASS] operating region: white and AR(1) residuals never above the modified release's loss, recovery within 7 points of the null (0.872) <- rev_round14_residual_sim.csv
+[PASS] operating region: reinforcement never above eps(a+rho); pull-back never above eps(a-rho) <- rev_round14_residual_sim.csv
+[PASS] operating region: the rule rejects every audit at rho=0.25 for white, offset and AR(1) <- rev_round14_residual_sim.csv
+[PASS] operating region: the centred estimator agrees with the estimator of Sec. V-C within one point of recovery outside the offset cells <- rev_round14_residual_sim.csv
+[PASS] operating region: the frozen rule's null sd of the absent mean (text 0.003): 0.00319 (paper 0.003, tolerance 0.0006) <- rev_round14_residual_rule.csv
+[PASS] comparators: 4 auditors x 4 laws: 16 (paper 16, tolerance 0) <- rev_round14_comparators.csv
+[PASS] comparators, markov path: certified mean (Sec. S-V: 10.3): 10.3 (paper 10.3, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, markov path: recovery: 0.8674 (paper 0.867, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, markov path: above the reference 1, flags 120 <- rev_round14_comparators.csv
+[PASS] comparators, markov sum-law: certified mean (Sec. S-V: 8.93): 8.935 (paper 8.93, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, markov sum-law: recovery: 0.7528 (paper 0.753, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, markov sum-law: above the reference 0, flags 117 <- rev_round14_comparators.csv
+[PASS] comparators, markov count-cond: certified mean (Sec. S-V: 4.16): 4.163 (paper 4.16, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, markov count-cond: recovery: 0.3507 (paper 0.351, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, markov count-cond: above the reference 0, flags 110 <- rev_round14_comparators.csv
+[PASS] comparators, markov max-fit: certified mean (Sec. S-V: 0.13): 0.1258 (paper 0.13, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, markov max-fit: recovery: 0.0106 (paper 0.011, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, markov max-fit: above the reference 0, flags 0 <- rev_round14_comparators.csv
+[PASS] comparators, iid path: certified mean (Sec. S-V: 2.56): 2.561 (paper 2.56, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, iid path: recovery: 0.8936 (paper 0.894, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, iid path: above the reference 0, flags 0 <- rev_round14_comparators.csv
+[PASS] comparators, iid sum-law: certified mean (Sec. S-V: 2.0): 2.004 (paper 2, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, iid sum-law: recovery: 0.6991 (paper 0.699, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, iid sum-law: above the reference 0, flags 0 <- rev_round14_comparators.csv
+[PASS] comparators, iid count-cond: certified mean (Sec. S-V: 1.81): 1.81 (paper 1.81, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, iid count-cond: recovery: 0.6316 (paper 0.632, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, iid count-cond: above the reference 0, flags 0 <- rev_round14_comparators.csv
+[PASS] comparators, iid max-fit: certified mean (Sec. S-V: 0.13): 0.1258 (paper 0.13, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, iid max-fit: recovery: 0.0439 (paper 0.044, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, iid max-fit: above the reference 0, flags 0 <- rev_round14_comparators.csv
+[PASS] comparators, trace path: certified mean (Sec. S-V: 7.68): 7.684 (paper 7.68, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, trace path: recovery: 0.7188 (paper 0.719, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, trace path: above the reference 0, flags 120 <- rev_round14_comparators.csv
+[PASS] comparators, trace sum-law: certified mean (Sec. S-V: 5.17): 5.168 (paper 5.17, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, trace sum-law: recovery: 0.4835 (paper 0.483, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, trace sum-law: above the reference 0, flags 110 <- rev_round14_comparators.csv
+[PASS] comparators, trace count-cond: certified mean (Sec. S-V: 1.22): 1.218 (paper 1.22, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, trace count-cond: recovery: 0.114 (paper 0.114, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, trace count-cond: above the reference 0, flags 45 <- rev_round14_comparators.csv
+[PASS] comparators, trace max-fit: certified mean (Sec. S-V: 0.08): 0.0797 (paper 0.08, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, trace max-fit: recovery: 0.0075 (paper 0.007, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, trace max-fit: above the reference 0, flags 0 <- rev_round14_comparators.csv
+[PASS] comparators, cyclic path: certified mean (Sec. S-V: 7.14): 7.136 (paper 7.14, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, cyclic path: recovery: 0.8988 (paper 0.899, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, cyclic path: above the reference 0, flags 120 <- rev_round14_comparators.csv
+[PASS] comparators, cyclic sum-law: certified mean (Sec. S-V: 5.59): 5.591 (paper 5.59, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, cyclic sum-law: recovery: 0.7042 (paper 0.704, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, cyclic sum-law: above the reference 1, flags 107 <- rev_round14_comparators.csv
+[PASS] comparators, cyclic count-cond: certified mean (Sec. S-V: 1.74): 1.744 (paper 1.74, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, cyclic count-cond: recovery: 0.2197 (paper 0.22, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, cyclic count-cond: above the reference 0, flags 0 <- rev_round14_comparators.csv
+[PASS] comparators, cyclic max-fit: certified mean (Sec. S-V: 0.15): 0.1451 (paper 0.15, tolerance 0.006) <- rev_round14_comparators.csv
+[PASS] comparators, cyclic max-fit: recovery: 0.0183 (paper 0.018, tolerance 0.0015) <- rev_round14_comparators.csv
+[PASS] comparators, cyclic max-fit: above the reference 0, flags 0 <- rev_round14_comparators.csv
+[PASS] comparators, markov: information ratio of the sum statistic (text 0.18): 0.1809 (paper 0.18, tolerance 0.005) <- rev_round14_comparators.csv
+[PASS] comparators, iid: information ratio of the sum statistic (text 0.1): 0.1043 (paper 0.1, tolerance 0.005) <- rev_round14_comparators.csv
+[PASS] comparators, trace: information ratio of the sum statistic (text 0.15): 0.1543 (paper 0.15, tolerance 0.005) <- rev_round14_comparators.csv
+[PASS] comparators, cyclic: information ratio of the sum statistic (text 0.1): 0.1 (paper 0.1, tolerance 0.005) <- rev_round14_comparators.csv
+[PASS] heterogeneous data, dir01_m100: ten runs, certified recovery (text 64%): 0.6376 (paper 0.64, tolerance 0.006) <- rev_round14_train_dir01_m100.csv
+[PASS] heterogeneous data, dir01_m100: flags of the correct claim 0, of the Poisson claim 9, none above the reference <- rev_round14_train_dir01_m100.csv
+[PASS] heterogeneous data, dir01_m100: mean accuracy (text 0.754): 0.7545 (paper 0.754, tolerance 0.002) <- rev_round14_train_dir01_m100.csv
+[PASS] heterogeneous data, dir01_m500: ten runs, certified recovery (text 82%): 0.8234 (paper 0.82, tolerance 0.006) <- rev_round14_train_dir01_m500.csv
+[PASS] heterogeneous data, dir01_m500: flags of the correct claim 0, of the Poisson claim 10, none above the reference <- rev_round14_train_dir01_m500.csv
+[PASS] heterogeneous data, dir01_m500: mean accuracy (text 0.753): 0.7529 (paper 0.753, tolerance 0.002) <- rev_round14_train_dir01_m500.csv
+[PASS] heterogeneous data, iid_m100: ten runs, certified recovery (text 52%): 0.5236 (paper 0.52, tolerance 0.006) <- rev_round14_train_iid_m100.csv
+[PASS] heterogeneous data, iid_m100: flags of the correct claim 0, of the Poisson claim 8, none above the reference <- rev_round14_train_iid_m100.csv
+[PASS] heterogeneous data, iid_m100: mean accuracy (text 0.807): 0.8068 (paper 0.807, tolerance 0.002) <- rev_round14_train_iid_m100.csv
+[PASS] heterogeneous data, iid_m500: ten runs, certified recovery (text 82%): 0.8151 (paper 0.82, tolerance 0.006) <- rev_round14_train_iid_m500.csv
+[PASS] heterogeneous data, iid_m500: flags of the correct claim 0, of the Poisson claim 10, none above the reference <- rev_round14_train_iid_m500.csv
+[PASS] heterogeneous data, iid_m500: mean accuracy (text 0.808): 0.8083 (paper 0.808, tolerance 0.002) <- rev_round14_train_iid_m500.csv
+[PASS] heterogeneous data: the Dirichlet(0.1) shards range from empty to 1,183 examples over both configurations and 85% of updates are clipped <- rev_round14_train_dir01_*.csv
+[PASS] learned law: 3 log sizes x 3 rules: 9 (paper 9, tolerance 0) <- rev_round14_learned_law.csv
+[PASS] learned law: sd of lambda_hat over 1,000 logs of N=100 devices (text 0.0064): 0.006388 (paper 0.0064, tolerance 0.0002) <- rev_round14_lamhat.csv
+[PASS] learned law, N=100 oracle: recovery (text 86%): 0.8552 (paper 0.8552, tolerance 0.0015) <- rev_round14_learned_law.csv
+[PASS] learned law, N=100 oracle: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0 <- rev_round14_learned_law.csv
+[PASS] learned law, N=100 plugin: recovery (text 85%): 0.8509 (paper 0.8509, tolerance 0.0015) <- rev_round14_learned_law.csv
+[PASS] learned law, N=100 plugin: replicates 1000, above 11.869 = 19, above 12.033 = 2, flags 1000, abstentions 0 <- rev_round14_learned_law.csv
+[PASS] learned law, N=100 cons: recovery (text 73%): 0.7313 (paper 0.7313, tolerance 0.0015) <- rev_round14_learned_law.csv
+[PASS] learned law, N=100 cons: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0 <- rev_round14_learned_law.csv
+[PASS] learned law: sd of lambda_hat over 1,000 logs of N=500 devices (text 0.0029): 0.002935 (paper 0.0029, tolerance 0.0002) <- rev_round14_lamhat.csv
+[PASS] learned law, N=500 oracle: recovery (text 86%): 0.8563 (paper 0.8563, tolerance 0.0015) <- rev_round14_learned_law.csv
+[PASS] learned law, N=500 oracle: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0 <- rev_round14_learned_law.csv
+[PASS] learned law, N=500 plugin: recovery (text 85%): 0.8542 (paper 0.8542, tolerance 0.0015) <- rev_round14_learned_law.csv
+[PASS] learned law, N=500 plugin: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0 <- rev_round14_learned_law.csv
+[PASS] learned law, N=500 cons: recovery (text 78%): 0.7823 (paper 0.7823, tolerance 0.0015) <- rev_round14_learned_law.csv
+[PASS] learned law, N=500 cons: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0 <- rev_round14_learned_law.csv
+[PASS] learned law: sd of lambda_hat over 1,000 logs of N=2000 devices (text 0.0015): 0.001508 (paper 0.0015, tolerance 0.0002) <- rev_round14_lamhat.csv
+[PASS] learned law, N=2000 oracle: recovery (text 86%): 0.8553 (paper 0.8553, tolerance 0.0015) <- rev_round14_learned_law.csv
+[PASS] learned law, N=2000 oracle: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0 <- rev_round14_learned_law.csv
+[PASS] learned law, N=2000 plugin: recovery (text 85%): 0.8544 (paper 0.8544, tolerance 0.0015) <- rev_round14_learned_law.csv
+[PASS] learned law, N=2000 plugin: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0 <- rev_round14_learned_law.csv
+[PASS] learned law, N=2000 cons: recovery (text 81%): 0.8078 (paper 0.8078, tolerance 0.0015) <- rev_round14_learned_law.csv
+[PASS] learned law, N=2000 cons: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0 <- rev_round14_learned_law.csv
+[PASS] learned law: 3,000 audit rows: 3000 (paper 3000, tolerance 0) <- rev_round14_learned_law_audits.csv
+[PASS] learned law: the conservative table never lies above lambda_hat - z_0.99 se, and is empty exactly when the rule abstains <- rev_round14_learned_law_audits.csv
+[PASS] learned law: the plug-in table is the grid point nearest to lambda_hat <- rev_round14_learned_law_audits.csv
+[PASS] learned law: thirteen tables on the grid 0.43..0.51 (9 points each) <- rev_round14_table_lam_*.csv
+[PASS] learned law: the certified curve increases in lambda at every grid point (the monotonicity the conservative rule rests on) <- rev_round14_table_lam_*.csv
+[PASS] learned law: every table increases in a (the floor rule is valid) <- rev_round14_table_lam_*.csv
+[PASS] out of family: certified recovery of the trace reference (text 12%): 0.1243 (paper 0.1243, tolerance 0.0015) <- rev_round14_outfamily.csv
+[PASS] out of family: 120 audits, 0 above the reference, 105 flags; fitted chain q = 0.0471, lambda = 0.528 <- rev_round14_outfamily.csv
+[PASS] CNN cnn_markov: 5 runs of the 545,098-parameter network <- rev_round14_cnn_cnn_markov.csv
+[PASS] CNN cnn_markov: certified recovery (text 85%): 0.8547 (paper 0.8547, tolerance 0.0015) <- rev_round14_cnn_cnn_markov.csv
+[PASS] CNN cnn_markov: flags of the Poisson claim 5, of the correct claim 0, none above the realised loss, accuracy 0.373 to 0.403 <- rev_round14_cnn_cnn_markov.csv
+[PASS] CNN cnn_iid: 3 runs of the 545,098-parameter network <- rev_round14_cnn_cnn_iid.csv
+[PASS] CNN cnn_iid: certified recovery (text 89%): 0.8911 (paper 0.8911, tolerance 0.0015) <- rev_round14_cnn_cnn_iid.csv
+[PASS] CNN cnn_iid: flags of the Poisson claim 0, of the correct claim 0, none above the realised loss, accuracy 0.387 to 0.388 <- rev_round14_cnn_cnn_iid.csv
+[PASS] CNN cnn_markov_r0.90: 2 runs of the 545,098-parameter network <- rev_round14_cnn_cnn_markov_r0.90.csv
+[PASS] CNN cnn_markov_r0.90: certified recovery (text 110%): 1.104 (paper 1.1043, tolerance 0.0015) <- rev_round14_cnn_cnn_markov_r0.90.csv
+[PASS] CNN cnn_markov_r0.90: flags of the Poisson claim 2, of the correct claim 2, none above the realised loss, accuracy 0.368 to 0.404 <- rev_round14_cnn_cnn_markov_r0.90.csv
+[PASS] CNN: the diagnostics match Model 1 (scale within 0.01 of 1, lag-1 within 0.01 of -0.005, correlation sd within 0.002 of 0.0709, erasure 0.90 to 1.15, the per-run spread of the MLP runs) <- rev_round14_cnn_cnn_*.csv
 
 ALL CHECKS PASSED

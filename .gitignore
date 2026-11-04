@@ -6,3 +6,6 @@ data/fmnist/
 data/mnist/
 src/step20_parts/
 
+
+# data (CIFAR-10 file built by src/make_cifar_npz.py)
+data/cifar10/

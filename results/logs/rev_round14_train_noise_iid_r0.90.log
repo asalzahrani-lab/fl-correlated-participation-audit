@@ -1,0 +1,11 @@
+noise_iid_r0.90: hidden=(64,) clients=200 canaries=1000 law=iid partition=iid noise_r=0.9 C_clip=0.412; resuming at rep 0
+  rep 0: acc=0.738 clip=0.08 shards[300,300] a_lo=0.539 a_hat=0.506 s_hat=0.901 lag1=-0.007 ks=0.0019 erasure=0.95 cert=3.01 (claim 2.87, loss at r 3.25) [13s]
+  rep 1: acc=0.745 clip=0.07 shards[300,300] a_lo=0.535 a_hat=0.503 s_hat=0.901 lag1=-0.004 ks=0.0019 erasure=1.03 cert=3.01 (claim 2.87, loss at r 3.25) [27s]
+  rep 2: acc=0.749 clip=0.08 shards[300,300] a_lo=0.540 a_hat=0.507 s_hat=0.901 lag1=-0.001 ks=0.0017 erasure=0.96 cert=3.09 (claim 2.87, loss at r 3.25) [41s]
+  rep 3: acc=0.727 clip=0.08 shards[300,300] a_lo=0.520 a_hat=0.488 s_hat=0.899 lag1=-0.003 ks=0.0016 erasure=0.95 cert=2.85 (claim 2.87, loss at r 3.25) [54s]
+  rep 4: acc=0.741 clip=0.05 shards[300,300] a_lo=0.535 a_hat=0.501 s_hat=0.897 lag1=-0.005 ks=0.0023 erasure=0.94 cert=3.01 (claim 2.87, loss at r 3.25) [70s]
+  rep 5: acc=0.740 clip=0.06 shards[300,300] a_lo=0.534 a_hat=0.503 s_hat=0.902 lag1=-0.001 ks=0.0017 erasure=1.04 cert=3.01 (claim 2.87, loss at r 3.25) [84s]
+  rep 6: acc=0.729 clip=0.10 shards[300,300] a_lo=0.533 a_hat=0.502 s_hat=0.902 lag1=-0.008 ks=0.0025 erasure=1.00 cert=3.01 (claim 2.87, loss at r 3.25) [105s]
+  rep 7: acc=0.740 clip=0.07 shards[300,300] a_lo=0.541 a_hat=0.507 s_hat=0.898 lag1=-0.005 ks=0.0024 erasure=0.95 cert=3.09 (claim 2.87, loss at r 3.25) [125s]
+  rep 8: acc=0.734 clip=0.05 shards[300,300] a_lo=0.532 a_hat=0.502 s_hat=0.905 lag1=-0.007 ks=0.0021 erasure=1.05 cert=3.01 (claim 2.87, loss at r 3.25) [143s]
+  rep 9: acc=0.737 clip=0.11 shards[300,300] a_lo=0.519 a_hat=0.490 s_hat=0.903 lag1=-0.008 ks=0.0020 erasure=0.87 cert=2.85 (claim 2.87, loss at r 3.25) [158s]

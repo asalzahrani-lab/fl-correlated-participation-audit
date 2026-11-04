@@ -1,6 +1,6 @@
 """Reviewer check: re-derive every headline number of the paper from the stored outputs in ../results/ and print
 PASS / FAIL for each.  No heavy computation is repeated (that is what the generating scripts are for); this script
-checks that the numbers in the manuscripts (TIFS v13 main + supplement, extended v18) follow from the files that the
+checks that the numbers in the manuscripts (TIFS v14 main + supplement, extended v19) follow from the files that the
 generating scripts wrote, and that the random streams that generate the certificate tables are disjoint from those
 that generate the audit data.  Runs in a few seconds:  cd src && python verify_claims.py
 Exit status 0 if every check passes."""
@@ -405,6 +405,117 @@ wl = open(os.path.join(LOGS, "rev_round13_worst_device_audit.log")).read()
 check_true("worst-device log: device 335, window 21, K=27, reference 27.0672 / 29.7062 (optimistic, 1e-4 discretisation) bracketed by 27.0758 / 29.7148", all(x in wl for x in ("device 335", "window 21", "K=27", "optimistic 27.0672 / 29.7062", "pessimistic 27.0758 / 29.7148")), "logs/rev_round13_worst_device_audit.log")
 dev335 = one("rev_peruser_exact2_devices.csv", device="335")
 check("worst device: the stored lower end at 1e-4 (Table VI: 26.99 at discretisation 1e-3)", float(dev335["pr_lo_0.0001"]), 26.99, 0.005, "rev_peruser_exact2_devices.csv")
+
+
+print("== 13. Fourteenth-round checks (noise error; operating region; comparators; a law learned from logs; heterogeneous data; CNN)")
+ns = rows("rev_round14_noise_sim.csv")
+check("noise error, simulation: 6 noise scales x 3 laws at m=1000 plus 6 at m=200", len(ns), 24, 0, "rev_round14_noise_sim.csv")
+exp_flags = {("markov", "1000"): [0, 0, 1, 40, 120, 120], ("iid", "1000"): [0, 0, 0, 5, 111, 120], ("trace", "1000"): [0, 0, 0, 7, 76, 120], ("markov", "200"): [0, 0, 1, 9, 47, 120]}
+for (law, m), fl in exp_flags.items():
+    got = [int(r["flags"]) for r in ns if r["law"] == law and r["m"] == m]
+    check_true(f"noise error, {law} m={m}: flags at r=1.10,1.00,0.98,0.95,0.90,0.80 are {fl} (Sec. V-F, S-V)", got == fl, "rev_round14_noise_sim.csv flags")
+check("noise error: certified estimates above the realised loss eps(a/r) over the 24 cells (text: one of 2,880 simulated audits, Markov r=1.10)", sum(int(r["above_realised"]) for r in ns), 1, 0, "rev_round14_noise_sim.csv above_realised")
+check("noise error: 2,880 simulated audits in all", sum(int(r["R"]) for r in ns), 2880, 0, "rev_round14_noise_sim.csv")
+mk = [r for r in ns if r["law"] == "markov" and r["m"] == "1000"]
+for r, (mc, rl) in zip(mk, [(8.15, 9.60), (10.31, 11.87), (10.80, 12.41), (11.65, 13.28), (13.18, 15.02), (14.22, 19.65)]):
+    check(f"noise error, Markov r={r['noise_r']}: certified mean (text {mc}) and realised loss (text {rl})", float(r["mean_cert"]), mc, 0.006, "rev_round14_noise_sim.csv")
+    check(f"noise error, Markov r={r['noise_r']}: realised loss", float(r["realised_loss"]), rl, 0.006, "rev_round14_noise_sim.csv")
+for cfg, fl in (("noise_r1.00", 0), ("noise_r0.95", 2), ("noise_r0.90", 10), ("noise_r0.80", 10), ("noise_iid_r1.00", 0), ("noise_iid_r0.90", 8)):
+    tr = rows(f"rev_round14_train_{cfg}.csv")
+    check(f"noise error, training {cfg}: ten runs, flags of the claim (text {fl})", sum(int(r["flag_claim"]) for r in tr), fl, 0, f"rev_round14_train_{cfg}.csv")
+    check_true(f"noise error, training {cfg}: no run above the realised loss", len(tr) == 10 and all(int(r["above_true_r"]) == 0 for r in tr), f"rev_round14_train_{cfg}.csv")
+for cfg, rr in (("noise_r0.95", 0.950), ("noise_r0.90", 0.900), ("noise_r0.80", 0.801)):
+    tr = rows(f"rev_round14_train_{cfg}.csv")
+    check(f"noise error, training {cfg}: the noise-scale diagnostic reads r (text {rr})", statistics.mean(float(r["s_hat"]) for r in tr), rr, 0.003, f"rev_round14_train_{cfg}.csv s_hat")
+rs = rows("rev_round14_residual_sim.csv")
+check("operating region: 1 null + 4 classes x 3 rho + AR(1) at two phi x 3 rho = 19 cells", len(rs), 19, 0, "rev_round14_residual_sim.csv")
+def cell(k, rho, phi="0.0"): return one("rev_round14_residual_sim.csv", **{"class": k, "rho": rho, "phi": phi})
+check("operating region, null: certified mean (Table S2: 10.35)", float(cell("none", "0.0")["mean_cert"]), 10.35, 0.006, "rev_round14_residual_sim.csv")
+check("operating region, offset 0.05: estimates above the reference (text 189 of 200)", int(cell("mean", "0.05")["above_ref_all"]), 189, 0, "rev_round14_residual_sim.csv")
+check("operating region, offset 0.05: rejected by the frozen rule (text 200)", int(cell("mean", "0.05")["rejected"]), 200, 0, "rev_round14_residual_sim.csv")
+check_true("operating region: the centred estimator is never above the reference in the offset cells and recovers 86-87%", all(int(cell("mean", rho)["above_ref_centred"]) == 0 and 0.855 <= float(cell("mean", rho)["recovery_centred"]) <= 0.875 for rho in ("0.05", "0.1", "0.25")), "rev_round14_residual_sim.csv")
+check_true("operating region: white and AR(1) residuals never above the modified release's loss, recovery within 7 points of the null (0.872)", all(int(r["above_ref_all"]) == 0 and float(r["recovery"]) >= 0.802 for r in rs if r["class"] in ("white", "ar")), "rev_round14_residual_sim.csv")
+check_true("operating region: reinforcement never above eps(a+rho); pull-back never above eps(a-rho)", all(int(r["above_ref_all"]) == 0 for r in rs if r["class"] in ("presence+", "presence-")), "rev_round14_residual_sim.csv")
+check_true("operating region: the rule rejects every audit at rho=0.25 for white, offset and AR(1)", all(int(r["rejected"]) == 200 for r in rs if r["rho"] == "0.25" and r["class"] in ("white", "mean", "ar")), "rev_round14_residual_sim.csv")
+check_true("operating region: the centred estimator agrees with the estimator of Sec. V-C within one point of recovery outside the offset cells", all(abs(float(r["recovery_centred"]) - float(r["recovery"])) <= 0.0151 for r in rs if r["class"] != "mean"), "rev_round14_residual_sim.csv")
+rule = rows("rev_round14_residual_rule.csv")
+check("operating region: the frozen rule's null sd of the absent mean (text 0.003)", float(one("rev_round14_residual_rule.csv", statistic="mean_a")["null_sd"]), 0.003, 0.0006, "rev_round14_residual_rule.csv")
+cm = rows("rev_round14_comparators.csv")
+check("comparators: 4 auditors x 4 laws", len(cm), 16, 0, "rev_round14_comparators.csv")
+exp_cm = {("markov", "path"): (10.30, 0.867, 1, 120), ("markov", "sum-law"): (8.93, 0.753, 0, 117), ("markov", "count-cond"): (4.16, 0.351, 0, 110), ("markov", "max-fit"): (0.13, 0.011, 0, 0),
+          ("iid", "path"): (2.56, 0.894, 0, 0), ("iid", "sum-law"): (2.00, 0.699, 0, 0), ("iid", "count-cond"): (1.81, 0.632, 0, 0), ("iid", "max-fit"): (0.13, 0.044, 0, 0),
+          ("trace", "path"): (7.68, 0.719, 0, 120), ("trace", "sum-law"): (5.17, 0.483, 0, 110), ("trace", "count-cond"): (1.22, 0.114, 0, 45), ("trace", "max-fit"): (0.08, 0.007, 0, 0),
+          ("cyclic", "path"): (7.14, 0.899, 0, 120), ("cyclic", "sum-law"): (5.59, 0.704, 1, 107), ("cyclic", "count-cond"): (1.74, 0.220, 0, 0), ("cyclic", "max-fit"): (0.15, 0.018, 0, 0)}
+for (law, aud), (mc, rec, ab, fl) in exp_cm.items():
+    r = one("rev_round14_comparators.csv", law=law, auditor=aud)
+    check(f"comparators, {law} {aud}: certified mean (Sec. S-V: {mc})", float(r["mean"]), mc, 0.006, "rev_round14_comparators.csv")
+    check(f"comparators, {law} {aud}: recovery", float(r["recovery"]), rec, 0.0015, "rev_round14_comparators.csv")
+    check_true(f"comparators, {law} {aud}: above the reference {ab}, flags {fl}", int(r["above_ref"]) == ab and int(r["flags"]) == fl, "rev_round14_comparators.csv")
+for law, ir in (("markov", 0.18), ("iid", 0.10), ("trace", 0.15), ("cyclic", 0.10)):
+    check(f"comparators, {law}: information ratio of the sum statistic (text {ir})", float(one("rev_round14_comparators.csv", law=law, auditor="sum-law")["info_ratio"]), ir, 0.005, "rev_round14_comparators.csv")
+for cfg, (rec, fl, fp, acc) in (("dir01_m100", (0.64, 0, 9, 0.754)), ("dir01_m500", (0.82, 0, 10, 0.753)), ("iid_m100", (0.52, 0, 8, 0.807)), ("iid_m500", (0.82, 0, 10, 0.808))):
+    tr = rows(f"rev_round14_train_{cfg}.csv")
+    check(f"heterogeneous data, {cfg}: ten runs, certified recovery (text {rec:.0%})", statistics.mean(float(r["cert"]) for r in tr) / 11.869, rec, 0.006, f"rev_round14_train_{cfg}.csv")
+    check_true(f"heterogeneous data, {cfg}: flags of the correct claim {fl}, of the Poisson claim {fp}, none above the reference", sum(int(r["flag_claim"]) for r in tr) == fl and sum(int(r["flag_poisson"]) for r in tr) == fp and all(int(r["above_true_r"]) == 0 for r in tr), f"rev_round14_train_{cfg}.csv")
+    check(f"heterogeneous data, {cfg}: mean accuracy (text {acc})", statistics.mean(float(r["acc"]) for r in tr), acc, 0.002, f"rev_round14_train_{cfg}.csv")
+dr = rows("rev_round14_train_dir01_m100.csv") + rows("rev_round14_train_dir01_m500.csv")
+check_true("heterogeneous data: the Dirichlet(0.1) shards range from empty to 1,183 examples over both configurations and 85% of updates are clipped", all(int(r["shard_min"]) == 0 for r in dr) and max(int(r["shard_max"]) for r in dr) == 1183 and abs(statistics.mean(float(r["clip_frac"]) for r in dr) - 0.85) < 0.01, "rev_round14_train_dir01_*.csv")
+ll = rows("rev_round14_learned_law.csv"); lh = rows("rev_round14_lamhat.csv")
+check("learned law: 3 log sizes x 3 rules", len(ll), 9, 0, "rev_round14_learned_law.csv")
+check("learned law: sd of lambda_hat over 1,000 logs of N=100 devices (text 0.0064)", statistics.pstdev(float(r["lambda_hat"]) for r in lh if r["devices"] == "100"), 0.0064, 0.0002, "rev_round14_lamhat.csv")
+r = one("rev_round14_learned_law.csv", devices="100", rule="oracle")
+check("learned law, N=100 oracle: recovery (text 86%)", float(r["recovery"]), 0.8552, 0.0015, "rev_round14_learned_law.csv")
+check_true("learned law, N=100 oracle: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0", r["replicates"] == "1000" and r["above_true"] == "0" and r["above_hi"] == "0" and r["flags"] == "1000" and r["abstentions"] == "0", "rev_round14_learned_law.csv")
+r = one("rev_round14_learned_law.csv", devices="100", rule="plugin")
+check("learned law, N=100 plugin: recovery (text 85%)", float(r["recovery"]), 0.8509, 0.0015, "rev_round14_learned_law.csv")
+check_true("learned law, N=100 plugin: replicates 1000, above 11.869 = 19, above 12.033 = 2, flags 1000, abstentions 0", r["replicates"] == "1000" and r["above_true"] == "19" and r["above_hi"] == "2" and r["flags"] == "1000" and r["abstentions"] == "0", "rev_round14_learned_law.csv")
+r = one("rev_round14_learned_law.csv", devices="100", rule="cons")
+check("learned law, N=100 cons: recovery (text 73%)", float(r["recovery"]), 0.7313, 0.0015, "rev_round14_learned_law.csv")
+check_true("learned law, N=100 cons: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0", r["replicates"] == "1000" and r["above_true"] == "0" and r["above_hi"] == "0" and r["flags"] == "1000" and r["abstentions"] == "0", "rev_round14_learned_law.csv")
+check("learned law: sd of lambda_hat over 1,000 logs of N=500 devices (text 0.0029)", statistics.pstdev(float(r["lambda_hat"]) for r in lh if r["devices"] == "500"), 0.0029, 0.0002, "rev_round14_lamhat.csv")
+r = one("rev_round14_learned_law.csv", devices="500", rule="oracle")
+check("learned law, N=500 oracle: recovery (text 86%)", float(r["recovery"]), 0.8563, 0.0015, "rev_round14_learned_law.csv")
+check_true("learned law, N=500 oracle: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0", r["replicates"] == "1000" and r["above_true"] == "0" and r["above_hi"] == "0" and r["flags"] == "1000" and r["abstentions"] == "0", "rev_round14_learned_law.csv")
+r = one("rev_round14_learned_law.csv", devices="500", rule="plugin")
+check("learned law, N=500 plugin: recovery (text 85%)", float(r["recovery"]), 0.8542, 0.0015, "rev_round14_learned_law.csv")
+check_true("learned law, N=500 plugin: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0", r["replicates"] == "1000" and r["above_true"] == "0" and r["above_hi"] == "0" and r["flags"] == "1000" and r["abstentions"] == "0", "rev_round14_learned_law.csv")
+r = one("rev_round14_learned_law.csv", devices="500", rule="cons")
+check("learned law, N=500 cons: recovery (text 78%)", float(r["recovery"]), 0.7823, 0.0015, "rev_round14_learned_law.csv")
+check_true("learned law, N=500 cons: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0", r["replicates"] == "1000" and r["above_true"] == "0" and r["above_hi"] == "0" and r["flags"] == "1000" and r["abstentions"] == "0", "rev_round14_learned_law.csv")
+check("learned law: sd of lambda_hat over 1,000 logs of N=2000 devices (text 0.0015)", statistics.pstdev(float(r["lambda_hat"]) for r in lh if r["devices"] == "2000"), 0.0015, 0.0002, "rev_round14_lamhat.csv")
+r = one("rev_round14_learned_law.csv", devices="2000", rule="oracle")
+check("learned law, N=2000 oracle: recovery (text 86%)", float(r["recovery"]), 0.8553, 0.0015, "rev_round14_learned_law.csv")
+check_true("learned law, N=2000 oracle: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0", r["replicates"] == "1000" and r["above_true"] == "0" and r["above_hi"] == "0" and r["flags"] == "1000" and r["abstentions"] == "0", "rev_round14_learned_law.csv")
+r = one("rev_round14_learned_law.csv", devices="2000", rule="plugin")
+check("learned law, N=2000 plugin: recovery (text 85%)", float(r["recovery"]), 0.8544, 0.0015, "rev_round14_learned_law.csv")
+check_true("learned law, N=2000 plugin: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0", r["replicates"] == "1000" and r["above_true"] == "0" and r["above_hi"] == "0" and r["flags"] == "1000" and r["abstentions"] == "0", "rev_round14_learned_law.csv")
+r = one("rev_round14_learned_law.csv", devices="2000", rule="cons")
+check("learned law, N=2000 cons: recovery (text 81%)", float(r["recovery"]), 0.8078, 0.0015, "rev_round14_learned_law.csv")
+check_true("learned law, N=2000 cons: replicates 1000, above 11.869 = 0, above 12.033 = 0, flags 1000, abstentions 0", r["replicates"] == "1000" and r["above_true"] == "0" and r["above_hi"] == "0" and r["flags"] == "1000" and r["abstentions"] == "0", "rev_round14_learned_law.csv")
+la = rows("rev_round14_learned_law_audits.csv")
+check("learned law: 3,000 audit rows", len(la), 3000, 0, "rev_round14_learned_law_audits.csv")
+check_true("learned law: the conservative table never lies above lambda_hat - z_0.99 se, and is empty exactly when the rule abstains", all((r["lambda_cons_table"] == "" and float(r["cert_cons"]) == 0.0) or (r["lambda_cons_table"] != "" and float(r["lambda_cons_table"]) <= float(r["lambda_lo"]) + 1e-9) for r in la), "rev_round14_learned_law_audits.csv")
+check_true("learned law: the plug-in table is the grid point nearest to lambda_hat", all(abs(float(r["lambda_plugin_table"]) - float(r["lambda_hat"])) <= 0.0025 + 1e-9 for r in la), "rev_round14_learned_law_audits.csv")
+tabs = {l: rows(f"rev_round14_table_lam_{l:.3f}.csv") for l in (0.86, 0.87, 0.875, 0.88, 0.885, 0.89, 0.895, 0.90, 0.905, 0.91, 0.915, 0.92, 0.93)}
+check_true("learned law: thirteen tables on the grid 0.43..0.51 (9 points each)", all(len(t) == 9 and t[0]["a"] == "0.43" and t[-1]["a"] == "0.51" for t in tabs.values()), "rev_round14_table_lam_*.csv")
+check_true("learned law: the certified curve increases in lambda at every grid point (the monotonicity the conservative rule rests on)", all(float(tabs[a][i]["eps_cert_bern_0.005"]) < float(tabs[b][i]["eps_cert_bern_0.005"]) for a, b in zip(sorted(tabs), sorted(tabs)[1:]) for i in range(9)), "rev_round14_table_lam_*.csv")
+check_true("learned law: every table increases in a (the floor rule is valid)", all(float(t[i]["eps_cert_bern_0.005"]) < float(t[i + 1]["eps_cert_bern_0.005"]) for t in tabs.values() for i in range(8)), "rev_round14_table_lam_*.csv")
+o = rows("rev_round14_outfamily.csv")[0]
+check("out of family: certified recovery of the trace reference (text 12%)", float(o["recovery"]), 0.1243, 0.0015, "rev_round14_outfamily.csv")
+check_true("out of family: 120 audits, 0 above the reference, 105 flags; fitted chain q = 0.0471, lambda = 0.528", o["R"] == "120" and o["above_ref"] == "0" and o["flags"] == "105" and abs(float(o["q_hat"]) - 0.0471) < 6e-5 and abs(float(o["lambda_hat"]) - 0.528) < 6e-4, "rev_round14_outfamily.csv")
+cn = rows("rev_round14_cnn_cnn_markov.csv")
+check_true("CNN cnn_markov: 5 runs of the 545,098-parameter network", len(cn) == 5 and all(r["d"] == "545098" for r in cn), "rev_round14_cnn_cnn_markov.csv")
+check("CNN cnn_markov: certified recovery (text 85%)", statistics.mean(float(r["cert"]) for r in cn) / 11.869, 0.8547, 0.0015, "rev_round14_cnn_cnn_markov.csv")
+check_true("CNN cnn_markov: flags of the Poisson claim 5, of the correct claim 0, none above the realised loss, accuracy 0.373 to 0.403", sum(int(r["flag_poisson"]) for r in cn) == 5 and sum(int(r["flag_claim"]) for r in cn) == 0 and all(int(r["above_true_r"]) == 0 for r in cn) and abs(min(float(r["acc"]) for r in cn) - 0.373) < 6e-4 and abs(max(float(r["acc"]) for r in cn) - 0.403) < 6e-4, "rev_round14_cnn_cnn_markov.csv")
+cn = rows("rev_round14_cnn_cnn_iid.csv")
+check_true("CNN cnn_iid: 3 runs of the 545,098-parameter network", len(cn) == 3 and all(r["d"] == "545098" for r in cn), "rev_round14_cnn_cnn_iid.csv")
+check("CNN cnn_iid: certified recovery (text 89%)", statistics.mean(float(r["cert"]) for r in cn) / 2.866, 0.8911, 0.0015, "rev_round14_cnn_cnn_iid.csv")
+check_true("CNN cnn_iid: flags of the Poisson claim 0, of the correct claim 0, none above the realised loss, accuracy 0.387 to 0.388", sum(int(r["flag_poisson"]) for r in cn) == 0 and sum(int(r["flag_claim"]) for r in cn) == 0 and all(int(r["above_true_r"]) == 0 for r in cn) and abs(min(float(r["acc"]) for r in cn) - 0.387) < 6e-4 and abs(max(float(r["acc"]) for r in cn) - 0.388) < 6e-4, "rev_round14_cnn_cnn_iid.csv")
+cn = rows("rev_round14_cnn_cnn_markov_r0.90.csv")
+check_true("CNN cnn_markov_r0.90: 2 runs of the 545,098-parameter network", len(cn) == 2 and all(r["d"] == "545098" for r in cn), "rev_round14_cnn_cnn_markov_r0.90.csv")
+check("CNN cnn_markov_r0.90: certified recovery (text 110%)", statistics.mean(float(r["cert"]) for r in cn) / 11.869, 1.1043, 0.0015, "rev_round14_cnn_cnn_markov_r0.90.csv")
+check_true("CNN cnn_markov_r0.90: flags of the Poisson claim 2, of the correct claim 2, none above the realised loss, accuracy 0.368 to 0.404", sum(int(r["flag_poisson"]) for r in cn) == 2 and sum(int(r["flag_claim"]) for r in cn) == 2 and all(int(r["above_true_r"]) == 0 for r in cn) and abs(min(float(r["acc"]) for r in cn) - 0.368) < 6e-4 and abs(max(float(r["acc"]) for r in cn) - 0.404) < 6e-4, "rev_round14_cnn_cnn_markov_r0.90.csv")
+check_true("CNN: the diagnostics match Model 1 (scale within 0.01 of 1, lag-1 within 0.01 of -0.005, correlation sd within 0.002 of 0.0709, erasure 0.90 to 1.15, the per-run spread of the MLP runs)", all(abs(float(r["s_hat"]) - 1) < 0.01 and abs(float(r["lag1"]) + 0.005) < 0.01 and abs(float(r["xcorr_sd"]) - 0.0709) < 0.002 and 0.90 <= float(r["erasure"]) <= 1.15 for k in ("markov", "iid") for r in rows(f"rev_round14_cnn_cnn_{k}.csv")), "rev_round14_cnn_cnn_*.csv")
 
 print(f"\n{'ALL CHECKS PASSED' if fails == 0 else f'{fails} CHECK(S) FAILED'}")
 sys.exit(1 if fails else 0)

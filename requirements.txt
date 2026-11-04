@@ -2,3 +2,6 @@ numpy>=2.0
 scipy>=1.13
 dp-accounting==0.6.0
 matplotlib>=3.8
+# optional, for rev_round14_cnn.py and make_cifar_npz.py only:
+# torch>=2.4
+# Pillow>=10
