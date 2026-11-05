@@ -6,7 +6,7 @@ v2 (TIFS v2 / v7).
 
 What changed in v17 (seventeenth internal pre-submission review, an automated full-manuscript review of TIFS v16 that found
 no mathematical or numerical error and verified all 58 references, and asked for self-contained definitions, the window rule
-and the per-round reference on non-overlapping windows): one script, one result, eight checks. **The per-round reference on
+and the per-round reference on non-overlapping windows): one script, one result, seven checks. **The per-round reference on
 non-overlapping windows** (`rev_round17_nonoverlap_ref.py`, seed 7106, 8M samples at a = 0.5): on the 1,144 windows
 (starts 0 and 200 of the 3-day window, two per device; D = 21.83 as in `rev_robust_nonoverlap.csv`) the secret-path
 reference is 14.154 [13.886, 14.437] at 1e-4 and 18.711 [18.171, 19.412] at 1e-5 (ratios 11.6 and 12.8 to the Poisson
@@ -14,7 +14,7 @@ values 1.219 and 1.462) against 10.69 and 14.97 on the 13,728 stride-10 windows 
 upper end (Theorem 2) is 21.209 and 25.898 (17.4 and 17.7 times) against 19.94 and 24.33: an empirical law that mixes
 fewer distinct paths gives the secret-path adversary less hidden sampling, so the reference rises toward the upper end,
 which depends on the count law only; the paper's factors (8.8 to 16.4) remain the conservative ones. Output
-`results/rev_round17_nonoverlap_ref.csv`; `verify_claims.py` section 15 (8 checks; 510 in all). No other stored result
+`results/rev_round17_nonoverlap_ref.csv`; `verify_claims.py` section 15 (7 checks; 509 in all). No other stored result
 changed. The manuscript (TIFS v17 / extended v22) adds the stride rule (VI-A), the non-overlapping reference (VI-G), the
 definition of the erasure ratio and the thresholds of the shape diagnostics (V-F), the centred estimator in closed form
 (V-F), the orthonormality condition m <= d and the canary injection point (V-A, V-C), the cost of building the certified
