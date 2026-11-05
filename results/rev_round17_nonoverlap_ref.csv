@@ -1,0 +1,3 @@
+law,T,delta,n_mc,n_windows,q,D,eps_plain,ci99_lo,ci99_hi,eps_poisson,ratio,ratio_lo,ratio_hi,thm2_upper,thm2_ratio
+nonoverlap200,200,0.0001,8000000,1144,0.0471,21.83,14.154,13.886,14.437,1.219,11.61,11.39,11.84,21.209,17.39
+nonoverlap200,200,1e-05,8000000,1144,0.0471,21.83,18.711,18.171,19.412,1.462,12.80,12.43,13.28,25.898,17.71

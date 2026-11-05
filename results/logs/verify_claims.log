@@ -516,5 +516,13 @@
 [PASS] decomposition: B/Var(N_T) 0.38, 0.58, 0.83, 0.96, 0.99 (10 min) and 0.33, 0.52, 0.76, 0.90, 0.96, 0.99 (5 min) <- rev_round15_horizon_decomp.csv
 [PASS] decomposition: disjoint-window shares 0.38, 0.58, 0.78 (T = 50, 100, 200) and 0.33, 0.53, 0.77 (T = 100, 200, 400) <- rev_round15_horizon_decomp.csv
 [PASS] decomposition: the between-device term equals T Var(p)/E[p] within 7% at every horizon (edge effects) <- rev_round15_horizon_decomp.csv
+== 15. Seventeenth-round checks (the per-round reference on non-overlapping windows)
+[PASS] non-overlapping windows: 1,144 windows (572 devices x 2), 8M samples per delta, D = 21.83 as in rev_robust_nonoverlap.csv <- rev_round17_nonoverlap_ref.csv vs rev_robust_nonoverlap.csv
+[PASS] non-overlapping windows: per-round reference at 1e-4 (text 14.15): 14.15 (paper 14.154, tolerance 0.005) <- rev_round17_nonoverlap_ref.csv
+[PASS] non-overlapping windows: 99% interval [13.89, 14.44] at 1e-4, [18.17, 19.41] at 1e-5 <- rev_round17_nonoverlap_ref.csv
+[PASS] non-overlapping windows: per-round reference at 1e-5 (text 18.71): 18.71 (paper 18.711, tolerance 0.005) <- rev_round17_nonoverlap_ref.csv
+[PASS] non-overlapping windows: ratios 11.6 and 12.8 against the Poisson values 1.219 and 1.462 of the stride-10 law (same rate 0.0471) <- rev_round17_nonoverlap_ref.csv
+[PASS] non-overlapping windows: count-averaged upper end 21.21 and 25.90 (17.4 and 17.7 times); the reference lies between the stride-10 reference (10.69, 14.97) and its own upper end <- rev_round17_nonoverlap_ref.csv
+[PASS] non-overlapping windows: the stride-10 law's per-round ratios (8.8, 10.3) are the smaller, so the paper's understatement factors are the conservative ones <- rev_round17_nonoverlap_ref.csv
 
 ALL CHECKS PASSED

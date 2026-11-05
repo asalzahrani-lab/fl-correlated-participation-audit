@@ -44,6 +44,10 @@ PASS or FAIL against the value in the manuscripts. It covers:
   rule file and the independent nulls, the residual cells under both rules, the training transfer counts and the
   identity of the regenerated training records with the stored ones, and the device decomposition of the horizon
   curves (B + W = Var, the slopes and their sum, Var(p)/E[p], the shares, the windows per device).
+- the seventeenth-round computation: the per-round reference on the 1,144 non-overlapping windows (window count,
+  sample count, D against `rev_robust_nonoverlap.csv`, the point values and 99 % intervals at both delta, the ratios
+  at the stride-10 law's Poisson values, the count-averaged upper end, and that the reference lies between the
+  stride-10 reference and its own upper end so that the paper's factors are the smaller).
 
 The output of the last run is in `results/logs/verify_claims.log`.
 
@@ -52,7 +56,7 @@ docstrings).
 
 ## 1. Version identity
 
-This is release **v16**. It matches **TIFS v16** (main text and Supplementary Material) and the **extended version v21**
+This is release **v17**. It matches **TIFS v17** (main text and Supplementary Material) and the **extended version v22**
 (`VERSION.md`).
 
 The stored outputs were produced with NumPy 2.5.3, SciPy 1.18.1 and dp-accounting 0.6.0 (`VERSION.md`; the CNN runs of
@@ -99,6 +103,7 @@ the fourteenth and fifteenth rounds with PyTorch 2.15 on the CPU);
 | Realised-loss intervals (fifteenth round) | `rev_round15_intervals.py` | 14900 to 14911 by (law, r) |
 | Training and CNN records (fifteenth round) | `rev_round15_train_records.py`, `rev_round15_cnn_records.py` | the round-14 seeds, reproduced |
 | Horizon decomposition (fifteenth round) | `rev_round15_horizon_decomp.py` | 0 (policy); deterministic otherwise |
+| Per-round reference on non-overlapping windows (seventeenth round) | `rev_round17_nonoverlap_ref.py` | 7106 * 1000 + part (parts 0 to 3) |
 | Audit of the worst device's law (thirteenth round) | `rev_round13_worst_device_audit.py` | 13002 (audits); the table is deterministic (PLD) |
 | Guess-counting audits | `rev_guess2.py` | 8101–8103 |
 | Training runs | `fl_mlp2.py`, `fl_mlp3.py`, `fl_mlp_5k.py`, `rev_train.py` | 777; 1717; 7777; 901–906 |

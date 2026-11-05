@@ -1,8 +1,26 @@
 # Version
 
-Release **v16** (2026-11-04), matching the journal submission **TIFS v16** (main text and Supplementary Material) and the
-**extended version v21**. Earlier releases: v15 (TIFS v15 / extended v20), v14 (TIFS v14 / extended v19), v13 (TIFS v13 / extended v18), v12 (TIFS v12 / extended v17), v11 (TIFS v11 / extended v16), v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
+Release **v17** (2026-11-05), matching the journal submission **TIFS v17** (main text and Supplementary Material) and the
+**extended version v22**. Earlier releases: v16 (TIFS v16 / extended v21), v15 (TIFS v15 / extended v20), v14 (TIFS v14 / extended v19), v13 (TIFS v13 / extended v18), v12 (TIFS v12 / extended v17), v11 (TIFS v11 / extended v16), v10 (TIFS v10 / extended v15), v9 (TIFS v9 / extended v14), v8 (TIFS v8 / extended v13), v7 (TIFS v7 / extended v12), v6 (TIFS v6 / extended v11), v5 (TIFS v5 / v10), v4 (TIFS v4 / v9), v3 (TIFS v3 / v8),
 v2 (TIFS v2 / v7).
+
+What changed in v17 (seventeenth internal pre-submission review, an automated full-manuscript review of TIFS v16 that found
+no mathematical or numerical error and verified all 58 references, and asked for self-contained definitions, the window rule
+and the per-round reference on non-overlapping windows): one script, one result, eight checks. **The per-round reference on
+non-overlapping windows** (`rev_round17_nonoverlap_ref.py`, seed 7106, 8M samples at a = 0.5): on the 1,144 windows
+(starts 0 and 200 of the 3-day window, two per device; D = 21.83 as in `rev_robust_nonoverlap.csv`) the secret-path
+reference is 14.154 [13.886, 14.437] at 1e-4 and 18.711 [18.171, 19.412] at 1e-5 (ratios 11.6 and 12.8 to the Poisson
+values 1.219 and 1.462) against 10.69 and 14.97 on the 13,728 stride-10 windows (8.8 and 10.3), and the count-averaged
+upper end (Theorem 2) is 21.209 and 25.898 (17.4 and 17.7 times) against 19.94 and 24.33: an empirical law that mixes
+fewer distinct paths gives the secret-path adversary less hidden sampling, so the reference rises toward the upper end,
+which depends on the count law only; the paper's factors (8.8 to 16.4) remain the conservative ones. Output
+`results/rev_round17_nonoverlap_ref.csv`; `verify_claims.py` section 15 (8 checks; 510 in all). No other stored result
+changed. The manuscript (TIFS v17 / extended v22) adds the stride rule (VI-A), the non-overlapping reference (VI-G), the
+definition of the erasure ratio and the thresholds of the shape diagnostics (V-F), the centred estimator in closed form
+(V-F), the orthonormality condition m <= d and the canary injection point (V-A, V-C), the cost of building the certified
+table (V-D), the setting of the timer accuracy figures (VII), and caption and notation fixes (Fig. 1, Tables II, IV, V;
+h^{-1}_delta); the byline drops the membership grade and the acknowledgment is the author's own wording (from v16's
+final edits of 2026-11-05); the Supplementary Material is set at 10 pt and shortened to the six pages the SPS rule allows.
 
 What changed in v16 (sixteenth internal pre-submission review, a readiness review of TIFS v15 that re-ran the checks on
 commit 0f3902b): documentation only -- no script, stored result or check changed, `verify_claims.py` still 502 checks.

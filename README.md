@@ -132,6 +132,9 @@ python3 test_lower_limit.py                      # zero-return convention of the
 (cd ../results && P3_TRACE=../trace python3 ../src/rev_round15_horizon_decomp.py)       # the horizon curves decomposed by device (~1 min)
 (cd ../results && python3 ../src/rev_round15_screening.py)                               # reproduction checks, rules A / B / calibrated, four counts per cell, intervals (seconds)
 
+# Seventeenth revision round (run from src/; the per-round reference of the running example on the 1,144 non-overlapping windows)
+(cd ../src && for p in 0 1 2 3; do P3_TRACE=../trace python3 rev_round17_nonoverlap_ref.py sample $p 2000000; done && P3_TRACE=../trace python3 rev_round17_nonoverlap_ref.py combine)   # ~5 min
+
 # Figures
 cd ../paper && python3 make_figures.py
 ```

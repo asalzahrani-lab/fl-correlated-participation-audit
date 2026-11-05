@@ -1,6 +1,6 @@
 # Headline claims → computation
 
-Each row gives a number from the abstract or the conclusions of the journal version (TIFS v16), the script that produces it, the
+Each row gives a number from the abstract or the conclusions of the journal version (TIFS v17), the script that produces it, the
 output file, and the value it contains. "Certified" = a deterministic bound or a bound holding with stated confidence;
 "estimate" = a Monte-Carlo point estimate.
 
@@ -10,6 +10,7 @@ output file, and the value it contains. "Certified" = a deterministic bound or a
 | Pooled sum-statistic (final-model) loss up to 9.4× over independent participation (δ = 1e-4), more at smaller δ | exact (Theorem 1) | `step21b_consistent.py`; `rev_round10_small_delta.py` | `results/step21b_policies.csv`, row "take all available": `ratio_1e-4` = 9.44; `rev_round10_small_delta_policies.csv`: every policy's ratio grows from 1e-4 to 1e-10 (take-all 12.39 at 1e-10) |
 | Per-round, running example, T = 200: estimated 8.8× | estimate (3M MC) | `step19_rerun_audits.py`, `step21b_consistent.py` | reference 10.685 / Poisson 1.2188 = 8.77 (`step19_results.csv`, `step21b_policies.csv`) |
 | … at least 8.35× with 99 % confidence | certified (KL interval) | `rev_refs.py` (law `trace`, 8M) | `results/rev_refs_trace200.csv`: lower limit 10.174 / 1.2188 = 8.35 |
+| … on the 1,144 non-overlapping windows the per-round reference is 14.15 [13.89, 14.44] (11.6×; upper end 21.21): the stride-10 factors are the smaller | estimate (8M MC, KL interval) | `rev_round17_nonoverlap_ref.py` | `results/rev_round17_nonoverlap_ref.csv`: eps_plain 14.154, ci99 [13.886, 14.437], thm2_upper 21.209 |
 | … upper end 16.4× | exact (Theorem 2) | `step21b_consistent.py` | `step21b_policies.csv` `thm3_bound_1e-4` = 19.942 / 1.218 = 16.4 |
 | T = 1,000: 17 to 21× | certified lower (99 %) / exact upper | `step20b_parts.py`, `rev_refs.py stored`, `rev_t1000_bracket.py` | lower limit 50.43 / 2.954 = 17.07 (`rev_refs_stored.csv`); Theorem 2: 61.34 / 2.954 = 20.8 (`rev_t1000_bracket.csv`) |
 | Worst device: claim must cover ≥ 22× | certified numerically (optimistic PLD, rates grouped exactly, composed with no tail truncation; v9) | `rev_peruser_exact2.py` | `rev_peruser_exact2_summary.csv` `pr_lo` max 26.990 (1e-3; 22.1×); `rev_peruser_exact2.log`: device 335 at discretisation 1e-4 [27.067, 27.076] → 22.2× of 1.2189 |

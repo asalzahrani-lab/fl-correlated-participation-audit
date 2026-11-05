@@ -1,6 +1,6 @@
 """Reviewer check: re-derive every headline number of the paper from the stored outputs in ../results/ and print
 PASS / FAIL for each.  No heavy computation is repeated (that is what the generating scripts are for); this script
-checks that the numbers in the manuscripts (TIFS v16 main + supplement, extended v21) follow from the files that the
+checks that the numbers in the manuscripts (TIFS v17 main + supplement, extended v22) follow from the files that the
 generating scripts wrote, and that the random streams that generate the certificate tables are disjoint from those
 that generate the audit data.  Runs in a few seconds:  cd src && python verify_claims.py
 Exit status 0 if every check passes."""
@@ -583,6 +583,17 @@ check_true("decomposition: W/mean 7.1 and 14.7 at the shortest horizon, 0.2 and 
 check_true("decomposition: B/Var(N_T) 0.38, 0.58, 0.83, 0.96, 0.99 (10 min) and 0.33, 0.52, 0.76, 0.90, 0.96, 0.99 (5 min)", all(abs(float(hrow(10, T)["B_over_V"]) - v) < 0.006 for T, v in ((50, 0.375), (100, 0.583), (200, 0.829), (300, 0.959), (400, 0.994))) and all(abs(float(hrow(5, T)["B_over_V"]) - v) < 0.006 for T, v in ((100, 0.331), (200, 0.522), (400, 0.756), (600, 0.904), (800, 0.960), (1000, 0.989))), "rev_round15_horizon_decomp.csv")
 check_true("decomposition: disjoint-window shares 0.38, 0.58, 0.78 (T = 50, 100, 200) and 0.33, 0.53, 0.77 (T = 100, 200, 400)", all(abs(float(hrow(10, T)["B_over_V_nonoverlap"]) - v) < 0.006 for T, v in ((50, 0.384), (100, 0.576), (200, 0.777))) and all(abs(float(hrow(5, T)["B_over_V_nonoverlap"]) - v) < 0.006 for T, v in ((100, 0.334), (200, 0.526), (400, 0.765))), "rev_round15_horizon_decomp.csv")
 check_true("decomposition: the between-device term equals T Var(p)/E[p] within 7% at every horizon (edge effects)", all(abs(float(r["B_over_mean"]) / float(r["T_VarP_over_EP"]) - 1) < 0.07 for r in hd), "rev_round15_horizon_decomp.csv")
+
+print("== 15. Seventeenth-round checks (the per-round reference on non-overlapping windows)")
+no = rows("rev_round17_nonoverlap_ref.csv")
+def norow(d): return one("rev_round17_nonoverlap_ref.csv", delta=d)
+check_true("non-overlapping windows: 1,144 windows (572 devices x 2), 8M samples per delta, D = 21.83 as in rev_robust_nonoverlap.csv", len(no) == 2 and all(r["n_windows"] == "1144" and r["n_mc"] == "8000000" for r in no) and abs(float(no[0]["D"]) - float(one("rev_robust_nonoverlap.csv", round_min="10", T="200", windows="non-overlapping")["D"])) < 0.01, "rev_round17_nonoverlap_ref.csv vs rev_robust_nonoverlap.csv")
+check("non-overlapping windows: per-round reference at 1e-4 (text 14.15)", float(norow("0.0001")["eps_plain"]), 14.154, 0.005, "rev_round17_nonoverlap_ref.csv")
+check_true("non-overlapping windows: 99% interval [13.89, 14.44] at 1e-4, [18.17, 19.41] at 1e-5", abs(float(norow("0.0001")["ci99_lo"]) - 13.886) < 0.005 and abs(float(norow("0.0001")["ci99_hi"]) - 14.437) < 0.005 and abs(float(norow("1e-05")["ci99_lo"]) - 18.171) < 0.005 and abs(float(norow("1e-05")["ci99_hi"]) - 19.412) < 0.005, "rev_round17_nonoverlap_ref.csv")
+check("non-overlapping windows: per-round reference at 1e-5 (text 18.71)", float(norow("1e-05")["eps_plain"]), 18.711, 0.005, "rev_round17_nonoverlap_ref.csv")
+check_true("non-overlapping windows: ratios 11.6 and 12.8 against the Poisson values 1.219 and 1.462 of the stride-10 law (same rate 0.0471)", abs(float(norow("0.0001")["ratio"]) - 11.61) < 0.01 and abs(float(norow("1e-05")["ratio"]) - 12.80) < 0.01 and norow("0.0001")["q"] == "0.0471" and abs(float(norow("0.0001")["eps_poisson"]) - 1.219) < 0.001, "rev_round17_nonoverlap_ref.csv")
+check_true("non-overlapping windows: count-averaged upper end 21.21 and 25.90 (17.4 and 17.7 times); the reference lies between the stride-10 reference (10.69, 14.97) and its own upper end", abs(float(norow("0.0001")["thm2_upper"]) - 21.209) < 0.005 and abs(float(norow("1e-05")["thm2_upper"]) - 25.898) < 0.005 and abs(float(norow("0.0001")["thm2_ratio"]) - 17.39) < 0.01 and abs(float(norow("1e-05")["thm2_ratio"]) - 17.71) < 0.01 and 10.69 < float(norow("0.0001")["eps_plain"]) < float(norow("0.0001")["thm2_upper"]) and 14.97 < float(norow("1e-05")["eps_plain"]) < float(norow("1e-05")["thm2_upper"]), "rev_round17_nonoverlap_ref.csv")
+check_true("non-overlapping windows: the stride-10 law's per-round ratios (8.8, 10.3) are the smaller, so the paper's understatement factors are the conservative ones", float(norow("0.0001")["ratio_lo"]) > 8.8 and float(norow("1e-05")["ratio_lo"]) > 10.3, "rev_round17_nonoverlap_ref.csv")
 
 print(f"\n{'ALL CHECKS PASSED' if fails == 0 else f'{fails} CHECK(S) FAILED'}")
 sys.exit(1 if fails else 0)
